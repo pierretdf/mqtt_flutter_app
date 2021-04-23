@@ -40,7 +40,7 @@ sqflite
 ### iOS
 ## 🤝 Contributing
 
-Contributions, issues and feature requests are welcome!<br />Feel free to check [issues page](https://github.com/JLiao98/IoT-Manager/issues).
+Contributions, issues and feature requests are welcome!<br />Feel free to check [issues page](https://github.com/pierretdf/mqtt_flutter_app/issues).
 
 ## Show your support
 
