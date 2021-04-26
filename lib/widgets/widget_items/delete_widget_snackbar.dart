@@ -19,7 +19,7 @@ class DeleteWidgetSnackBar extends SnackBar {
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
           ),
-          duration: Duration(seconds: 2),
+          duration: const Duration(seconds: 2),
           action: SnackBarAction(
             label: localizations.undo,
             onPressed: onUndo,

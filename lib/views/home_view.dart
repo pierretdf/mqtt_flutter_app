@@ -13,15 +13,16 @@ class HomeView extends StatelessWidget {
       builder: (context, activeTab) {
         return Scaffold(
           appBar: AppBar(
-            title: Text(FlutterBlocLocalizations.of(context).appTitle),
+            title: Center(
+                child: Text(FlutterBlocLocalizations.of(context).appTitle)),
           ),
           body: activeTab == AppTab.brokers
-              ? BrokersView()
+              ? const BrokersView()
               : activeTab == AppTab.subscriptions
-                  ? SubscriptionsView()
+                  ? const SubscriptionsView()
                   : activeTab == AppTab.messages
-                      ? MessagesView()
-                      : WidgetItemsView(),
+                      ? const MessagesView()
+                      : const WidgetItemsView(),
           bottomNavigationBar: TabSelector(
             activeTab: activeTab,
             onTabSelected: (tab) =>

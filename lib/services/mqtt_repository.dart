@@ -30,13 +30,13 @@ class MqttProvider {
   Broker _broker;
 
   StreamSubscription _subscription;
-  final StreamController _messagesStreamController =
+  final StreamController<Message> _messagesStreamController =
       StreamController<Message>.broadcast();
 
   Future<MqttServerClient> prepareMqttClient(Broker config) async {
     updateBrokerConfig(config);
     setupMqttClient();
-    return await connectClient();
+    return connectClient();
   }
 
   // Call updateConfig if broker is changed
@@ -45,7 +45,7 @@ class MqttProvider {
   }
 
   void setupMqttClient() {
-    final MqttConnectMessage connectMessage = MqttConnectMessage()
+    final connectMessage = MqttConnectMessage()
         .withClientIdentifier(_broker.identifier)
         .keepAliveFor(60) // Must agree with the keep alive set above or not set
         .startClean() // Non persistent session for testing
@@ -70,7 +70,7 @@ class MqttProvider {
     // Security Context
     _client.secure = _broker.secure;
     if (_broker.secure) {
-      SecurityContext context = new SecurityContext()
+      final context = SecurityContext()
         ..useCertificateChain(_broker.certificatePath)
         ..usePrivateKey(_broker.privateKeyPath,
             password: _broker.privateKeyPassword)
@@ -139,9 +139,8 @@ class MqttProvider {
   }
 
   void _onMessage(List<MqttReceivedMessage> event) {
-    final MqttPublishMessage receivedMsg =
-        event[0].payload as MqttPublishMessage;
-    final String data =
+    final receivedMsg = event[0].payload as MqttPublishMessage;
+    final data =
         MqttPublishPayload.bytesToStringAsString(receivedMsg.payload.message);
     _messagesStreamController.add(Message(
         payload: data,
@@ -151,16 +150,17 @@ class MqttProvider {
 
   Future<bool> publishMessage(Message message) async {
     if (await _connectToClient() == true) {
-      final MqttClientPayloadBuilder builder = MqttClientPayloadBuilder();
+      final builder = MqttClientPayloadBuilder();
       builder.addString(message.payload);
       print(
           '[MQTT Client] Publish message ${message.payload} to topic ${message.topic}');
-      int identifier = _client.publishMessage(
+      final identifier = _client.publishMessage(
           message.topic, MqttQos.atLeastOnce, builder.payload);
       if (identifier != null) {
         return true;
       }
     }
+    return false;
   }
 
   bool subscribeToTopic(String topic) {
@@ -209,9 +209,12 @@ class MqttProvider {
   //void _pong() => print('Ping response client callback invoked');
 
   StreamController<Message> streamMessages() => _messagesStreamController;
+  //StreamController<Message> get streamMessages => _messagesStreamController;
   int connectedBrokerId() {
-    if (_client.connectionStatus.state == MqttConnectionState.connected)
+    if (_client.connectionStatus.state == MqttConnectionState.connected) {
       return _broker.id;
+    }
+    return 0; //!
   }
 
   void dispose() {

@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mqtt_flutter_bloc/blocs/blocs.dart';
-import 'package:mqtt_flutter_bloc/models/models.dart';
+import '../../models/models.dart';
 
 class FloatingBottomSheet extends StatelessWidget {
   final String title;
@@ -9,6 +7,7 @@ class FloatingBottomSheet extends StatelessWidget {
   final String secondaryButtonTitle;
   final String mainButtonTitle;
   final Broker function;
+  final VoidCallback onPressed;
 
   const FloatingBottomSheet({
     Key key,
@@ -17,13 +16,14 @@ class FloatingBottomSheet extends StatelessWidget {
     this.secondaryButtonTitle,
     @required this.mainButtonTitle,
     this.function,
+    @required this.onPressed,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.all(25),
-      padding: EdgeInsets.all(25),
+      margin: const EdgeInsets.all(25),
+      padding: const EdgeInsets.all(25),
       decoration: BoxDecoration(
         color: Theme.of(context).bottomSheetTheme.backgroundColor,
         borderRadius: BorderRadius.circular(15),
@@ -39,19 +39,20 @@ class FloatingBottomSheet extends StatelessWidget {
               color: Colors.grey[900], //! Theme color
             ),
           ),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
           Text(
             description,
-            style: TextStyle(color: Colors.grey), //! Theme color
+            style: const TextStyle(color: Colors.grey), //! Theme color
           ),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
           Center(
             child: ElevatedButton(
-              onPressed: () {
-                BlocProvider.of<BrokerBloc>(context)
-                    .add(BrokerDeleted(function));
-                Navigator.of(context).pop();
-              },
+              onPressed: onPressed,
+              // onPressed: () {
+              //   BlocProvider.of<BrokerBloc>(context)
+              //       .add(BrokerDeleted(function));
+              //   Navigator.of(context).pop();
+              // },
               child: Text(
                 mainButtonTitle,
                 style: TextStyle(color: Theme.of(context).appBarTheme.color),

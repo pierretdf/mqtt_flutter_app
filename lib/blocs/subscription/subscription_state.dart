@@ -22,5 +22,5 @@ class SubscribedTopicsLoadSuccess extends SubscriptionState {
 
 class SubscribedTopicsFailure extends SubscriptionState {
   final Error error;
-  SubscribedTopicsFailure({this.error});
+  const SubscribedTopicsFailure({this.error});
 }

@@ -8,7 +8,7 @@ import '../../views/views.dart';
 import '../widgets.dart';
 
 class BrokersView extends StatelessWidget {
-  BrokersView({Key key}) : super(key: key);
+  const BrokersView({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -16,6 +16,7 @@ class BrokersView extends StatelessWidget {
 
     return Scaffold(
       floatingActionButton: FloatingActionButton.extended(
+        key: AppKeys.addBrokerFab,
         backgroundColor:
             Theme.of(context).floatingActionButtonTheme.backgroundColor,
         label: Text('Broker',
@@ -28,39 +29,22 @@ class BrokersView extends StatelessWidget {
       body: BlocBuilder<BrokerBloc, BrokerState>(
         builder: (context, brokerState) {
           if (brokerState is BrokerLoadInProgress) {
-            return LoadingIndicator();
+            return const LoadingIndicator();
           } else if (brokerState is BrokerLoadSuccess) {
-            return brokerState.brokers.length != 0
+            return brokerState.brokers.isNotEmpty
                 ? ListView.builder(
                     itemCount: brokerState.brokers.length,
                     itemBuilder: (context, index) {
                       final broker = brokerState.brokers[index];
                       return BrokerItem(
-                        broker: broker,
-                        onDismissed: (direction) {
-                          context.read<BrokerBloc>().add(BrokerDeleted(broker));
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            DeleteBrokerSnackBar(
-                              key: ArchSampleKeys.snackbar,
-                              broker: broker,
-                              onUndo: () => context
-                                  .read<BrokerBloc>()
-                                  .add(BrokerAdded(broker)),
-                              localizations: localizations,
-                            ),
-                          );
-                        },
-                        onTapDetails: () async {
-                          final removedBroker =
-                              await Navigator.of(context).push(
-                            MaterialPageRoute(builder: (context) {
-                              return BrokerDetailsScreen(id: broker.id);
-                            }),
-                          );
-                          if (removedBroker != null) {
+                          broker: broker,
+                          onDismissed: (direction) {
+                            context
+                                .read<BrokerBloc>()
+                                .add(BrokerDeleted(broker));
                             ScaffoldMessenger.of(context).showSnackBar(
                               DeleteBrokerSnackBar(
-                                //key: ArchSampleKeys.snackbar,
+                                key: AppKeys.snackbar,
                                 broker: broker,
                                 onUndo: () => context
                                     .read<BrokerBloc>()
@@ -68,28 +52,50 @@ class BrokersView extends StatelessWidget {
                                 localizations: localizations,
                               ),
                             );
-                          }
-                        },
-                        onTapMqtt: () async {
-                          if (context.read<MqttBloc>().state is MqttIdle) {
+                          },
+                          onTapDetails: () async {
+                            final removedBroker =
+                                await Navigator.of(context).push(
+                              MaterialPageRoute(builder: (context) {
+                                return BrokerDetailsScreen(id: broker.id);
+                              }),
+                            );
+                            if (removedBroker != null) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                DeleteBrokerSnackBar(
+                                  key: AppKeys.snackbar,
+                                  broker: broker,
+                                  onUndo: () => context
+                                      .read<BrokerBloc>()
+                                      .add(BrokerAdded(broker)),
+                                  localizations: localizations,
+                                ),
+                              );
+                            }
+                          },
+                          onTapMqtt: () async {
+                            if (context.read<MqttBloc>().state is MqttIdle) {
+                              context
+                                  .read<MqttBloc>()
+                                  .add(MqttConnected(broker: broker));
+                            } else if (context.read<MqttBloc>().state
+                                is MqttDisconnectionSuccess) {
+                              context
+                                  .read<MqttBloc>()
+                                  .add(MqttConnected(broker: broker));
+                            } else if (context.read<MqttBloc>().state
+                                is MqttConnectionSuccess) {
+                              context
+                                  .read<MqttBloc>()
+                                  .add(MqttDisconnected(broker: broker));
+                            }
+                          },
+                          onPressedDelete: () {
                             context
-                                .read<MqttBloc>()
-                                .add(MqttConnection(broker: broker));
-                          } else if (context.read<MqttBloc>().state
-                              is MqttDisconnected) {
-                            context
-                                .read<MqttBloc>()
-                                .add(MqttConnection(broker: broker));
-                          } else if (context.read<MqttBloc>().state
-                              is MqttConnected) {
-                            context
-                                .read<MqttBloc>()
-                                .add(MqttDisconnection(broker: broker));
-                            // context.read<BrokerBloc>().add(BrokerUpdated(
-                            //     broker.copyWith(state: 'disconnected')));
-                          }
-                        },
-                      );
+                                .read<BrokerBloc>()
+                                .add(BrokerDeleted(broker));
+                            Navigator.of(context).pop();
+                          });
                     },
                   )
                 : _noBrokerMessage();
@@ -98,7 +104,7 @@ class BrokersView extends StatelessWidget {
               child: Text('Error occured: ${brokerState.error}'),
             );
           } else {
-            return Center(
+            return const Center(
               child: Text('Oups, this is not supposed to happen'),
             );
           }
@@ -108,9 +114,9 @@ class BrokersView extends StatelessWidget {
   }
 
   Widget _noBrokerMessage() {
-    return Center(
+    return const Center(
       child: Text(
-        "Start adding a broker...",
+        'Start adding a broker...',
         style: TextStyle(fontSize: 20),
       ),
     );

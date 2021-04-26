@@ -20,7 +20,7 @@ class LocalBrokerProvider {
 
   Future<List<Broker>> getBrokers() async {
     final _db = await dbProvider.database;
-    List<Map<String, dynamic>> brokerMap = await _db.query('brokers');
+    final List<Map<String, dynamic>> brokerMap = await _db.query('brokers');
     return List.generate(brokerMap.length, (index) {
       return Broker(
         id: brokerMap[index]['id'],
@@ -49,14 +49,14 @@ class LocalBrokerProvider {
 
   Future<int> addBroker(Broker broker) async {
     final _db = await dbProvider.database;
-    var brokerId = _db.insert('brokers', broker.toMap());
+    final brokerId = _db.insert('brokers', broker.toMap());
     return brokerId;
   }
 
   Future<int> updateBroker(Broker broker) async {
     final _db = await dbProvider.database;
-    var result = await _db.update('brokers', broker.toJson(),
-        where: "id = ?", whereArgs: [broker.id]);
+    final result = await _db.update('brokers', broker.toJson(),
+        where: 'id = ?', whereArgs: [broker.id]);
     return result;
   }
 

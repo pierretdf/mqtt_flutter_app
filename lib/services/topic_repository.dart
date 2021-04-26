@@ -18,7 +18,7 @@ class LocalTopicProvider {
 
   Future addTopic(Topic topic) async {
     final _db = await dbProvider.database;
-    var topicId = _db.insert('topics', topic.toMap());
+    final topicId = _db.insert('topics', topic.toMap());
     return topicId;
   }
 
@@ -29,7 +29,7 @@ class LocalTopicProvider {
 
   Future<List<Topic>> getTopics() async {
     final _db = await dbProvider.database;
-    List<Map<String, dynamic>> topicMap = await _db.query("topics");
+    final List<Map<String, dynamic>> topicMap = await _db.query('topics');
     return List.generate(topicMap.length, (index) {
       return Topic(
           id: topicMap[index]['id'],
@@ -40,7 +40,7 @@ class LocalTopicProvider {
 
   Future<List<String>> getTopicsTitle() async {
     final _db = await dbProvider.database;
-    List<Map<String, dynamic>> topicTitleMap =
+    final List<Map<String, dynamic>> topicTitleMap =
         await _db.rawQuery('SELECT title FROM topics');
     return List.generate(topicTitleMap.length, (index) {
       return topicTitleMap[index]['title'];
@@ -61,7 +61,7 @@ class LocalTopicProvider {
 
   Future updateTopic(Topic topic) async {
     final _db = await dbProvider.database;
-    return await _db.update('topics', topic.toJson(),
-        where: "id = ?", whereArgs: [topic.id]);
+    return _db.update('topics', topic.toJson(),
+        where: 'id = ?', whereArgs: [topic.id]);
   }
 }

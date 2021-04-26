@@ -1,5 +1,7 @@
 import 'dart:async';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import '../../models/models.dart';
 import '../blocs.dart';
 
@@ -8,11 +10,11 @@ class MessageBloc extends Bloc<MessageEvent, MessageState> {
   StreamSubscription _mqttState;
   StreamSubscription _messageReceived;
 
-  MessageBloc(this._mqttBloc) : super(NoBrokerConnected()) {
+  MessageBloc(this._mqttBloc) : super(BrokerConnectionFailed()) {
     _mqttState = _mqttBloc.stream.listen((state) {
-      if (state is MqttConnected) {
+      if (state is MqttConnectionSuccess) {
         add(BrokerConnected());
-      } else if (state is MqttDisconnected) {
+      } else if (state is MqttDisconnectionSuccess) {
         add(BrokerDisconnected());
       }
     });
@@ -29,12 +31,12 @@ class MessageBloc extends Bloc<MessageEvent, MessageState> {
     } else if (event is BrokerMessagesCleared) {
       yield* _mapMessagesClearedToState();
     } else if (event is BrokerDisconnected) {
-      yield NoBrokerConnected();
+      yield BrokerConnectionFailed();
     }
   }
 
   Stream<MessageState> _mapMessageReceivedToState() async* {
-    yield MessagesReceptionSuccess([]);
+    yield const MessagesReceptionSuccess([]);
     // await _messageReceived.cancel(); // null safety
     _messageReceived =
         _mqttBloc.mqttRepository.streamMessages().stream.listen((message) {
@@ -44,19 +46,19 @@ class MessageBloc extends Bloc<MessageEvent, MessageState> {
 
   Stream<MessageState> _mapMessageAddedToState(
       BrokerMessageReceived event) async* {
-    List<Message> messages =
-        List.from((state as MessagesReceptionSuccess).messages)
+    final messages =
+        List<Message>.from((state as MessagesReceptionSuccess).messages)
           ..add(event.message);
     yield MessagesReceptionSuccess(messages);
   }
 
   Stream<MessageState> _mapMessageSendedToState(
       BrokerMessageSended event) async* {
-    _mqttBloc.mqttRepository.publishMessage(event.message);
+    await _mqttBloc.mqttRepository.publishMessage(event.message);
   }
 
   Stream<MessageState> _mapMessagesClearedToState() async* {
-    yield MessagesReceptionSuccess([]);
+    yield const MessagesReceptionSuccess([]);
   }
 
   @override

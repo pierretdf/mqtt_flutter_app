@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-
-import '../../blocs/blocs.dart';
 import '../../models/models.dart';
 import '../../settings/keys.dart';
 import '../widgets.dart';
@@ -10,20 +7,22 @@ class BrokerItem extends StatelessWidget {
   final DismissDirectionCallback onDismissed;
   final GestureTapCallback onTapDetails;
   final GestureTapCallback onTapMqtt;
+  final VoidCallback onPressedDelete;
   final Broker broker;
 
-  BrokerItem({
+  const BrokerItem({
     Key key,
     @required this.onDismissed,
     @required this.onTapDetails,
     @required this.broker,
     @required this.onTapMqtt,
+    @required this.onPressedDelete,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Dismissible(
-      key: ArchSampleKeys.brokerItem(broker.id),
+      key: AppKeys.brokerItem(broker.id),
       onDismissed: onDismissed,
       child: Card(
         shape: RoundedRectangleBorder(
@@ -32,10 +31,11 @@ class BrokerItem extends StatelessWidget {
         color: Theme.of(context).cardColor,
         child: ListTile(
           leading: GestureDetector(
+            onTap: onTapMqtt,
             child: Column(
               children: [
                 Container(
-                  padding: EdgeInsets.fromLTRB(0, 0, 0, 5),
+                  padding: const EdgeInsets.fromLTRB(0, 0, 0, 5),
                   child: Icon(_iconState(broker.state),
                       color: Theme.of(context).textTheme.bodyText1.color,
                       size: 30),
@@ -50,16 +50,18 @@ class BrokerItem extends StatelessWidget {
                 ),
               ],
             ),
-            onTap: onTapMqtt,
           ),
-          title: Text(broker.name ?? 'Unnamed broker'),
+          title: Text(
+            broker.name ?? 'Unnamed broker',
+            key: AppKeys.brokerItemName(broker.id),
+            //style: Theme.of(context).textTheme.bodyText1,
+          ),
           subtitle: Text(
             "${broker.address ?? 'No broker address'} / ${broker.port ?? 'No broker port'}",
-            key: ArchSampleKeys.brokerItemNote(broker.id),
+            key: AppKeys.brokerItemAddress(broker.id),
             style: Theme.of(context).textTheme.subtitle1,
           ),
           trailing: GestureDetector(
-            child: Icon(Icons.delete_forever, color: Colors.red, size: 30),
             onTap: () {
               showModalBottomSheet(
                 context: context,
@@ -70,11 +72,13 @@ class BrokerItem extends StatelessWidget {
                     description:
                         'Are you sur to delete the ${broker.name} broker ?',
                     mainButtonTitle: 'Delete',
-                    function: broker,
+                    onPressed: onPressedDelete,
                   );
                 },
               );
             },
+            child:
+                const Icon(Icons.delete_forever, color: Colors.red, size: 30),
           ),
           onTap: onTapDetails,
         ),

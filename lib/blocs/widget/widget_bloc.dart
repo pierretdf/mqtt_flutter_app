@@ -26,35 +26,35 @@ class WidgetBloc extends Bloc<WidgetEvent, WidgetState> {
 
   Stream<WidgetState> _mapWidgetItemsLoadedToState() async* {
     try {
-      final widgetItems = await this.widgetRepository.getWidgetItems();
+      final widgetItems = await widgetRepository.getWidgetItems();
       yield WidgetItemLoadSuccess(widgetItems);
     } catch (e) {
-      yield WidgetItemLoadFailure(error: e);
+      //yield WidgetItemLoadFailure(error: e);
     }
   }
 
   Stream<WidgetState> _mapWidgetItemAddedToState(WidgetItemAdded event) async* {
     if (state is WidgetItemLoadSuccess) {
       // Add WidgetItem to 'widget_item_view' (UI)
-      final List<WidgetItem> updatedWidgetItems =
-          List.from((state as WidgetItemLoadSuccess).widgetItems)
+      final updatedWidgetItems =
+          List<WidgetItem>.from((state as WidgetItemLoadSuccess).widgetItems)
             ..add(event.widgetItem);
       yield WidgetItemLoadSuccess(updatedWidgetItems);
-      widgetRepository.addWidgetItem(event.widgetItem);
+      await widgetRepository.addWidgetItem(event.widgetItem);
     }
   }
 
   Stream<WidgetState> _mapWidgetItemUpdatedToState(
       WidgetItemUpdated event) async* {
     if (state is WidgetItemLoadSuccess) {
-      final List<WidgetItem> updatedWidgetItems =
+      final updatedWidgetItems =
           (state as WidgetItemLoadSuccess).widgetItems.map((widgetItem) {
         return widgetItem.id == event.widgetItem.id
             ? event.widgetItem
             : widgetItem;
       }).toList();
       yield WidgetItemLoadSuccess(updatedWidgetItems);
-      widgetRepository.updateWidgetItem(event.widgetItem);
+      await widgetRepository.updateWidgetItem(event.widgetItem);
     }
   }
 
@@ -66,7 +66,7 @@ class WidgetBloc extends Bloc<WidgetEvent, WidgetState> {
           .where((widgetItem) => widgetItem.id != event.widgetItem.id)
           .toList();
       yield WidgetItemLoadSuccess(updatedWidgetItems);
-      widgetRepository.deleteWidgetItem(event.widgetItem.id);
+      await widgetRepository.deleteWidgetItem(event.widgetItem.id);
     }
   }
 }

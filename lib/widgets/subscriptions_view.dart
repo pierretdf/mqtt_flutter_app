@@ -7,7 +7,7 @@ import '../settings/localization.dart';
 import 'widgets.dart';
 
 class SubscriptionsView extends StatefulWidget {
-  SubscriptionsView({Key key}) : super(key: key);
+  const SubscriptionsView({Key key}) : super(key: key);
 
   @override
   _SubscriptionsViewState createState() => _SubscriptionsViewState();
@@ -25,7 +25,7 @@ class _SubscriptionsViewState extends State<SubscriptionsView> {
     return BlocBuilder<SubscriptionBloc, SubscriptionState>(
       builder: (context, state) {
         if (state is SubscribedTopicsInProgress) {
-          return LoadingIndicator();
+          return const LoadingIndicator();
         } else if (state is SubscribedTopicsLoadSuccess) {
           return Column(
             children: [
@@ -56,7 +56,6 @@ class _SubscriptionsViewState extends State<SubscriptionsView> {
                         onSaved: (value) => _topic = value,
                       ),
                       ElevatedButton(
-                        child: Text('Add topic'),
                         onPressed: () {
                           if (_formKey.currentState.validate()) {
                             _formKey.currentState.save();
@@ -71,27 +70,28 @@ class _SubscriptionsViewState extends State<SubscriptionsView> {
                             _topicController.clear();
                           }
                         },
+                        child: const Text('Add topic'),
                       ),
                     ],
                   ),
                 ),
               ),
-              context.read<MqttBloc>().state is MqttConnected
-                  ? state.topics.length != 0
-                      ? Wrap(
-                          spacing: 8.0,
-                          runSpacing: 4.0,
-                          alignment: WrapAlignment.start,
-                          children: _buildTopicList(state.topics),
-                        )
-                      : _noTopicMessage()
-                  : _noBrokerConnectedMessage(),
+              if (context.read<MqttBloc>().state is MqttConnectionSuccess)
+                state.topics.isNotEmpty
+                    ? Wrap(
+                        spacing: 8.0,
+                        runSpacing: 4.0,
+                        children: _buildTopicList(state.topics),
+                      )
+                    : _noTopicMessage()
+              else
+                _noBrokerConnectedMessage(),
             ],
           );
         } else if (state is SubscribedTopicsFailure) {
-          return Center(child: Text('Failed to load topics'));
+          return const Center(child: Text('Failed to load topics'));
         } else {
-          return Center(
+          return const Center(
             child: Text('Oups, this is not supposed to happen'),
           );
         }
@@ -113,20 +113,16 @@ class _SubscriptionsViewState extends State<SubscriptionsView> {
   }
 
   Widget _noBrokerConnectedMessage() {
-    return Container(
-      child: Text(
-        "No broker connected...",
-        style: TextStyle(fontSize: 20),
-      ),
+    return const Text(
+      'No broker connected...',
+      style: TextStyle(fontSize: 20),
     );
   }
 
   Widget _noTopicMessage() {
-    return Container(
-      child: Text(
-        "Start adding Topic...",
-        style: TextStyle(fontSize: 20),
-      ),
+    return const Text(
+      'Start adding Topic...',
+      style: TextStyle(fontSize: 20),
     );
   }
 }

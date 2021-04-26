@@ -2,13 +2,13 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import '../blocs/blocs.dart';
 import '../models/models.dart';
-
 import '../settings/localization.dart';
 
 class MessagesView extends StatefulWidget {
-  MessagesView({Key key}) : super(key: key);
+  const MessagesView({Key key}) : super(key: key);
 
   @override
   _MessagesViewState createState() => _MessagesViewState();
@@ -19,7 +19,7 @@ class _MessagesViewState extends State<MessagesView> {
   final TextEditingController _topicController = TextEditingController();
   final TextEditingController _messageController = TextEditingController();
 
-  Message _message;
+  // Message _message;
   bool _retainValue = false;
   int _qosValue;
 
@@ -48,32 +48,30 @@ class _MessagesViewState extends State<MessagesView> {
   }
 
   Widget _buildTabBar() {
-    return Container(
-      child: TabBar(
-        tabs: <Widget>[
-          Tab(
-            text: "Reçu",
-          ),
-          Tab(
-            text: "Envoyer",
-          ),
-        ],
-        labelColor: Theme.of(context).tabBarTheme.labelColor,
-        indicatorColor: Theme.of(context).primaryColor,
-      ),
+    return TabBar(
+      tabs: <Widget>[
+        const Tab(
+          text: 'Reçu',
+        ),
+        const Tab(
+          text: 'Envoyer',
+        ),
+      ],
+      labelColor: Theme.of(context).tabBarTheme.labelColor,
+      indicatorColor: Theme.of(context).primaryColor,
     );
   }
 
   Widget _buildReceive() {
     return BlocBuilder<MessageBloc, MessageState>(
       builder: (context, state) {
-        if (state is NoBrokerConnected) {
+        if (state is BrokerConnectionFailed) {
           return _noBrokerConnectedMessage();
         } else if (state is MessagesReceptionSuccess) {
           return Column(
             children: [
               Flexible(
-                child: state.messages.length != 0
+                child: state.messages.isNotEmpty
                     ? ListView.builder(
                         itemCount: state.messages.length,
                         itemBuilder: (context, index) {
@@ -87,13 +85,13 @@ class _MessagesViewState extends State<MessagesView> {
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: <Widget>[
-                                    Text(
+                                    const Text(
                                       'QoS',
                                       style: TextStyle(fontSize: 8.0),
                                     ),
                                     Text(
                                       message.qos.toString(),
-                                      style: TextStyle(fontSize: 8.0),
+                                      style: const TextStyle(fontSize: 8.0),
                                     ),
                                   ],
                                 ),
@@ -114,18 +112,18 @@ class _MessagesViewState extends State<MessagesView> {
                     backgroundColor:
                         MaterialStateProperty.all<Color>(Colors.black54),
                   ),
-                  child: Text('Clear'),
                   onPressed: () {
                     context
                         .read<MessageBloc>()
                         .add(BrokerMessagesCleared()); //state.messages
                   },
+                  child: const Text('Clear'),
                 ),
               ),
             ],
           );
         } else {
-          return Center(
+          return const Center(
             child: Text('Oups, this is not supposed to happen'),
           );
         }
@@ -140,7 +138,7 @@ class _MessagesViewState extends State<MessagesView> {
         padding: const EdgeInsets.all(16.0),
         children: <Widget>[
           Container(
-            padding: EdgeInsets.symmetric(vertical: 8.0),
+            padding: const EdgeInsets.symmetric(vertical: 8.0),
             alignment: Alignment.bottomLeft,
             child: TextFormField(
               controller: _messageController,
@@ -157,7 +155,7 @@ class _MessagesViewState extends State<MessagesView> {
             ),
           ),
           Container(
-            padding: EdgeInsets.symmetric(vertical: 8.0),
+            padding: const EdgeInsets.symmetric(vertical: 8.0),
             alignment: Alignment.bottomLeft,
             child: TextFormField(
               controller: _topicController,
@@ -189,7 +187,6 @@ class _MessagesViewState extends State<MessagesView> {
             ],
           ),
           ElevatedButton(
-            child: Text('Send'),
             onPressed: () {
               if (_formKey.currentState.validate()) {
                 _formKey.currentState.save();
@@ -213,6 +210,7 @@ class _MessagesViewState extends State<MessagesView> {
                 _messageController.clear();
               }
             },
+            child: const Text('Send'),
           )
         ],
       ),
@@ -240,18 +238,18 @@ class _MessagesViewState extends State<MessagesView> {
   }
 
   Widget _noBrokerConnectedMessage() {
-    return Center(
+    return const Center(
       child: Text(
-        "No broker connected...",
+        'No broker connected...',
         style: TextStyle(fontSize: 20),
       ),
     );
   }
 
   Widget _noMessagesReceivedMessage() {
-    return Center(
+    return const Center(
       child: Text(
-        "No message received...",
+        'No message received...',
         style: TextStyle(fontSize: 20),
       ),
     );

@@ -9,7 +9,7 @@ class WidgetItemItem extends StatelessWidget {
   final GestureTapCallback onTap;
   final WidgetItem widgetItem;
 
-  WidgetItemItem({
+  const WidgetItemItem({
     Key key,
     @required this.onDismissed,
     @required this.onTap,
@@ -19,7 +19,7 @@ class WidgetItemItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Dismissible(
-      key: ArchSampleKeys.widgetItem(widgetItem.id),
+      key: AppKeys.widgetItem(widgetItem.id),
       onDismissed: onDismissed,
       child: Card(
         shape: RoundedRectangleBorder(
@@ -29,16 +29,17 @@ class WidgetItemItem extends StatelessWidget {
         child: Column(
           children: <Widget>[
             // TODO choose widget depends of widgetItem.type
-            widgetItem.type == 'Maps'
-                ? MapsWidget()
-                : widgetItem.type == 'Gauge'
-                    ? GaugeWidget()
-                    : widgetItem.type == 'Indicator'
-                        ? IndicatorWidget()
-                        : ButtonWidget(),
+            if (widgetItem.type == 'Maps')
+              const MapsWidget()
+            else
+              widgetItem.type == 'Gauge'
+                  ? const GaugeWidget()
+                  : widgetItem.type == 'Indicator'
+                      ? const IndicatorWidget()
+                      : const ButtonWidget(),
             ListTile(
-              title: Text(widgetItem.name ?? "Unnamed Widget"),
-              trailing: Text(widgetItem.topic ?? "No topic"),
+              title: Text(widgetItem.name ?? 'Unnamed Widget'),
+              trailing: Text(widgetItem.topic ?? 'No topic'),
             ),
           ],
         ),

@@ -17,10 +17,8 @@ class IndicatorWidget extends StatefulWidget {
 class _IndicatorWidgetState extends State<IndicatorWidget> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Center(
-        child: Text('Indicator Widget'),
-      ),
+    return const Center(
+      child: Text('Indicator Widget'),
     );
   }
 }

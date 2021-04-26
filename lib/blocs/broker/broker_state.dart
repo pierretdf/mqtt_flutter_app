@@ -23,5 +23,5 @@ class BrokerLoadSuccess extends BrokerState {
 
 class BrokerLoadFailure extends BrokerState {
   final Error error;
-  BrokerLoadFailure({this.error});
+  const BrokerLoadFailure({this.error});
 }

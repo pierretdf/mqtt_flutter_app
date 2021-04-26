@@ -12,38 +12,40 @@ class FlutterBlocLocalizations {
   }
 
   // MQTT
+
   // Broker
-  String get broker => "Broker";
-  String get brokers => "Brokers";
-  String get addBroker => "Add Broker";
-  String get editBroker => "Edit Broker";
-  String get brokerDetails => "Broker details";
+  String get broker => 'Broker';
+  String get brokers => 'Brokers';
+  String get addBroker => 'Add Broker';
+  String get editBroker => 'Edit Broker';
+  String get brokerDetails => 'Broker details';
 
   String get newBrokerAddress => "What's the broker address ?";
   String get newBrokerName => "What's the broker name ?";
   String get newBrokerIdentifier => "What's your identifier ?";
-  String get emptyBrokerError => "Please enter some text !";
+  String get emptyBrokerError => 'Please enter some text !';
   String get brokerDeleted => 'Broker deleted';
 
   // Widget
   String get widgets => 'Widgets';
   String get addWidget => 'Add Widget';
-  String get editWidget => "Edit Widget";
-  String get emptyWidgetError => "Please enter some text !";
+  String get editWidget => 'Edit Widget';
+  String get widgetDetails => 'Widget details';
+  String get emptyWidgetError => 'Please enter some text !';
   String get newWidgetName => "What's the widget name ?";
   String get newWidgetType => "What's the widget type ?";
   String get widgetDeleted => 'Widget deleted';
 
   // Subscriptions
-  String get subscriptions => "Subscriptions";
-  String get newTopic => "Enter a new topic";
-  String get emptyTopicTitleError => "Please enter a topic title !";
+  String get subscriptions => 'Subscriptions';
+  String get newTopic => 'Enter a new topic';
+  String get emptyTopicTitleError => 'Please enter a topic title !';
 
   // Messages
-  String get messages => "Messages";
+  String get messages => 'Messages';
 
   // Home Screen
-  String get appTitle => "MQTT Manager";
+  String get appTitle => 'MQTT Manager';
 
   // Tabs
 

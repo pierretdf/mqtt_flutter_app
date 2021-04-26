@@ -4,14 +4,14 @@ class CustomDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text("Alert Dialog"),
-      content: Text("Dialog Content"),
+      title: const Text('Alert Dialog'),
+      content: const Text('Dialog Content'),
       actions: [
         TextButton(
-          child: Text("Close"),
           onPressed: () {
             Navigator.of(context).pop();
           },
+          child: const Text('Close'),
         )
       ],
     );

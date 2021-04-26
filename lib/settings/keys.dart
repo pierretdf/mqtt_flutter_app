@@ -1,9 +1,11 @@
 import 'package:flutter/widgets.dart';
 
-class ArchSampleKeys {
+class AppKeys {
   // Home Screens
   static const homeScreen = Key('__homeScreen__');
   static const addBrokerFab = Key('__addBrokerFab__');
+  static const addWidgetFab = Key('__addWidgetFab__');
+  static const bottomsheet = Key('__bottomsheet__');
   static const snackbar = Key('__snackbar__');
   static Key snackbarAction(String id) => Key('__snackbar_action_${id}__');
 
@@ -11,19 +13,16 @@ class ArchSampleKeys {
   static const brokerList = Key('__brokerList__');
   static const brokersLoading = Key('__brokersLoading__');
   static final brokerItem = (int id) => Key('BrokerItem__$id');
-  static final brokerItemCheckbox =
-      (int id) => Key('BrokerItem__${id}__Checkbox');
-  static final brokerItemTask = (int id) => Key('WidgetItem__${id}__Task');
-  static final brokerItemNote = (int id) => Key('BrokerItem__${id}__Note');
+  static final brokerItemName = (int id) => Key('WidgetItem__${id}__Name');
+  static final brokerItemAddress =
+      (int id) => Key('BrokerItem__${id}__Address');
 
   // Widgets
   static const widgetList = Key('__widgetList__');
   static const widgetsLoading = Key('__widgetsLoading__');
   static final widgetItem = (int id) => Key('WidgetItem__$id');
-  static final widgetItemCheckbox =
-      (int id) => Key('WidgetItem__${id}__Checkbox');
-  static final widgetItemTask = (int id) => Key('WidgetItem__${id}__Task');
-  static final widgetItemNote = (int id) => Key('WidgetItem__${id}__Note');
+  static final widgetItemTask = (int id) => Key('WidgetItem__${id}__Task'); //!
+  static final widgetItemNote = (int id) => Key('WidgetItem__${id}__Note'); //!
 
   // Tabs
   static const tabs = Key('__tabs__');
@@ -32,51 +31,66 @@ class ArchSampleKeys {
   static const messagesTab = Key('__messagesTab__');
   static const widgetsTab = Key('__widgetsTab__');
 
-  // Extra Actions
-  static const extraActionsButton = Key('__extraActionsButton__');
-  static const toggleAll = Key('__markAllDone__');
-  static const clearCompleted = Key('__clearCompleted__');
-
-  // Filters
-  static const filterButton = Key('__filterButton__');
-  static const allFilter = Key('__allFilter__');
-  static const activeFilter = Key('__activeFilter__');
-  static const completedFilter = Key('__completedFilter__');
+  // Subscriptions
+  static const subscriptionButton = Key('__subscriptionButton__');
 
   // Stats
-  static const statsCounter = Key('__statsCounter__');
-  static const statsLoading = Key('__statsLoading__');
-  static const statsNumActive = Key('__statsActiveItems__');
-  static const statsNumCompleted = Key('__statsCompletedItems__');
+  // static const statsCounter = Key('__statsCounter__');
+  // static const statsLoading = Key('__statsLoading__');
+  // static const statsNumActive = Key('__statsActiveItems__');
+  // static const statsNumCompleted = Key('__statsCompletedItems__');
 
-  // Details Screen
-  static const editTodoFab = Key('__editTodoFab__');
-  static const deleteTodoButton = Key('__deleteTodoFab__');
-  static const todoDetailsScreen = Key('__todoDetailsScreen__');
-  static final detailsTodoItemCheckbox = Key('DetailsTodo__Checkbox');
-  static final detailsTodoItemTask = Key('DetailsTodo__Task');
-  static final detailsTodoItemNote = Key('DetailsTodo__Note');
+  // Broker Details Screen
+  static const editBrokerFab = Key('__editBrokerFab__');
+  static const deleteBrokerButton = Key('__deleteBrokerButton__');
+  static const brokerDetailsScreen = Key('__brokerDetailsScreen__');
+  static const detailsBrokerItemName = Key('DetailsBroker__Name');
+  static const detailsBrokerItemAddress = Key('DetailsBroker__Address');
+  static const detailsBrokerItemPort = Key('DetailsBroker__Port');
+  static const detailsBrokerItemIdentifier = Key('DetailsBroker__Identifier');
+  static const detailsBrokerItemUsername = Key('DetailsBroker__Username');
+  static const detailsBrokerItemPassword = Key('DetailsBroker__Password');
+  static const detailsBrokerItemPrivateKeyPassword =
+      Key('DetailsBroker__PrivateKeyPassword');
+  // TODO Add all others broker field attriubtes for details screen
 
-  // Add Screen
-  static const addTodoScreen = Key('__addTodoScreen__');
-  static const saveNewTodo = Key('__saveNewTodo__');
-  static const taskField = Key('__taskField__');
-  static const noteField = Key('__noteField__');
+  // Widget Details Screen
+  static const editWidgetFab = Key('__editWidgetFab__');
+  static const deleteWidgetButton = Key('__deleteWidgetFab__');
+  static const widgetDetailsScreen = Key('__widgetDetailsScreen__');
+  static const detailsWidgetItemName = Key('DetailsWidget__Name');
+  static const detailsWidgetItemType = Key('DetailsWidget__Type');
+  // TODO Add all others widget field attributes for details screen
 
-  // Edit Screen
-  static const editTodoScreen = Key('__editTodoScreen__');
-  static const saveTodoFab = Key('__saveTodoFab__');
+  // Add Broker Screen
+  static const addBrokerScreen = Key('__addBrokerScreen__');
+  static const saveNewBroker = Key('__saveNewBroker__');
+  static const brokerNameField = Key('__brokerNameField__');
+  static const brokerAddressField = Key('__brokerAddressField__');
+  static const brokerPortField = Key('__brokerPortField__');
+  static const brokerIdentifierField = Key('__brokerIdentifierField__');
+  static const brokerUsernameField = Key('__brokerUsernameField__');
+  static const brokerPasswordField = Key('__brokerPasswordField__');
+  static const brokerSecureField = Key('__brokerSecureField__');
+  // TODO Add all others broker field attributes
+
+  // Add Widget Screen
+  static const addWidgetScreen = Key('__addWidgetScreen__');
+  static const saveNewWidget = Key('__saveNewWidget__');
+  static const widgetNameField = Key('__widgetNameField__');
+  static const widgetTypeField = Key('__widgetTypeField__');
+  // TODO Add all others widget field attributes
+
+  // Edit Broker Screen
+  static const editBrokerScreen = Key('__editBrokerScreen__');
+  static const saveBrokerFab = Key('__saveBrokerFab__');
+
+  // Edit Widget Screen
+  static const editWidgetScreen = Key('__editWidgetScreen__');
+  static const saveWidgetFab = Key('__saveWidgetFab__');
 
   // Added Keys
-  static final extraActionsPopupMenuButton =
-      const Key('__extraActionsPopupMenuButton__');
-  static final extraActionsEmptyContainer =
-      const Key('__extraActionsEmptyContainer__');
-  static final filteredTodosEmptyContainer =
-      const Key('__filteredTodosEmptyContainer__');
-  static final statsLoadInProgressIndicator =
-      const Key('__statsLoadingIndicator__');
-  static final emptyStatsContainer = const Key('__emptyStatsContainer__');
-  static final emptyDetailsContainer = const Key('__emptyDetailsContainer__');
-  static final detailsScreenCheckBox = const Key('__detailsScreenCheckBox__');
+  static const brokersEmptyContainer = Key('__brokersEmptyContainer__');
+  static const emptyWidgetsContainer = Key('__emptyWidgetsContainer__');
+  static const emptyDetailsContainer = Key('__emptyDetailsContainer__');
 }

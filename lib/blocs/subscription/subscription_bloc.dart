@@ -1,9 +1,9 @@
 import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../services/mqtt_repository.dart';
 
 import '../../models/models.dart';
+import '../../services/mqtt_repository.dart';
 import '../../services/topic_repository.dart';
 import '../blocs.dart';
 
@@ -30,20 +30,20 @@ class SubscriptionBloc extends Bloc<SubscriptionEvent, SubscriptionState> {
   Stream<SubscriptionState> _mapTopicSubscribedLoadedToState() async* {
     // int brokerId
     try {
-      final topics = await this.topicRepository.getTopics();
-      final topicTitles = await this.topicRepository.getTopicsTitle();
+      final topics = await topicRepository.getTopics();
+      final topicTitles = await topicRepository.getTopicsTitle();
       yield SubscribedTopicsLoadSuccess(topics, topicTitles);
     } catch (e) {
-      yield SubscribedTopicsFailure(error: e);
+      //yield SubscribedTopicsFailure(error: e);
     }
   }
 
   Stream<SubscriptionState> _mapTopicAddedToState(TopicAdded event) async* {
     if (state is SubscribedTopicsLoadSuccess) {
-      final List<Topic> updatedTopics =
-          List.from((state as SubscribedTopicsLoadSuccess).topics)
+      final updatedTopics =
+          List<Topic>.from((state as SubscribedTopicsLoadSuccess).topics)
             ..add(event.topic);
-      topicRepository.addTopic(event.topic);
+      await topicRepository.addTopic(event.topic);
       final updatedTopicTitles = await topicRepository.getTopicsTitle();
       yield SubscribedTopicsLoadSuccess(updatedTopics, updatedTopicTitles);
       mqttRepository.subscribeToTopic(event.topic.title);
@@ -58,7 +58,7 @@ class SubscriptionBloc extends Bloc<SubscriptionEvent, SubscriptionState> {
           .where((topic) => topic.id != event.topic.id)
           .toList();
       mqttRepository.unSubscribeFromTopic(event.topic.title);
-      topicRepository.deleteTopic(event.topic.id);
+      await topicRepository.deleteTopic(event.topic.id);
       final updatedTopicTitles = await topicRepository.getTopicsTitle();
       yield SubscribedTopicsLoadSuccess(updatedTopics, updatedTopicTitles);
     }

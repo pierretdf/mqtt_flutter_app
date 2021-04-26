@@ -17,7 +17,7 @@ class Broker extends Equatable {
   final String clientAuthorityPath; // Optionnal
   final String state;
 
-  Broker({
+  const Broker({
     this.id,
     @required this.name,
     @required this.address,
@@ -80,21 +80,21 @@ class Broker extends Equatable {
   Map<String, dynamic> toJson() {
     //This will be used to convert Broker objects that
     //are to be stored into the datbase in a form of JSON
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['name'] = this.name;
-    data['address'] = this.address;
-    data['port'] = this.port;
-    data['username'] = this.username;
-    data['password'] = this.password;
-    data['identifier'] = this.identifier;
-    data['secure'] = this.secure ? 1 : 0;
-    data['qos'] = this.qos;
-    data['certificatePath'] = this.certificatePath;
-    data['privateKeyPath'] = this.privateKeyPath;
-    data['privateKeyPassword'] = this.privateKeyPassword;
-    data['clientAuthorityPath'] = this.clientAuthorityPath;
-    data['state'] = this.state;
+    final data = <String, dynamic>{};
+    data['id'] = id;
+    data['name'] = name;
+    data['address'] = address;
+    data['port'] = port;
+    data['username'] = username;
+    data['password'] = password;
+    data['identifier'] = identifier;
+    data['secure'] = secure ? 1 : 0;
+    data['qos'] = qos;
+    data['certificatePath'] = certificatePath;
+    data['privateKeyPath'] = privateKeyPath;
+    data['privateKeyPassword'] = privateKeyPassword;
+    data['clientAuthorityPath'] = clientAuthorityPath;
+    data['state'] = state;
     return data;
   }
 

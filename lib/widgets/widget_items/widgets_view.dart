@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mqtt_flutter_bloc/settings/keys.dart';
 
 import '../../blocs/blocs.dart';
 import '../../settings/localization.dart';
@@ -7,7 +8,7 @@ import '../../views/widget_item_details_view.dart';
 import '../widgets.dart';
 
 class WidgetItemsView extends StatelessWidget {
-  WidgetItemsView({Key key}) : super(key: key);
+  const WidgetItemsView({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -15,6 +16,7 @@ class WidgetItemsView extends StatelessWidget {
 
     return Scaffold(
       floatingActionButton: FloatingActionButton.extended(
+        key: AppKeys.addWidgetFab,
         backgroundColor:
             Theme.of(context).floatingActionButtonTheme.backgroundColor,
         label: Text('Widget',
@@ -27,9 +29,9 @@ class WidgetItemsView extends StatelessWidget {
       body: BlocBuilder<WidgetBloc, WidgetState>(
         builder: (context, state) {
           if (state is WidgetItemLoadInProgress) {
-            return LoadingIndicator();
+            return const LoadingIndicator();
           } else if (state is WidgetItemLoadSuccess) {
-            return state.widgetItems.length != 0
+            return state.widgetItems.isNotEmpty
                 ? ListView.builder(
                     itemCount: state.widgetItems.length,
                     itemBuilder: (context, index) {
@@ -79,7 +81,7 @@ class WidgetItemsView extends StatelessWidget {
               child: Text('Error occured: ${state.error}'),
             );
           } else {
-            return Center(
+            return const Center(
               child: Text('Oups, this is not supposed to happen'),
             );
           }
@@ -89,9 +91,9 @@ class WidgetItemsView extends StatelessWidget {
   }
 
   Widget _noWidgetItemsMessage() {
-    return Center(
+    return const Center(
       child: Text(
-        "Start adding a widget...",
+        'Start adding a widget...',
         style: TextStyle(fontSize: 20),
       ),
     );

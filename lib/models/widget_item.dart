@@ -32,14 +32,14 @@ class WidgetItem {
   Map<String, dynamic> toJson() {
     //This will be used to convert WidgetItem objects that
     //are to be stored into the datbase in a form of JSON
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['name'] = this.name;
-    data['topic'] = this.topic;
-    data['type'] = this.type;
-    data['pubTopic'] = this.pubTopic;
-    data['payload'] = this.payload;
-    data['jsonPath'] = this.jsonPath;
+    final data = <String, dynamic>{};
+    data['id'] = id;
+    data['name'] = name;
+    data['topic'] = topic;
+    data['type'] = type;
+    data['pubTopic'] = pubTopic;
+    data['payload'] = payload;
+    data['jsonPath'] = jsonPath;
     return data;
   }
 

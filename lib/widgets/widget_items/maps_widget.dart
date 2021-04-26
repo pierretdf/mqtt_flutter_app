@@ -53,18 +53,18 @@ class _MapsWidgetState extends State<MapsWidget> with WidgetsBindingObserver {
   Future _setMapStyle() async {
     final controller = await _controller.future;
     final theme = WidgetsBinding.instance.window.platformBrightness;
-    if (theme == Brightness.dark)
-      controller.setMapStyle(_darkMapStyle);
-    else
-      controller.setMapStyle(_lightMapStyle);
+    if (theme == Brightness.dark) {
+      await controller.setMapStyle(_darkMapStyle);
+    } else {
+      await controller.setMapStyle(_lightMapStyle);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    CameraPosition initialLocation =
+    final initialLocation =
         CameraPosition(zoom: 18, target: LatLng(37.807438, -122.419924));
     return GoogleMap(
-      mapType: MapType.normal,
       myLocationEnabled: true,
       initialCameraPosition: initialLocation,
       onMapCreated: (GoogleMapController controller) {

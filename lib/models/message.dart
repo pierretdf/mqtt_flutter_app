@@ -19,12 +19,12 @@ class Message {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['topic'] = this.topic;
-    data['payload'] = this.payload;
-    data['qos'] = this.qos;
-    data['retainValue'] = this.retainValue ? 1 : 0;
+    final data = <String, dynamic>{};
+    data['id'] = id;
+    data['topic'] = topic;
+    data['payload'] = payload;
+    data['qos'] = qos;
+    data['retainValue'] = retainValue ? 1 : 0;
     return data;
   }
 

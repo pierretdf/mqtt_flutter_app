@@ -10,7 +10,7 @@ class TabSelector extends StatelessWidget {
   final AppTab activeTab;
   final Function(AppTab) onTabSelected;
 
-  TabSelector({
+  const TabSelector({
     Key key,
     @required this.activeTab,
     @required this.onTabSelected,
@@ -20,8 +20,8 @@ class TabSelector extends StatelessWidget {
   Widget build(BuildContext context) {
     return BottomNavigationBar(
       fixedColor: Theme.of(context).accentColor,
-      backgroundColor:
-          Theme.of(context).bottomNavigationBarTheme.backgroundColor,
+      backgroundColor: Colors.green,
+      //Theme.of(context).bottomNavigationBarTheme.backgroundColor,
       currentIndex: AppTab.values.indexOf(activeTab),
       onTap: (index) => onTabSelected(AppTab.values[index]),
       items: AppTab.values.map((tab) {
@@ -35,12 +35,12 @@ class TabSelector extends StatelessWidget {
                         ? Icons.message
                         : Icons.widgets,
             key: tab == AppTab.brokers
-                ? ArchSampleKeys.brokersTab
+                ? AppKeys.brokersTab
                 : tab == AppTab.subscriptions
-                    ? ArchSampleKeys.subscriptionsTab
+                    ? AppKeys.subscriptionsTab
                     : tab == AppTab.messages
-                        ? ArchSampleKeys.messagesTab
-                        : ArchSampleKeys.widgetsTab,
+                        ? AppKeys.messagesTab
+                        : AppKeys.widgetsTab,
           ),
           label: tab == AppTab.brokers
               ? FlutterBlocLocalizations.of(context).brokers

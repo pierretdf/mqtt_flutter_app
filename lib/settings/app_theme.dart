@@ -9,19 +9,20 @@ class AppTheme {
         primarySwatch: Colors.blue,
         cardColor: Colors.white,
         floatingActionButtonTheme:
-            FloatingActionButtonThemeData(backgroundColor: Colors.white),
+            const FloatingActionButtonThemeData(backgroundColor: Colors.white),
         snackBarTheme: SnackBarThemeData(
           actionTextColor: Colors.cyan[300],
         ),
-        tabBarTheme: TabBarTheme(labelColor: Colors.black),
+        tabBarTheme: const TabBarTheme(labelColor: Colors.black),
         elevatedButtonTheme: ElevatedButtonThemeData(
             style: ButtonStyle(
                 backgroundColor:
                     MaterialStateProperty.all<Color>(Colors.blue))),
-        bottomSheetTheme: BottomSheetThemeData(backgroundColor: Colors.white),
-        bottomNavigationBarTheme: BottomNavigationBarThemeData(
+        bottomSheetTheme:
+            const BottomSheetThemeData(backgroundColor: Colors.white),
+        bottomNavigationBarTheme: const BottomNavigationBarThemeData(
             backgroundColor: Colors.blue, selectedItemColor: Colors.white),
-        textTheme: TextTheme(
+        textTheme: const TextTheme(
           bodyText1: TextStyle(
             color: Colors.black,
           ),
@@ -41,15 +42,16 @@ class AppTheme {
         snackBarTheme: SnackBarThemeData(
           actionTextColor: Colors.cyan[300],
         ),
-        tabBarTheme: TabBarTheme(labelColor: Colors.white),
+        tabBarTheme: const TabBarTheme(labelColor: Colors.white),
         elevatedButtonTheme: ElevatedButtonThemeData(
             style: ButtonStyle(
                 backgroundColor:
                     MaterialStateProperty.all<Color>(Colors.grey[800]))),
-        bottomSheetTheme: BottomSheetThemeData(backgroundColor: Colors.black),
-        bottomNavigationBarTheme: BottomNavigationBarThemeData(
+        bottomSheetTheme:
+            const BottomSheetThemeData(backgroundColor: Colors.black),
+        bottomNavigationBarTheme: const BottomNavigationBarThemeData(
             backgroundColor: Colors.black, selectedItemColor: Colors.white),
-        textTheme: TextTheme(
+        textTheme: const TextTheme(
           bodyText1: TextStyle(
             color: Colors.white,
           ),

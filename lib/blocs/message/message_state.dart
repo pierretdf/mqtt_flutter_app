@@ -9,7 +9,7 @@ abstract class MessageState extends Equatable {
   List<Object> get props => [];
 }
 
-class NoBrokerConnected extends MessageState {}
+class BrokerConnectionFailed extends MessageState {}
 
 class MessagesReceptionSuccess extends MessageState {
   final List<Message> messages;
@@ -20,7 +20,7 @@ class MessagesReceptionSuccess extends MessageState {
   List<Object> get props => [messages];
 }
 
-class MessagesFailure extends MessageState {
+class MessagesReceptionFailure extends MessageState {
   final Error error;
-  MessagesFailure(this.error);
+  const MessagesReceptionFailure(this.error);
 }

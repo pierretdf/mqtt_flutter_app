@@ -1,41 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mqtt_flutter_bloc/settings/app_theme.dart';
 
 import 'blocs/blocs.dart';
 import 'models/models.dart';
 import 'services/repositories.dart';
 import 'settings/localization.dart';
-import 'settings/theme.dart';
 import 'views/add_edit_widget_view.dart';
 import 'views/views.dart';
-
-// From this example: https://medium.com/flutter-community/flutter-todos-tutorial-with-flutter-bloc-d9dd833f9df3
-// void main() {
-//   Bloc.observer = SimpleBlocObserver();
-//   runApp(
-//     MultiBlocProvider(
-//       providers: [
-//         BlocProvider<TabBloc>(create: (_) => TabBloc()),
-//         BlocProvider<MqttBloc>(create: (_) => MqttBloc(MqttRepository(), )),
-//         BlocProvider<SubscriptionBloc>(
-//             create: (_) => SubscriptionBloc(
-//                 TopicRepository(), BlocProvider.of<MqttBloc>(_))
-//               ..add(SubscribedTopicsLoaded())),
-//         BlocProvider<MessageBloc>(
-//             create: (_) => MessageBloc(BlocProvider.of<MqttBloc>(_))
-//               ..add(MessagesLoaded())),
-//         BlocProvider<BrokerBloc>(
-//             create: (_) =>
-//                 BrokerBloc(BrokerRepository(), BlocProvider.of<MqttBloc>(_))
-//                   ..add(BrokersLoaded())),
-//         BlocProvider<WidgetBloc>(
-//             create: (_) =>
-//                 WidgetBloc(WidgetRepository())..add(WidgetItemsLoaded())),
-//       ],
-//       child: MqttApp(),
-//     ),
-//   );
-// }
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -86,11 +58,19 @@ class MqttApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: FlutterBlocLocalizations().appTitle,
       debugShowCheckedModeBanner: false,
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
-      //themeMode: ThemeMode.system,
+      // localizationsDelegates: [
+      //   AppLocalizations.delegate,
+      //   GlobalMaterialLocalizations.delegate,
+      //   GlobalWidgetsLocalizations.delegate,
+      //   GlobalCupertinoLocalizations.delegate,
+      // ],
+      // supportedLocales: [
+      //   const Locale('en', ''),
+      //   const Locale('fr', ''),
+      // ],
       localizationsDelegates: [
         FlutterBlocLocalizationsDelegate(),
       ],
@@ -140,7 +120,8 @@ class MqttApp extends StatelessWidget {
             onSave: (name, type, topic) {
               context.read<WidgetBloc>().add(
                     WidgetItemAdded(
-                        WidgetItem(name: name, type: type, topic: topic)),
+                      WidgetItem(name: name, type: type, topic: topic),
+                    ),
                   );
             },
             isEditing: false,

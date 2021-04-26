@@ -1,9 +1,9 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mqtt_flutter_bloc/blocs/blocs.dart';
 
 import '../models/models.dart';
-import '../blocs/blocs.dart';
 import '../settings/localization.dart';
 
 typedef OnSaveCallback = Function(String name, String type, String topic);
@@ -13,7 +13,7 @@ class AddEditWidgetScreen extends StatefulWidget {
   final OnSaveCallback onSave;
   final WidgetItem widgetItem;
 
-  AddEditWidgetScreen({
+  const AddEditWidgetScreen({
     Key key,
     @required this.onSave,
     @required this.isEditing,
@@ -31,15 +31,15 @@ class _AddEditWidgetScreenState extends State<AddEditWidgetScreen> {
   String _type;
   String _topic;
 
-  static List<String> _widgetTypeList = [
+  static final List<String> _widgetTypeList = [
     'Maps',
     'Gauge',
     'Button',
     'Indicator'
   ];
 
-  bool _contentVisible = false;
-  int _qosValue = 0;
+  final bool _contentVisible = false;
+  final int _qosValue = 0;
 
   bool get isEditing => widget.isEditing;
 
@@ -51,26 +51,28 @@ class _AddEditWidgetScreenState extends State<AddEditWidgetScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          isEditing ? localizations.editWidget : localizations.addWidget,
+        title: Center(
+          child: Text(
+            isEditing ? localizations.editWidget : localizations.addWidget,
+          ),
         ),
       ),
       body: Padding(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         child: Form(
           key: _formKey,
           child: ListView(
             children: [
               DropdownButtonFormField<String>(
-                hint: Text("Widget type"),
+                hint: const Text('Widget type'),
                 items: _widgetTypeList
                     .map<DropdownMenuItem<String>>(
                         (String widgetType) => DropdownMenuItem<String>(
-                              child: Text(widgetType),
                               value: widgetType,
+                              child: Text(widgetType),
                             ))
                     .toList(),
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   enabledBorder: UnderlineInputBorder(
                       borderSide: BorderSide(color: Colors.white)),
                   focusedBorder: UnderlineInputBorder(
@@ -116,18 +118,16 @@ class _AddEditWidgetScreenState extends State<AddEditWidgetScreen> {
                 builder: (context, state) {
                   if (state is SubscribedTopicsLoadSuccess) {
                     return DropdownButtonFormField<String>(
-                      hint: Text("Topic's name"),
-                      disabledHint: Text("No topic subscribed"),
-                      items: state.topicTitles != null
-                          ? state.topicTitles
-                              .map<DropdownMenuItem<String>>(
-                                  (String subTopic) => DropdownMenuItem<String>(
-                                        child: Text(subTopic),
-                                        value: subTopic,
-                                      ))
-                              .toList()
-                          : null,
-                      decoration: InputDecoration(
+                      hint: const Text("Topic's name"),
+                      disabledHint: const Text('No topic subscribed'),
+                      items: state.topicTitles
+                          ?.map<DropdownMenuItem<String>>(
+                              (String subTopic) => DropdownMenuItem<String>(
+                                    value: subTopic,
+                                    child: Text(subTopic),
+                                  ))
+                          ?.toList(),
+                      decoration: const InputDecoration(
                         enabledBorder: UnderlineInputBorder(
                             borderSide: BorderSide(color: Colors.white)),
                         focusedBorder: UnderlineInputBorder(
@@ -137,7 +137,7 @@ class _AddEditWidgetScreenState extends State<AddEditWidgetScreen> {
                       onSaved: (value) => _topic = value,
                     );
                   } else {
-                    return Center(
+                    return const Center(
                       child: Text('Oups, an error occured !'),
                     );
                   }
@@ -146,7 +146,6 @@ class _AddEditWidgetScreenState extends State<AddEditWidgetScreen> {
               Padding(
                 padding: const EdgeInsets.all(25.0),
                 child: ElevatedButton(
-                  child: Text(isEditing ? 'Valid Widget' : 'Add Widget'),
                   onPressed: () {
                     if (_formKey.currentState.validate()) {
                       _formKey.currentState.save();
@@ -155,6 +154,7 @@ class _AddEditWidgetScreenState extends State<AddEditWidgetScreen> {
                       Navigator.pop(context);
                     }
                   },
+                  child: Text(isEditing ? 'Valid Widget' : 'Add Widget'),
                 ),
               ),
             ],

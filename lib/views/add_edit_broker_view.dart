@@ -1,6 +1,7 @@
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:mqtt_flutter_bloc/settings/keys.dart';
 
 import '../models/models.dart';
 import '../settings/localization.dart';
@@ -24,7 +25,7 @@ class AddEditBrokerScreen extends StatefulWidget {
   final OnSaveCallback onSave;
   final Broker broker;
 
-  AddEditBrokerScreen({
+  const AddEditBrokerScreen({
     Key key,
     @required this.onSave,
     @required this.isEditing,
@@ -57,6 +58,7 @@ class _AddEditBrokerScreenState extends State<AddEditBrokerScreen> {
 
   bool get isEditing => widget.isEditing;
 
+  @override
   void initState() {
     //_secure = false;
     super.initState();
@@ -70,12 +72,14 @@ class _AddEditBrokerScreenState extends State<AddEditBrokerScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          isEditing ? localizations.editBroker : localizations.addBroker,
+        title: Center(
+          child: Text(
+            isEditing ? localizations.editBroker : localizations.addBroker,
+          ),
         ),
       ),
       body: Padding(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         child: Form(
           key: _formKey,
           child: ListView(
@@ -83,7 +87,7 @@ class _AddEditBrokerScreenState extends State<AddEditBrokerScreen> {
               // Broker Name
               TextFormField(
                 initialValue: isEditing ? widget.broker.name : '',
-                //key: ArchSampleKeys.taskField,
+                key: AppKeys.brokerNameField,
                 autofocus: !isEditing,
                 style: textTheme.headline5,
                 decoration: InputDecoration(
@@ -100,6 +104,7 @@ class _AddEditBrokerScreenState extends State<AddEditBrokerScreen> {
               // Broker Address
               TextFormField(
                 initialValue: isEditing ? widget.broker.address : '',
+                key: AppKeys.brokerAddressField,
                 autofocus: !isEditing,
                 style: textTheme.headline5,
                 decoration: InputDecoration(
@@ -116,11 +121,12 @@ class _AddEditBrokerScreenState extends State<AddEditBrokerScreen> {
               // Broker Port
               TextFormField(
                 initialValue: isEditing ? '${widget.broker.port}' : '',
+                key: AppKeys.brokerPortField,
                 autofocus: !isEditing,
                 style: textTheme.headline5,
                 keyboardType: TextInputType.number,
                 textInputAction: TextInputAction.next,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   hintText: 'Enter a broker port',
                 ),
                 validator: (val) {
@@ -134,6 +140,7 @@ class _AddEditBrokerScreenState extends State<AddEditBrokerScreen> {
               // Broker Identifier
               TextFormField(
                 initialValue: isEditing ? widget.broker.identifier : '',
+                key: AppKeys.brokerIdentifierField,
                 autofocus: !isEditing,
                 style: textTheme.headline5,
                 textInputAction: TextInputAction.next,
@@ -151,10 +158,11 @@ class _AddEditBrokerScreenState extends State<AddEditBrokerScreen> {
               // Broker Username
               TextFormField(
                 initialValue: isEditing ? widget.broker.username : '',
+                key: AppKeys.brokerUsernameField,
                 autofocus: !isEditing,
                 style: textTheme.headline5,
                 textInputAction: TextInputAction.next,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   hintText: 'Enter a broker username',
                 ),
                 validator: (val) {
@@ -166,10 +174,11 @@ class _AddEditBrokerScreenState extends State<AddEditBrokerScreen> {
               // Broker Password
               TextFormField(
                 initialValue: isEditing ? widget.broker.password : '',
+                key: AppKeys.brokerPasswordField,
                 autofocus: !isEditing,
                 style: textTheme.headline5,
                 textInputAction: TextInputAction.next,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   hintText: 'Enter a broker password',
                 ),
                 validator: (val) {
@@ -179,8 +188,8 @@ class _AddEditBrokerScreenState extends State<AddEditBrokerScreen> {
                 onEditingComplete: () => node.nextFocus(),
               ),
               SwitchListTile(
-                title: Text("Secure broker ?"),
-                controlAffinity: ListTileControlAffinity.platform,
+                title: const Text('Secure broker ?'),
+                key: AppKeys.brokerSecureField,
                 value: _secure,
                 onChanged: (bool value) {
                   setState(() {
@@ -194,15 +203,24 @@ class _AddEditBrokerScreenState extends State<AddEditBrokerScreen> {
                   children: <Widget>[
                     // Broker Certification Path
                     GestureDetector(
+                      onTap: () async {
+                        final path =
+                            await FilePicker.platform.getDirectoryPath();
+                        if (path != null) {
+                          _certificateController.text = path;
+                        } else {
+                          print('User has cancelled the selection');
+                        }
+                      },
                       child: TextFormField(
                         enabled: false,
                         initialValue:
                             isEditing ? widget.broker.certificatePath : '',
-                        autofocus: true, //!isEditing
+                        autofocus: !isEditing,
                         controller: _certificateController,
                         style: textTheme.headline5,
                         textInputAction: TextInputAction.next,
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           hintText: 'Select a certification file path',
                           icon: Icon(Icons.file_present),
                         ),
@@ -214,18 +232,18 @@ class _AddEditBrokerScreenState extends State<AddEditBrokerScreen> {
                         onSaved: (value) => _certificatePath = value,
                         onEditingComplete: () => node.nextFocus(),
                       ),
-                      onTap: () async {
-                        String path =
-                            await FilePicker.platform.getDirectoryPath();
-                        if (path != null) {
-                          _certificateController.text = path;
-                        } else {
-                          print("User has cancelled the selection");
-                        }
-                      },
                     ),
                     // Broker Private Key Path
                     GestureDetector(
+                      onTap: () async {
+                        final path =
+                            await FilePicker.platform.getDirectoryPath();
+                        if (path != null) {
+                          _privateKeyController.text = path;
+                        } else {
+                          print('User has cancelled the selection');
+                        }
+                      },
                       child: TextFormField(
                         enabled: false,
                         initialValue:
@@ -234,7 +252,7 @@ class _AddEditBrokerScreenState extends State<AddEditBrokerScreen> {
                         controller: _privateKeyController,
                         style: textTheme.headline5,
                         textInputAction: TextInputAction.next,
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           hintText: 'Select a private key file path',
                           icon: Icon(Icons.file_present),
                         ),
@@ -246,23 +264,15 @@ class _AddEditBrokerScreenState extends State<AddEditBrokerScreen> {
                         onSaved: (value) => _privateKeyPath = value,
                         onEditingComplete: () => node.nextFocus(),
                       ),
-                      onTap: () async {
-                        String path =
-                            await FilePicker.platform.getDirectoryPath();
-                        if (path != null) {
-                          _privateKeyController.text = path;
-                        } else {
-                          print("User has cancelled the selection");
-                        }
-                      },
                     ),
+                    // Broker private key password
                     TextFormField(
                       initialValue:
                           isEditing ? widget.broker.privateKeyPassword : '',
                       autofocus: !isEditing,
                       style: textTheme.headline5,
                       textInputAction: TextInputAction.next,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         hintText: 'Enter a private key password',
                       ),
                       validator: (val) {
@@ -273,6 +283,15 @@ class _AddEditBrokerScreenState extends State<AddEditBrokerScreen> {
                     ),
                     // Broker Client Authority Path
                     GestureDetector(
+                      onTap: () async {
+                        final path =
+                            await FilePicker.platform.getDirectoryPath();
+                        if (path != null) {
+                          _clientAuthorityController.text = path;
+                        } else {
+                          print('User has cancelled the selection');
+                        }
+                      },
                       child: TextFormField(
                         enabled: false,
                         initialValue:
@@ -281,7 +300,7 @@ class _AddEditBrokerScreenState extends State<AddEditBrokerScreen> {
                         controller: _clientAuthorityController,
                         style: textTheme.headline5,
                         textInputAction: TextInputAction.next,
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           hintText: 'Select a client authority file path',
                           icon: Icon(Icons.file_present),
                         ),
@@ -293,15 +312,6 @@ class _AddEditBrokerScreenState extends State<AddEditBrokerScreen> {
                         onSaved: (value) => _clientAuthorityPath = value,
                         onEditingComplete: () => node.nextFocus(),
                       ),
-                      onTap: () async {
-                        String path =
-                            await FilePicker.platform.getDirectoryPath();
-                        if (path != null) {
-                          _clientAuthorityController.text = path;
-                        } else {
-                          print("User has cancelled the selection");
-                        }
-                      },
                     ),
                   ],
                 ),
@@ -309,9 +319,8 @@ class _AddEditBrokerScreenState extends State<AddEditBrokerScreen> {
               Padding(
                 padding: const EdgeInsets.all(25.0),
                 child: ElevatedButton(
-                  //key:
-                  //isEditing ? ArchSampleKeys.saveBrokerFab : ArchSampleKeys.saveNewBroker,
-                  child: Text(isEditing ? 'Valid Broker' : 'Add Broker'),
+                  key:
+                      isEditing ? AppKeys.saveBrokerFab : AppKeys.saveNewBroker,
                   onPressed: () {
                     if (_formKey.currentState.validate()) {
                       _formKey.currentState.save();
@@ -332,6 +341,7 @@ class _AddEditBrokerScreenState extends State<AddEditBrokerScreen> {
                       Navigator.pop(context);
                     }
                   },
+                  child: Text(isEditing ? 'Valid Broker' : 'Add Broker'),
                 ),
               ),
             ],

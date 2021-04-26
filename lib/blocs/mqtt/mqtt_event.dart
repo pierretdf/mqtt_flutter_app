@@ -9,38 +9,38 @@ abstract class MqttEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class MqttConnection extends MqttEvent {
+class MqttConnected extends MqttEvent {
   final Broker broker;
 
-  const MqttConnection({this.broker});
+  const MqttConnected({this.broker});
 
   @override
   List<Object> get props => [broker];
 }
 
-class MqttDisconnection extends MqttEvent {
+class MqttDisconnected extends MqttEvent {
   final Broker broker;
 
-  const MqttDisconnection({this.broker});
+  const MqttDisconnected({this.broker});
 
   @override
   List<Object> get props => [broker];
 }
 
-class MqttSubscription extends MqttEvent {
-  final Topic topic;
+// class MqttSubscription extends MqttEvent {
+//   final Topic topic;
 
-  const MqttSubscription({this.topic});
+//   const MqttSubscription({this.topic});
 
-  @override
-  List<Object> get props => [topic];
-}
+//   @override
+//   List<Object> get props => [topic];
+// }
 
-class MqttUnsubscription extends MqttEvent {
-  final Topic topic;
+// class MqttUnsubscription extends MqttEvent {
+//   final Topic topic;
 
-  const MqttUnsubscription({this.topic});
+//   const MqttUnsubscription({this.topic});
 
-  @override
-  List<Object> get props => [topic];
-}
+//   @override
+//   List<Object> get props => [topic];
+// }

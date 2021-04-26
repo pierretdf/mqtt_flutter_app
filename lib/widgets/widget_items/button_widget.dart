@@ -17,10 +17,8 @@ class ButtonWidget extends StatefulWidget {
 class _ButtonWidgetState extends State<ButtonWidget> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Center(
-        child: Text('Button Widget'),
-      ),
+    return const Center(
+      child: Text('Button Widget'),
     );
   }
 }

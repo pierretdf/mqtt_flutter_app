@@ -18,20 +18,20 @@ class LocalWidgetProvider {
 
   Future<int> addWidgetItem(WidgetItem widgetItem) async {
     final _db = await dbProvider.database;
-    var widgetItemId = _db.insert('widgets', widgetItem.toMap());
+    final widgetItemId = _db.insert('widgets', widgetItem.toMap());
     return widgetItemId;
   }
 
   Future<int> updateWidgetItem(WidgetItem widgetItem) async {
     final _db = await dbProvider.database;
-    var result = await _db.update('widgets', widgetItem.toJson(),
-        where: "id = ?", whereArgs: [widgetItem.id]);
+    final result = await _db.update('widgets', widgetItem.toJson(),
+        where: 'id = ?', whereArgs: [widgetItem.id]);
     return result;
   }
 
   Future<List<WidgetItem>> getWidgetItems() async {
     final _db = await dbProvider.database;
-    List<Map<String, dynamic>> widgetItemMap = await _db.query('widgets');
+    final List<Map<String, dynamic>> widgetItemMap = await _db.query('widgets');
     return List.generate(widgetItemMap.length, (index) {
       return WidgetItem(
           id: widgetItemMap[index]['id'],

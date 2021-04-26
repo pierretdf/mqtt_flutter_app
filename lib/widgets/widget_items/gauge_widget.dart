@@ -15,7 +15,6 @@ class GaugeWidget extends StatelessWidget {
     return SfRadialGauge(
       axes: <RadialAxis>[
         RadialAxis(
-          minimum: 0,
           maximum: 150,
           ranges: <GaugeRange>[
             GaugeRange(startValue: 0, endValue: 50, color: Colors.green),
@@ -25,7 +24,7 @@ class GaugeWidget extends StatelessWidget {
           pointers: <GaugePointer>[NeedlePointer(value: 90)],
           annotations: <GaugeAnnotation>[
             GaugeAnnotation(
-                widget: Container(
+                widget:
                     // 90 is the value from the payload --> Decoding JSON payload
                     // must be "dynamic" because each MQTT broker send different JSON message structure
                     // Must implement a quick tuto of which variable useful for which widget
@@ -36,9 +35,9 @@ class GaugeWidget extends StatelessWidget {
                     // json['value']; json['lat']; json['lon']
                     // https://flutter.dev/docs/development/data-and-backend/json#serializing-json-inline
 
-                    child: Text('90.0',
+                    const Text('90.0',
                         style: TextStyle(
-                            fontSize: 15, fontWeight: FontWeight.bold))),
+                            fontSize: 15, fontWeight: FontWeight.bold)),
                 angle: 90,
                 positionFactor: 0.5)
           ],

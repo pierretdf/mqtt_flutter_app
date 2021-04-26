@@ -19,10 +19,10 @@ class Topic {
   Map<String, dynamic> toJson() {
     //This will be used to convert Topic objects that
     //are to be stored into the datbase in a form of JSON
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['brokerId'] = this.brokerId;
-    data['title'] = this.title;
+    final data = <String, dynamic>{};
+    data['id'] = id;
+    data['brokerId'] = brokerId;
+    data['title'] = title;
     return data;
   }
 
