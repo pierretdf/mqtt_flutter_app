@@ -28,7 +28,6 @@ class BrokerItem extends StatelessWidget {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(5),
         ),
-        color: Theme.of(context).cardColor,
         child: ListTile(
           leading: GestureDetector(
             onTap: onTapMqtt,

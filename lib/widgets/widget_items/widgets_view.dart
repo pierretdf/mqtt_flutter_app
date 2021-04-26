@@ -17,8 +17,6 @@ class WidgetItemsView extends StatelessWidget {
     return Scaffold(
       floatingActionButton: FloatingActionButton.extended(
         key: AppKeys.addWidgetFab,
-        backgroundColor:
-            Theme.of(context).floatingActionButtonTheme.backgroundColor,
         label: Text('Widget',
             style: TextStyle(color: Theme.of(context).accentColor)),
         icon: Icon(Icons.add, color: Theme.of(context).accentColor),

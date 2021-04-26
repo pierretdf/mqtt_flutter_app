@@ -17,8 +17,6 @@ class BrokersView extends StatelessWidget {
     return Scaffold(
       floatingActionButton: FloatingActionButton.extended(
         key: AppKeys.addBrokerFab,
-        backgroundColor:
-            Theme.of(context).floatingActionButtonTheme.backgroundColor,
         label: Text('Broker',
             style: TextStyle(color: Theme.of(context).accentColor)),
         icon: Icon(Icons.add, color: Theme.of(context).accentColor),

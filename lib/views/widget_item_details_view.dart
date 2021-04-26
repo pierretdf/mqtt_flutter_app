@@ -110,7 +110,7 @@ class WidgetItemDetailsScreen extends StatelessWidget {
                       ),
                     );
                   },
-            child: const Icon(Icons.edit),
+            child: Icon(Icons.edit, color: Theme.of(context).accentColor),
           ),
         );
       },

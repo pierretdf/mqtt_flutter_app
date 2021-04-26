@@ -20,12 +20,11 @@ class TabSelector extends StatelessWidget {
   Widget build(BuildContext context) {
     return BottomNavigationBar(
       fixedColor: Theme.of(context).accentColor,
-      backgroundColor: Colors.green,
-      //Theme.of(context).bottomNavigationBarTheme.backgroundColor,
       currentIndex: AppTab.values.indexOf(activeTab),
       onTap: (index) => onTabSelected(AppTab.values[index]),
       items: AppTab.values.map((tab) {
         return BottomNavigationBarItem(
+          backgroundColor: Theme.of(context).primaryColor,
           icon: Icon(
             tab == AppTab.brokers
                 ? Icons.cloud
@@ -34,6 +33,7 @@ class TabSelector extends StatelessWidget {
                     : tab == AppTab.messages
                         ? Icons.message
                         : Icons.widgets,
+            color: Theme.of(context).accentColor,
             key: tab == AppTab.brokers
                 ? AppKeys.brokersTab
                 : tab == AppTab.subscriptions

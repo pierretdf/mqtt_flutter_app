@@ -7,7 +7,7 @@ class CustomDialog extends StatelessWidget {
       title: const Text('Alert Dialog'),
       content: const Text('Dialog Content'),
       actions: [
-        TextButton(
+        ElevatedButton(
           onPressed: () {
             Navigator.of(context).pop();
           },

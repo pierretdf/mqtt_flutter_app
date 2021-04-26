@@ -227,7 +227,7 @@ class BrokerDetailsScreen extends StatelessWidget {
                     );
                   }
                 : null,
-            child: const Icon(Icons.edit, color: Colors.blue),
+            child: Icon(Icons.edit, color: Theme.of(context).accentColor),
           ),
         );
       },
