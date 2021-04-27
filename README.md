@@ -6,11 +6,13 @@ Demo app images
 
 ## Features
 
-* [x] Configure multiple MQTT broker with all useful parameters such as Mosquitto, Adafruit, AWS or Google IoT Core
-* [x] Establish broker connection and subscribe to several topics
+* [x] Configure multiple MQTT broker with all useful parameters such as `Mosquitto, Adafruit, AWS or Google IoT Core`
+* [x] Establish broker connection and subscription to several topics
 * [x] Show messages received from MQTT broker subscribed topics 
 * [x] Send messages to MQTT broker subscribed topics
 * [x] Configure multiple widgets type : maps, jauge, toggle button, colorful indicator, etc.
+* [x] Dark and light theme depending on system configuration
+* [ ] Internationalization `fr, en`
 
 ## Principal dependencies
 
