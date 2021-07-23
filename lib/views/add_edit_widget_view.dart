@@ -63,12 +63,12 @@ class _AddEditWidgetScreenState extends State<AddEditWidgetScreen> {
               DropdownButtonFormField<String>(
                 hint: const Text('Widget type'),
                 items: _widgetTypeList
-                    .map<DropdownMenuItem<String>>(
+                    ?.map<DropdownMenuItem<String>>(
                         (String widgetType) => DropdownMenuItem<String>(
                               value: widgetType,
                               child: Text(widgetType),
                             ))
-                    .toList(),
+                    ?.toList(),
                 decoration: const InputDecoration(
                   enabledBorder: UnderlineInputBorder(
                       borderSide: BorderSide(color: Colors.white)),
@@ -122,7 +122,10 @@ class _AddEditWidgetScreenState extends State<AddEditWidgetScreen> {
                           borderSide: BorderSide(color: Colors.white),
                         ),
                       ),
-                      onSaved: (value) => _topic = value,
+                      onChanged: (type) => _topic = type,
+                      onTap: () {
+                        FocusManager.instance.primaryFocus.unfocus();
+                      },
                     );
                   } else {
                     return const Center(

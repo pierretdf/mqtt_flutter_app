@@ -28,7 +28,7 @@ class BrokerDetailsScreen extends StatelessWidget {
             title: Center(child: Text(localizations.brokerDetails)),
             actions: [
               IconButton(
-                icon: const Icon(Icons.delete_forever, color: Colors.red),
+                icon: const Icon(Icons.delete_forever, color: Colors.red, size: 32.0),
                 key: AppKeys.deleteBrokerButton,
                 onPressed: () {
                   showModalBottomSheet(

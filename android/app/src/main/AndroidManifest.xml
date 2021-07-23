@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.mqtt_flutter_bloc">
    <application
-        android:label="mqtt_flutter_bloc"
+        android:label="MQTT Sequans App"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

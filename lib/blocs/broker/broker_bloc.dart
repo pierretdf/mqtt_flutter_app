@@ -81,7 +81,6 @@ class BrokerBloc extends Bloc<BrokerEvent, BrokerState> {
           .brokers
           .where((broker) => broker.id != event.broker.id)
           .toList();
-      
       // Disconnect MQTT broker if connected
       if (event.broker.state == 'connected') mqttBloc.mqttRepository.disconnectClient();
       // Check if the deleted broker is the connected broker
