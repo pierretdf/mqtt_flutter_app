@@ -5,13 +5,15 @@ import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class MapsWidget extends StatefulWidget {
-  final String topic;
+  final String topic; // Optionnal --> implement widget topic related
   final String payload;
+  final String jsonPath;
 
   const MapsWidget({
     Key key,
     this.topic,
     this.payload,
+    this.jsonPath,
   }) : super(key: key);
 
   @override

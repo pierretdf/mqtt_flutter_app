@@ -29,14 +29,13 @@ class WidgetItemItem extends StatelessWidget {
         child: Column(
           children: <Widget>[
             // TODO choose widget depends of widgetItem.type
-            if (widgetItem.type == 'Maps')
-              const MapsWidget()
-            else
-              widgetItem.type == 'Gauge'
-                  ? const GaugeWidget()
-                  : widgetItem.type == 'Indicator'
-                      ? const IndicatorWidget()
-                      : const ButtonWidget(),
+            widgetItem.type == 'Maps'
+                ? MapsWidget(payload: widgetItem.payload)
+                : widgetItem.type == 'Gauge'
+                    ? GaugeWidget(payload: widgetItem.payload)
+                    : widgetItem.type == 'Indicator'
+                        ? IndicatorWidget(payload: widgetItem.payload)
+                        : ButtonWidget(payload: widgetItem.payload),
             ListTile(
               title: Text(widgetItem.name ?? 'Unnamed Widget'),
               trailing: Text(widgetItem.topic ?? 'No topic'),

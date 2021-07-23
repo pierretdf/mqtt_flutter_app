@@ -23,5 +23,5 @@ class WidgetItemLoadSuccess extends WidgetState {
 
 class WidgetItemLoadFailure extends WidgetState {
   final Error error;
-  const WidgetItemLoadFailure({this.error});
+  const WidgetItemLoadFailure(this.error);
 }

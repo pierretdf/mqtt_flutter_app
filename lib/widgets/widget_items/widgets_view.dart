@@ -42,7 +42,7 @@ class WidgetItemsView extends StatelessWidget {
                               .add(WidgetItemDeleted(widgetItem));
                           ScaffoldMessenger.of(context).showSnackBar(
                             DeleteWidgetSnackBar(
-                              // key: ArchSampleKeys.snackbar,
+                              key: AppKeys.snackbar,
                               widgetItem: widgetItem,
                               onUndo: () => context
                                   .read<WidgetBloc>()
