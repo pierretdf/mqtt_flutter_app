@@ -1,16 +1,18 @@
 # MQTT Flutter Application 👋
 
-A simple app to manage MQTT broker, subscribe to topics, send MQTT messages and monitor raw MQTT messages with reactive custom widgets (Google Maps, Gauge, Indicator,...)
+A simple Flutter app to manage MQTT broker and monitor raw MQTT messages with reactive custom widgets (Google Maps, Gauge, Indicator,...)
 
-Demo app images
+Screen of the app running
 
 ## Features
 
-* [x] Configure multiple MQTT broker with all useful parameters such as Mosquitto, Adafruit, AWS or Google IoT Core
-* [x] Establish broker connection and subscribe to several topics
-* [x] Show messages received from MQTT broker subscribed topics 
-* [x] Send messages to MQTT broker subscribed topics
-* [x] Configure multiple widgets type : maps, jauge, toggle button, colorful indicator, etc.
+* [x] Configure multiple MQTT broker with all useful parameters such as `Mosquitto, Adafruit, AWS or Google IoT Core`
+* [x] Establish broker connection and multiple topics subscription
+* [x] Show messages received from a signle MQTT broker
+* [x] Send messages to subscribed topic of MQTT broker 
+* [x] Configure multiple widgets : maps, jauge, toggle button, colorful indicator, etc.
+* [x] Dark and light theme depending on system configuration
+* [ ] Internationalization `fr, en`
 
 ## Principal dependencies
 
@@ -22,10 +24,10 @@ sqflite
 
 ## Installation
 
-- `git clone XXXXXXXXXX`
+- `git clone https://github.com/pierretdf/mqtt_flutter_app/`
 - [Get flutter plugins & dark plugins](https://flutter.dev/docs/get-started/install)
-- Import the flutter project in Android Studio/Intellij/VSCode
-- `flutter doctor` to make sure you are properly setup
+- Import the flutter project in Android Studio, Intellij or VSCode
+- `flutter doctor` to make sure you had properly setup your local environnement
 - `flutter pub get` to install dependencies
 
 
@@ -37,7 +39,11 @@ sqflite
 
 ### Android
 
+- Dev environnement
+
 ### iOS
+- Dev environnement 
+
 ## 🤝 Contributing
 
 Contributions, issues and feature requests are welcome!<br />Feel free to check [issues page](https://github.com/pierretdf/mqtt_flutter_app/issues).
