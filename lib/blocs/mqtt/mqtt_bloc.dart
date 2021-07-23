@@ -18,11 +18,6 @@ class MqttBloc extends Bloc<MqttEvent, MqttState> {
     } else if (event is MqttDisconnected) {
       yield* _mapMqttDisconnectedToState(event);
     }
-    // else if (event is MqttSubscription) {
-    //   yield* _mapMqttSubscriptionToState(event);
-    // } else if (event is MqttUnsubscription) {
-    //   yield* _mapMqttUnsubscriptionToState(event);
-    // }
   }
 
   Stream<MqttState> _mapMqttConnectedToState(MqttConnected event) async* {
@@ -30,14 +25,14 @@ class MqttBloc extends Bloc<MqttEvent, MqttState> {
       final mqttClient = await mqttRepository.prepareMqttClient(event.broker);
       if (mqttClient.connectionStatus.state == MqttConnectionState.connected) {
         // TODO every topics of broker which has been connected (brokerId depedent)
-        final topics = await topicRepository.getTopics(); //event.broker.id
+        final topics = await topicRepository.getTopics();
         topics.forEach((topic) {
           mqttRepository.subscribeToTopic(topic.title);
         });
         yield MqttConnectionSuccess(event.broker, mqttClient);
       }
     } catch (error) {
-      //yield MqttConnectionFailure(error, event.broker);
+      yield MqttConnectionFailure(error, event.broker);
     }
   }
 
@@ -47,19 +42,4 @@ class MqttBloc extends Bloc<MqttEvent, MqttState> {
       yield MqttDisconnectionSuccess(event.broker);
     }
   }
-
-  // Stream<MqttState> _mapMqttSubscriptionToState(MqttSubscription event) async* {
-  //   if (state is MqttConnected) {
-  //     mqttRepository.subscribeToTopic(event.topic.title);
-  //     yield MqttConnectedSubscribed();
-  //   }
-  // }
-
-  // Stream<MqttState> _mapMqttUnsubscriptionToState(
-  //     MqttUnsubscription event) async* {
-  //   if (state is MqttConnected) {
-  //     mqttRepository.unSubscribeFromTopic(event.topic.title);
-  //     yield MqttConnectedUnsubscribed();
-  //   }
-  // }
 }

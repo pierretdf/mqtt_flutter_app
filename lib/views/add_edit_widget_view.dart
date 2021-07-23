@@ -38,9 +38,6 @@ class _AddEditWidgetScreenState extends State<AddEditWidgetScreen> {
     'Indicator'
   ];
 
-  final bool _contentVisible = false;
-  final int _qosValue = 0;
-
   bool get isEditing => widget.isEditing;
 
   @override
@@ -79,7 +76,7 @@ class _AddEditWidgetScreenState extends State<AddEditWidgetScreen> {
                     borderSide: BorderSide(color: Colors.white),
                   ),
                 ),
-                onChanged: (String newValue) {},
+                onChanged: (type) => _type = type,
                 onTap: () {
                   FocusManager.instance.primaryFocus.unfocus();
                 },
@@ -99,34 +96,25 @@ class _AddEditWidgetScreenState extends State<AddEditWidgetScreen> {
                 onSaved: (value) => _name = value,
                 onEditingComplete: () => node.nextFocus(),
               ),
-              TextFormField(
-                initialValue: isEditing ? widget.widgetItem.type : '',
-                autofocus: !isEditing,
-                style: textTheme.headline5,
-                decoration: InputDecoration(
-                  hintText: localizations.newWidgetType,
-                ),
-                validator: (val) {
-                  return val.trim().isEmpty
-                      ? localizations.emptyBrokerError
-                      : null;
-                },
-                onSaved: (value) => _type = value,
-                onEditingComplete: () => node.nextFocus(),
-              ),
               BlocBuilder<SubscriptionBloc, SubscriptionState>(
                 builder: (context, state) {
                   if (state is SubscribedTopicsLoadSuccess) {
+                    print(state.topicsTitle);
                     return DropdownButtonFormField<String>(
                       hint: const Text("Topic's name"),
-                      disabledHint: const Text('No topic subscribed'),
-                      items: state.topicTitles
+                      items: state.topicsTitle
                           ?.map<DropdownMenuItem<String>>(
-                              (String subTopic) => DropdownMenuItem<String>(
-                                    value: subTopic,
-                                    child: Text(subTopic),
+                              (String subscribedTopic) => DropdownMenuItem<String>(
+                                    value: subscribedTopic,
+                                    child: Text(subscribedTopic),
                                   ))
                           ?.toList(),
+                      // : ['null'].map<DropdownMenuItem<String>>(
+                      //     (String e) => DropdownMenuItem<String>(
+                      //           value: e,
+                      //           child: Text(e),
+                      //         ))
+                      // ?.toList(),
                       decoration: const InputDecoration(
                         enabledBorder: UnderlineInputBorder(
                             borderSide: BorderSide(color: Colors.white)),
@@ -149,12 +137,11 @@ class _AddEditWidgetScreenState extends State<AddEditWidgetScreen> {
                   onPressed: () {
                     if (_formKey.currentState.validate()) {
                       _formKey.currentState.save();
-                      // TODO everys parameters for Widget Broker
                       widget.onSave(_name, _type, _topic);
                       Navigator.pop(context);
                     }
                   },
-                  child: Text(isEditing ? 'Valid Widget' : 'Add Widget'),
+                  child: Text(isEditing ? 'Validate Widget' : 'Add Widget'),
                 ),
               ),
             ],

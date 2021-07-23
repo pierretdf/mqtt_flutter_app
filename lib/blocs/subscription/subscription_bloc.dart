@@ -28,13 +28,12 @@ class SubscriptionBloc extends Bloc<SubscriptionEvent, SubscriptionState> {
   }
 
   Stream<SubscriptionState> _mapTopicSubscribedLoadedToState() async* {
-    // int brokerId
     try {
       final topics = await topicRepository.getTopics();
-      final topicTitles = await topicRepository.getTopicsTitle();
-      yield SubscribedTopicsLoadSuccess(topics, topicTitles);
+      final topicsTitle = await topicRepository.getTopicsTitle();
+      yield SubscribedTopicsLoadSuccess(topics, topicsTitle);
     } catch (e) {
-      //yield SubscribedTopicsFailure(error: e);
+      yield SubscribedTopicsFailure(error: e);
     }
   }
 

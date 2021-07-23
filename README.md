@@ -1,18 +1,18 @@
 # MQTT Flutter Application 👋
 
-A simple Flutter app to manage MQTT broker and monitor raw MQTT messages with reactive custom widgets (Google Maps, Gauge, Indicator,...)
+A simple Flutter app to manage MQTT brokers and monitor raw MQTT messages with reactive custom widgets (Google Maps, Gauge, Indicator,...)
 
 Screen of the app running
 
 ## Features
 
-* [x] Configure multiple MQTT broker with all useful parameters such as `Mosquitto, Adafruit, AWS or Google IoT Core`
-* [x] Establish broker connection and multiple topics subscription
-* [x] Show messages received from a signle MQTT broker
-* [x] Send messages to subscribed topic of MQTT broker 
-* [x] Configure multiple widgets : maps, jauge, toggle button, colorful indicator, etc.
-* [x] Dark and light theme depending on system configuration
-* [ ] Internationalization `fr, en`
+- [x] Configure multiple MQTT broker with all useful parameters such as `Mosquitto, Adafruit, AWS or Google IoT Core`
+- [x] Establish broker connection and multiple topics subscription
+- [x] Show messages received from a single MQTT broker
+- [x] Send messages to subscribed topic of MQTT broker
+- [x] Configure multiple widgets : Maps, Gauge, Toggle button, Colorful indicator, etc.
+- [x] Dark and light theme depending on system configuration
+- [ ] Internationalization `en, fr`
 
 ## Principal dependencies
 
@@ -30,10 +30,9 @@ sqflite
 - `flutter doctor` to make sure you had properly setup your local environnement
 - `flutter pub get` to install dependencies
 
-
 ## Run
 
-- `flutter run` or run the application through the IDE (`Start debugging` on VSCode)
+- `flutter run` and press `r` to execute a hot reload
 
 ## Try it out!
 
@@ -42,7 +41,8 @@ sqflite
 - Dev environnement
 
 ### iOS
-- Dev environnement 
+
+- Dev environnement
 
 ## 🤝 Contributing
 

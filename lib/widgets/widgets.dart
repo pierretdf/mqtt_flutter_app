@@ -3,7 +3,6 @@ export './subscriptions_view.dart';
 export 'brokers/broker_item.dart';
 export 'brokers/brokers_view.dart';
 export 'brokers/delete_broker_snackbar.dart';
-export 'utils/custom_dialog.dart';
 export 'utils/floating_bottomsheet_widget.dart';
 export 'utils/loading_indicator.dart';
 export 'utils/tab_selector.dart';

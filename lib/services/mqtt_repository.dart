@@ -21,7 +21,7 @@ class MqttRepository {
   void setupMqttClient() => _mqttProvider.setupMqttClient();
   Future connectClient() => _mqttProvider.connectClient();
   void disconnectClient() => _mqttProvider.disconnectClient();
-  int connectedBrokerId() => _mqttProvider.connectedBrokerId();
+  int getConnectedBrokerId() => _mqttProvider.getConnectedBrokerId();
   StreamController<Message> streamMessages() => _mqttProvider.streamMessages();
 }
 
@@ -75,11 +75,10 @@ class MqttProvider {
         ..usePrivateKey(_broker.privateKeyPath,
             password: _broker.privateKeyPassword)
         ..setClientAuthorities(
-            _broker.clientAuthorityPath); // password optionnal
+            _broker.clientAuthorityPath);
       _client.securityContext = context;
     }
 
-    // Initialize Connection Messsage
     _client.connectionMessage = connectMessage;
   }
 
@@ -209,12 +208,12 @@ class MqttProvider {
   //void _pong() => print('Ping response client callback invoked');
 
   StreamController<Message> streamMessages() => _messagesStreamController;
-  //StreamController<Message> get streamMessages => _messagesStreamController;
-  int connectedBrokerId() {
-    if (_client.connectionStatus.state == MqttConnectionState.connected) {
+
+  int getConnectedBrokerId() {
+    if (_client?.connectionStatus?.state == MqttConnectionState.connected) {
       return _broker.id;
     }
-    return 0; //!
+    return null;
   }
 
   void dispose() {

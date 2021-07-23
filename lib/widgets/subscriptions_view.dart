@@ -22,6 +22,7 @@ class _SubscriptionsViewState extends State<SubscriptionsView> {
   @override
   Widget build(BuildContext context) {
     final localizations = FlutterBlocLocalizations.of(context);
+
     return BlocBuilder<SubscriptionBloc, SubscriptionState>(
       builder: (context, state) {
         if (state is SubscribedTopicsInProgress) {
@@ -48,7 +49,7 @@ class _SubscriptionsViewState extends State<SubscriptionsView> {
                                   is MqttDisconnected ||
                               context.read<MqttBloc>().state is MqttIdle) {
                             return 'First, establish a broker connection !';
-                          } else if (state.topicTitles.contains(val.trim())) {
+                          } else if (state.topicsTitle.contains(val.trim())) {
                             return 'This topic is already subscribed !';
                           }
                           return null;
@@ -62,11 +63,10 @@ class _SubscriptionsViewState extends State<SubscriptionsView> {
                             context.read<SubscriptionBloc>().add(TopicAdded(
                                 Topic(
                                     title: _topic,
-                                    // Retrieve connected Broker Id
                                     brokerId: context
                                         .read<MqttBloc>()
                                         .mqttRepository
-                                        .connectedBrokerId())));
+                                        .getConnectedBrokerId())));
                             _topicController.clear();
                           }
                         },

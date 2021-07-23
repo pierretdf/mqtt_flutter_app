@@ -13,8 +13,8 @@ class SubscribedTopicsInProgress extends SubscriptionState {}
 
 class SubscribedTopicsLoadSuccess extends SubscriptionState {
   final List<Topic> topics;
-  final List<String> topicTitles;
-  const SubscribedTopicsLoadSuccess(this.topics, this.topicTitles);
+  final List<String> topicsTitle;
+  const SubscribedTopicsLoadSuccess(this.topics, this.topicsTitle);
 
   @override
   List<Object> get props => [topics];

@@ -18,8 +18,8 @@ class BrokersView extends StatelessWidget {
       floatingActionButton: FloatingActionButton.extended(
         key: AppKeys.addBrokerFab,
         label: Text('Broker',
-            style: TextStyle(color: Theme.of(context).accentColor)),
-        icon: Icon(Icons.add, color: Theme.of(context).accentColor),
+            style: TextStyle(color: Theme.of(context).primaryColor)),
+        icon: Icon(Icons.add, color: Theme.of(context).primaryColor),
         onPressed: () {
           Navigator.pushNamed(context, '/add_broker');
         },
@@ -36,40 +36,12 @@ class BrokersView extends StatelessWidget {
                       final broker = brokerState.brokers[index];
                       return BrokerItem(
                           broker: broker,
-                          onDismissed: (direction) {
-                            context
-                                .read<BrokerBloc>()
-                                .add(BrokerDeleted(broker));
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              DeleteBrokerSnackBar(
-                                key: AppKeys.snackbar,
-                                broker: broker,
-                                onUndo: () => context
-                                    .read<BrokerBloc>()
-                                    .add(BrokerAdded(broker)),
-                                localizations: localizations,
-                              ),
-                            );
-                          },
                           onTapDetails: () async {
-                            final removedBroker =
                                 await Navigator.of(context).push(
                               MaterialPageRoute(builder: (context) {
                                 return BrokerDetailsScreen(id: broker.id);
                               }),
                             );
-                            if (removedBroker != null) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                DeleteBrokerSnackBar(
-                                  key: AppKeys.snackbar,
-                                  broker: broker,
-                                  onUndo: () => context
-                                      .read<BrokerBloc>()
-                                      .add(BrokerAdded(broker)),
-                                  localizations: localizations,
-                                ),
-                              );
-                            }
                           },
                           onTapMqtt: () async {
                             if (context.read<MqttBloc>().state is MqttIdle) {

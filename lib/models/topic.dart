@@ -3,7 +3,6 @@ class Topic {
   int brokerId;
   String title;
 
-  // Constructor
   Topic({this.id, this.brokerId, this.title});
 
   factory Topic.fromJson(Map<String, dynamic> json) {

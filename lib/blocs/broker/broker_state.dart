@@ -13,7 +13,6 @@ class BrokerLoadInProgress extends BrokerState {}
 
 class BrokerLoadSuccess extends BrokerState {
   final List<Broker> brokers;
-  //const BrokerLoadSuccess(this.brokers);
 
   const BrokerLoadSuccess([this.brokers = const []]);
 

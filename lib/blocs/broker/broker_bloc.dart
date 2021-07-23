@@ -50,7 +50,7 @@ class BrokerBloc extends Bloc<BrokerEvent, BrokerState> {
       final brokers = await brokerRepository.getBrokers();
       yield BrokerLoadSuccess(brokers);
     } catch (e) {
-      //yield BrokerLoadFailure(error: e);
+      yield BrokerLoadFailure(error: e);
     }
   }
 
@@ -81,10 +81,13 @@ class BrokerBloc extends Bloc<BrokerEvent, BrokerState> {
           .brokers
           .where((broker) => broker.id != event.broker.id)
           .toList();
-      // Check if broker deleted is the connected broker
-      if (mqttBloc.mqttRepository.connectedBrokerId() == event.broker.id) {
-        mqttBloc.mqttRepository.disconnectClient();
-      }
+      
+      // Disconnect MQTT broker if connected
+      if (event.broker.state == 'connected') mqttBloc.mqttRepository.disconnectClient();
+      // Check if the deleted broker is the connected broker
+      // if (mqttBloc.mqttRepository.getConnectedBrokerId() == event.broker.id) {
+      //   mqttBloc.mqttRepository.disconnectClient();
+      // }
       yield BrokerLoadSuccess(updatedBrokers);
       await brokerRepository.deleteBroker(event.broker.id);
     }

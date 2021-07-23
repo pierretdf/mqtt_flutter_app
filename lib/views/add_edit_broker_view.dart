@@ -191,6 +191,7 @@ class _AddEditBrokerScreenState extends State<AddEditBrokerScreen> {
                 title: const Text('Secure broker ?'),
                 key: AppKeys.brokerSecureField,
                 value: _secure,
+                activeColor: Theme.of(context).primaryColor,
                 onChanged: (bool value) {
                   setState(() {
                     _secure = value;
@@ -253,7 +254,7 @@ class _AddEditBrokerScreenState extends State<AddEditBrokerScreen> {
                         style: textTheme.headline5,
                         textInputAction: TextInputAction.next,
                         decoration: const InputDecoration(
-                          hintText: 'Select a private key file path',
+                          hintText: 'Private key file path',
                           icon: Icon(Icons.file_present),
                         ),
                         validator: (val) {
@@ -273,7 +274,7 @@ class _AddEditBrokerScreenState extends State<AddEditBrokerScreen> {
                       style: textTheme.headline5,
                       textInputAction: TextInputAction.next,
                       decoration: const InputDecoration(
-                        hintText: 'Enter a private key password',
+                        hintText: 'Private key password (optional)',
                       ),
                       validator: (val) {
                         return null;
@@ -301,7 +302,7 @@ class _AddEditBrokerScreenState extends State<AddEditBrokerScreen> {
                         style: textTheme.headline5,
                         textInputAction: TextInputAction.next,
                         decoration: const InputDecoration(
-                          hintText: 'Select a client authority file path',
+                          hintText: 'Client authority file path',
                           icon: Icon(Icons.file_present),
                         ),
                         validator: (val) {
