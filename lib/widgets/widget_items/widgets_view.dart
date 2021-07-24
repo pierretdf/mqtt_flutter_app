@@ -18,8 +18,8 @@ class WidgetItemsView extends StatelessWidget {
       floatingActionButton: FloatingActionButton.extended(
         key: AppKeys.addWidgetFab,
         label: Text('Widget',
-            style: TextStyle(color: Theme.of(context).accentColor)),
-        icon: Icon(Icons.add, color: Theme.of(context).accentColor),
+            style: TextStyle(color: Theme.of(context).primaryColor)),
+        icon: Icon(Icons.add, color: Theme.of(context).primaryColor),
         onPressed: () {
           Navigator.pushNamed(context, '/add_widget');
         },
@@ -42,7 +42,7 @@ class WidgetItemsView extends StatelessWidget {
                               .add(WidgetItemDeleted(widgetItem));
                           ScaffoldMessenger.of(context).showSnackBar(
                             DeleteWidgetSnackBar(
-                              // key: ArchSampleKeys.snackbar,
+                              key: AppKeys.snackbar,
                               widgetItem: widgetItem,
                               onUndo: () => context
                                   .read<WidgetBloc>()
@@ -51,24 +51,12 @@ class WidgetItemsView extends StatelessWidget {
                             ),
                           );
                         },
-                        onTap: () async {
-                          final removedWidgetItem =
-                              await Navigator.of(context).push(
+                        onTapDetails: () async {
+                          await Navigator.of(context).push(
                             MaterialPageRoute(builder: (_) {
                               return WidgetItemDetailsScreen(id: widgetItem.id);
                             }),
                           );
-                          if (removedWidgetItem != null) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              DeleteWidgetSnackBar(
-                                widgetItem: widgetItem,
-                                onUndo: () => context
-                                    .read<WidgetBloc>()
-                                    .add(WidgetItemAdded(widgetItem)),
-                                localizations: localizations,
-                              ),
-                            );
-                          }
                         },
                       );
                     },

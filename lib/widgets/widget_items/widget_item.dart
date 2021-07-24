@@ -5,14 +5,14 @@ import '../../settings/keys.dart';
 import '../widgets.dart';
 
 class WidgetItemItem extends StatelessWidget {
+  final GestureTapCallback onTapDetails;
   final DismissDirectionCallback onDismissed;
-  final GestureTapCallback onTap;
   final WidgetItem widgetItem;
 
   const WidgetItemItem({
     Key key,
+    @required this.onTapDetails,
     @required this.onDismissed,
-    @required this.onTap,
     @required this.widgetItem,
   }) : super(key: key);
 
@@ -23,23 +23,23 @@ class WidgetItemItem extends StatelessWidget {
       onDismissed: onDismissed,
       child: Card(
         shape: RoundedRectangleBorder(
-          side: BorderSide(color: Colors.grey[200], width: 0.5),
           borderRadius: BorderRadius.circular(5),
         ),
         child: Column(
           children: <Widget>[
+            Text('Hello World !'),
             // TODO choose widget depends of widgetItem.type
-            if (widgetItem.type == 'Maps')
-              const MapsWidget()
-            else
-              widgetItem.type == 'Gauge'
-                  ? const GaugeWidget()
-                  : widgetItem.type == 'Indicator'
-                      ? const IndicatorWidget()
-                      : const ButtonWidget(),
+            // widgetItem.type == 'Maps'
+            //     ? MapsWidget(payload: widgetItem.payload)
+            //     : widgetItem.type == 'Gauge'
+            //         ? GaugeWidget(payload: widgetItem.payload)
+            //         : widgetItem.type == 'Indicator'
+            //             ? IndicatorWidget(payload: widgetItem.payload)
+            //             : ButtonWidget(payload: widgetItem.payload),
             ListTile(
               title: Text(widgetItem.name ?? 'Unnamed Widget'),
               trailing: Text(widgetItem.topic ?? 'No topic'),
+              onTap: onTapDetails,
             ),
           ],
         ),

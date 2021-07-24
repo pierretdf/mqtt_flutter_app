@@ -4,8 +4,7 @@ class Message {
   String payload;
   int qos;
   bool retainValue;
-
-  // Constructor
+  
   Message({this.id, this.topic, this.payload, this.qos, this.retainValue});
 
   factory Message.fromJson(Map<String, dynamic> json) {

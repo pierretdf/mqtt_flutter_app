@@ -3,27 +3,21 @@ import 'package:flutter/material.dart';
 class AppTheme {
   static ThemeData get lightTheme => ThemeData(
         brightness: Brightness.light,
-        scaffoldBackgroundColor: Colors.white,
         primaryColor: Colors.blue,
+        accentColor: Colors.white,
         iconTheme: IconThemeData(color: Colors.white, opacity: 0.8),
-        buttonColor: Colors.white,
-        // primarySwatch: Colors.blue,
-        cardColor: Colors.blue,
-        floatingActionButtonTheme:
-            const FloatingActionButtonThemeData(backgroundColor: Colors.white),
-        // snackBarTheme: SnackBarThemeData(
-        //   actionTextColor: Colors.cyan[300],
-        // ),
+        floatingActionButtonTheme: FloatingActionButtonThemeData(
+            backgroundColor: Colors.white),
+        cardTheme: CardTheme(color: Colors.white),
         tabBarTheme: const TabBarTheme(labelColor: Colors.black),
         elevatedButtonTheme: ElevatedButtonThemeData(
             style: ButtonStyle(
           backgroundColor: MaterialStateProperty.all<Color>(Colors.blue),
           foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
         )),
-        // bottomSheetTheme:
-        //     const BottomSheetThemeData(backgroundColor: Colors.white),
-        // bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-        //     backgroundColor: Colors.blue, selectedItemColor: Colors.white),
+        checkboxTheme: CheckboxThemeData(
+            checkColor: MaterialStateProperty.all<Color>(Colors.blue))
+            
         // textTheme: const TextTheme(
         //   bodyText1: TextStyle(
         //     color: Colors.black,
@@ -33,26 +27,19 @@ class AppTheme {
 
   static ThemeData get darkTheme => ThemeData(
         brightness: Brightness.dark,
-        primaryColor: Colors.black,
-        accentColor: Colors.white, // blue or white
-        scaffoldBackgroundColor: Colors.black,
-        iconTheme: IconThemeData(color: Colors.red, opacity: 0.8),
-        primarySwatch: Colors.blue, //!
-        cardColor: Colors.black,
+        primaryColor: Colors.grey,
+        accentColor: Colors.black,
+        iconTheme: IconThemeData(color: Colors.white, opacity: 0.8),
+        cardTheme: CardTheme(color: Colors.white),
         floatingActionButtonTheme: FloatingActionButtonThemeData(
-            backgroundColor: Colors.grey.shade900),
+            backgroundColor: Colors.grey[900]),
         elevatedButtonTheme: ElevatedButtonThemeData(
             style: ButtonStyle(
           backgroundColor: MaterialStateProperty.all<Color>(Colors.grey[900]),
           foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
         )),
         checkboxTheme: CheckboxThemeData(
-            fillColor: MaterialStateProperty.all<Color>(Colors.blue)),
-        //   snackBarTheme: SnackBarThemeData(
-        //     actionTextColor: Colors.cyan[300],
-        //   ),
-        //   bottomSheetTheme:
-        //       const BottomSheetThemeData(backgroundColor: Colors.black),
+            checkColor: MaterialStateProperty.all<Color>(Colors.blue)),
         // textTheme: const TextTheme(
         //   bodyText1: TextStyle(
         //     color: Colors.white,

@@ -33,7 +33,7 @@ class AppKeys {
 
   // Subscriptions
   static const subscriptionButton = Key('__subscriptionButton__');
-
+  
   // Broker Details Screen
   static const editBrokerFab = Key('__editBrokerFab__');
   static const deleteBrokerButton = Key('__deleteBrokerButton__');

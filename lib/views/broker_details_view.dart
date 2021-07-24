@@ -28,7 +28,7 @@ class BrokerDetailsScreen extends StatelessWidget {
             title: Center(child: Text(localizations.brokerDetails)),
             actions: [
               IconButton(
-                icon: const Icon(Icons.delete_forever, color: Colors.red),
+                icon: const Icon(Icons.delete_forever, color: Colors.red, size: 32.0),
                 key: AppKeys.deleteBrokerButton,
                 onPressed: () {
                   showModalBottomSheet(
@@ -42,7 +42,7 @@ class BrokerDetailsScreen extends StatelessWidget {
                         mainButtonTitle: 'Delete',
                         onPressed: () {
                           context.read<BrokerBloc>().add(BrokerDeleted(broker));
-                          Navigator.of(context).pop();
+                          Navigator.of(context).pop;
                         },
                       );
                     },
@@ -86,7 +86,7 @@ class BrokerDetailsScreen extends StatelessWidget {
                       children: [
                         const Chip(
                           label: Text(
-                            'Address',
+                            'Broker address',
                             key: AppKeys.detailsBrokerItemAddress,
                           ),
                           labelStyle: TextStyle(color: Colors.white),
@@ -113,17 +113,16 @@ class BrokerDetailsScreen extends StatelessWidget {
                         const SizedBox(width: 8),
                         Text(
                           '${broker.port}',
-                          style: Theme.of(context).textTheme.subtitle1,
                         ),
                       ],
                     ),
                     const SizedBox(height: 5.0),
-                    if (broker.identifier != null)
+                    broker.identifier != null ?
                       Row(
                         children: [
                           const Chip(
                             label: Text(
-                              'Identifier',
+                              'Client ID',
                               key: AppKeys.detailsBrokerItemIdentifier,
                             ),
                             labelStyle: TextStyle(color: Colors.white),
@@ -136,10 +135,9 @@ class BrokerDetailsScreen extends StatelessWidget {
                           ),
                         ],
                       )
-                    else
-                      Container(),
+                    : Container(),
                     const SizedBox(height: 5.0),
-                    if (broker.username != null)
+                    broker.username != null ?
                       Row(
                         children: [
                           const Chip(
@@ -157,10 +155,9 @@ class BrokerDetailsScreen extends StatelessWidget {
                           ),
                         ],
                       )
-                    else
-                      Container(),
+                    : Container(),
                     const SizedBox(height: 5.0),
-                    if (broker.privateKeyPassword != null)
+                    broker.privateKeyPassword != null ?
                       Row(
                         children: [
                           const Chip(
@@ -178,8 +175,7 @@ class BrokerDetailsScreen extends StatelessWidget {
                           ),
                         ],
                       )
-                    else
-                      Container(),
+                    : Container(),
                     const SizedBox(height: 5.0),
                   ],
                 )
@@ -227,7 +223,7 @@ class BrokerDetailsScreen extends StatelessWidget {
                     );
                   }
                 : null,
-            child: Icon(Icons.edit, color: Theme.of(context).accentColor),
+            child: Icon(Icons.edit, color: Theme.of(context).primaryColor),
           ),
         );
       },

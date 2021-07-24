@@ -13,7 +13,6 @@ class DeleteBrokerSnackBar extends SnackBar {
     @required this.localizations,
   }) : super(
           key: key,
-          // localizations.brokerDeleted,
           content: Text(
             'Deleted ${broker.name} widget',
             maxLines: 1,

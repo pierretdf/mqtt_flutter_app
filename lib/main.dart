@@ -95,7 +95,7 @@ class MqttApp extends StatelessWidget {
                 clientAuthorityPath) {
               context.read<BrokerBloc>().add(
                     BrokerAdded(
-                      Broker(
+                      Broker(id: 1,
                         name: name,
                         address: address,
                         identifier: identifier,

@@ -28,8 +28,8 @@ class WidgetBloc extends Bloc<WidgetEvent, WidgetState> {
     try {
       final widgetItems = await widgetRepository.getWidgetItems();
       yield WidgetItemLoadSuccess(widgetItems);
-    } catch (e) {
-      //yield WidgetItemLoadFailure(error: e);
+    } catch (error) {
+      yield WidgetItemLoadFailure(error);
     }
   }
 

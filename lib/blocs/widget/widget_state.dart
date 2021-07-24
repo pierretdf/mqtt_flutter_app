@@ -13,7 +13,6 @@ class WidgetItemLoadInProgress extends WidgetState {}
 
 class WidgetItemLoadSuccess extends WidgetState {
   final List<WidgetItem> widgetItems;
-  //const WidgetItemLoadSuccess({this.widgetItems});
 
   const WidgetItemLoadSuccess([this.widgetItems = const []]);
 
@@ -23,5 +22,5 @@ class WidgetItemLoadSuccess extends WidgetState {
 
 class WidgetItemLoadFailure extends WidgetState {
   final Error error;
-  const WidgetItemLoadFailure({this.error});
+  const WidgetItemLoadFailure(this.error);
 }

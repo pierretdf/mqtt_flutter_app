@@ -25,7 +25,7 @@ class FloatingBottomSheet extends StatelessWidget {
       margin: const EdgeInsets.all(25),
       padding: const EdgeInsets.all(25),
       decoration: BoxDecoration(
-        color: Theme.of(context).bottomSheetTheme.backgroundColor,
+        color: Theme.of(context).accentColor,
         borderRadius: BorderRadius.circular(15),
       ),
       child: Column(
@@ -36,26 +36,21 @@ class FloatingBottomSheet extends StatelessWidget {
             style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,
-              color: Colors.grey[900], //! Theme color
+              //color: Colors.grey[900], //! Theme color
             ),
           ),
           const SizedBox(height: 10),
           Text(
             description,
-            style: const TextStyle(color: Colors.grey), //! Theme color
+            //style: const TextStyle(color: Colors.grey), //! Theme color
           ),
           const SizedBox(height: 10),
           Center(
             child: ElevatedButton(
               onPressed: onPressed,
-              // onPressed: () {
-              //   BlocProvider.of<BrokerBloc>(context)
-              //       .add(BrokerDeleted(function));
-              //   Navigator.of(context).pop();
-              // },
               child: Text(
                 mainButtonTitle,
-                style: TextStyle(color: Theme.of(context).appBarTheme.color),
+                style: TextStyle(color: Theme.of(context).accentColor),
               ),
             ),
           ),

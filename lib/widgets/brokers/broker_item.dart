@@ -4,7 +4,6 @@ import '../../settings/keys.dart';
 import '../widgets.dart';
 
 class BrokerItem extends StatelessWidget {
-  final DismissDirectionCallback onDismissed;
   final GestureTapCallback onTapDetails;
   final GestureTapCallback onTapMqtt;
   final VoidCallback onPressedDelete;
@@ -12,7 +11,6 @@ class BrokerItem extends StatelessWidget {
 
   const BrokerItem({
     Key key,
-    @required this.onDismissed,
     @required this.onTapDetails,
     @required this.broker,
     @required this.onTapMqtt,
@@ -21,10 +19,7 @@ class BrokerItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Dismissible(
-      key: AppKeys.brokerItem(broker.id),
-      onDismissed: onDismissed,
-      child: Card(
+    return Card(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(5),
         ),
@@ -36,7 +31,7 @@ class BrokerItem extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.fromLTRB(0, 0, 0, 5),
                   child: Icon(_iconState(broker.state),
-                      color: Theme.of(context).textTheme.bodyText1.color,
+                      color: Colors.black,
                       size: 30),
                 ),
                 Container(
@@ -81,7 +76,6 @@ class BrokerItem extends StatelessWidget {
           ),
           onTap: onTapDetails,
         ),
-      ),
     );
   }
 

@@ -26,21 +26,3 @@ class MqttDisconnected extends MqttEvent {
   @override
   List<Object> get props => [broker];
 }
-
-// class MqttSubscription extends MqttEvent {
-//   final Topic topic;
-
-//   const MqttSubscription({this.topic});
-
-//   @override
-//   List<Object> get props => [topic];
-// }
-
-// class MqttUnsubscription extends MqttEvent {
-//   final Topic topic;
-
-//   const MqttUnsubscription({this.topic});
-
-//   @override
-//   List<Object> get props => [topic];
-// }

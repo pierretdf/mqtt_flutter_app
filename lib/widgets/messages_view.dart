@@ -77,21 +77,20 @@ class _MessagesViewState extends State<MessagesView> {
                         itemBuilder: (context, index) {
                           final message = state.messages[index];
                           return Card(
-                            color: Colors.white70,
                             child: ListTile(
                               trailing: CircleAvatar(
                                 radius: 14.0,
-                                backgroundColor: Theme.of(context).accentColor,
+                                backgroundColor: Theme.of(context).primaryColor,
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: <Widget>[
-                                    const Text(
+                                    Text(
                                       'QoS',
-                                      style: TextStyle(fontSize: 8.0),
+                                      style: TextStyle(fontSize: 8.0, color: Theme.of(context).accentColor),
                                     ),
                                     Text(
                                       message.qos.toString(),
-                                      style: const TextStyle(fontSize: 8.0),
+                                      style: TextStyle(fontSize: 8.0, color: Theme.of(context).accentColor),
                                     ),
                                   ],
                                 ),

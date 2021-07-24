@@ -10,7 +10,7 @@ class Broker extends Equatable {
   final String password; // Optionnal
   final String identifier;
   final bool secure;
-  final int qos;
+  final int qos; // Optionnal
   final String certificatePath; // Optionnal
   final String privateKeyPath; // Optionnal
   final String privateKeyPassword; // Optionnal
