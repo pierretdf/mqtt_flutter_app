@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class AppTheme {
   static ThemeData get lightTheme => ThemeData(
         brightness: Brightness.light,
-        scaffoldBackgroundColor: Colors.grey.shade900,
+        scaffoldBackgroundColor: Colors.white,
         primaryColor: Colors.blue,
         iconTheme: IconThemeData(color: Colors.white, opacity: 0.8),
         buttonColor: Colors.white,
