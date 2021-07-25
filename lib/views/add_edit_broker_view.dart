@@ -46,6 +46,7 @@ class _AddEditBrokerScreenState extends State<AddEditBrokerScreen> {
   String _username;
   String _password;
   int _qos;
+  bool _authentication = false;
   bool _secure = false;
   String _certificatePath; // Optionnal
   String _privateKeyPath; // Optionnal
@@ -126,8 +127,8 @@ class _AddEditBrokerScreenState extends State<AddEditBrokerScreen> {
                 style: textTheme.headline5,
                 keyboardType: TextInputType.number,
                 textInputAction: TextInputAction.next,
-                decoration: const InputDecoration(
-                  hintText: 'Enter a broker port',
+                decoration: InputDecoration(
+                  hintText: localizations.newBrokerPort,
                 ),
                 validator: (val) {
                   return val.trim().isEmpty
@@ -155,40 +156,58 @@ class _AddEditBrokerScreenState extends State<AddEditBrokerScreen> {
                 onSaved: (value) => _identifier = value,
                 onEditingComplete: () => node.nextFocus(),
               ),
-              // Broker Username
-              TextFormField(
-                initialValue: isEditing ? widget.broker.username : '',
-                key: AppKeys.brokerUsernameField,
-                autofocus: !isEditing,
-                style: textTheme.headline5,
-                textInputAction: TextInputAction.next,
-                decoration: const InputDecoration(
-                  hintText: 'Enter a broker username',
-                ),
-                validator: (val) {
-                  return null;
+              SwitchListTile(
+                title: const Text('Authentication broker ?'),
+                key: AppKeys.brokerAuthenticationField,
+                value: _authentication,
+                activeColor: Theme.of(context).primaryColor,
+                onChanged: (bool value) {
+                  setState(() {
+                    _authentication = value;
+                  });
                 },
-                onSaved: (value) => _username = value,
-                onEditingComplete: () => node.nextFocus(),
               ),
-              // Broker Password
-              TextFormField(
-                initialValue: isEditing ? widget.broker.password : '',
-                key: AppKeys.brokerPasswordField,
-                autofocus: !isEditing,
-                style: textTheme.headline5,
-                textInputAction: TextInputAction.next,
-                decoration: const InputDecoration(
-                  hintText: 'Enter a broker password',
+              // Broker Username
+              Visibility(
+                visible: _authentication,
+                child: Column(
+                  children: [
+                    TextFormField(
+                      initialValue: isEditing ? widget.broker.username : '',
+                      key: AppKeys.brokerUsernameField,
+                      autofocus: !isEditing,
+                      style: textTheme.headline5,
+                      textInputAction: TextInputAction.next,
+                      decoration: InputDecoration(
+                        hintText: localizations.newBrokerUsername,
+                      ),
+                      validator: (val) {
+                        return null;
+                      },
+                      onSaved: (value) => _username = value,
+                      onEditingComplete: () => node.nextFocus(),
+                    ),
+                    // Broker Password
+                    TextFormField(
+                      initialValue: isEditing ? widget.broker.password : '',
+                      key: AppKeys.brokerPasswordField,
+                      autofocus: !isEditing,
+                      style: textTheme.headline5,
+                      textInputAction: TextInputAction.next,
+                      decoration: InputDecoration(
+                        hintText: localizations.newBrokerPassword,
+                      ),
+                      validator: (val) {
+                        return null;
+                      },
+                      onSaved: (value) => _password = value,
+                      onEditingComplete: () => node.nextFocus(),
+                    ),
+                  ],
                 ),
-                validator: (val) {
-                  return null;
-                },
-                onSaved: (value) => _password = value,
-                onEditingComplete: () => node.nextFocus(),
               ),
               SwitchListTile(
-                title: const Text('Secure broker ?'),
+                title: const Text('TLS secure broker ?'),
                 key: AppKeys.brokerSecureField,
                 value: _secure,
                 activeColor: Theme.of(context).primaryColor,
@@ -221,8 +240,8 @@ class _AddEditBrokerScreenState extends State<AddEditBrokerScreen> {
                         controller: _certificateController,
                         style: textTheme.headline5,
                         textInputAction: TextInputAction.next,
-                        decoration: const InputDecoration(
-                          hintText: 'Select a certification file path',
+                        decoration: InputDecoration(
+                          hintText: localizations.newBrokerClientCertificate,
                           icon: Icon(Icons.file_present),
                         ),
                         validator: (val) {
@@ -253,8 +272,8 @@ class _AddEditBrokerScreenState extends State<AddEditBrokerScreen> {
                         controller: _privateKeyController,
                         style: textTheme.headline5,
                         textInputAction: TextInputAction.next,
-                        decoration: const InputDecoration(
-                          hintText: 'Private key file path',
+                        decoration: InputDecoration(
+                          hintText: localizations.newBrokerPrivateKey,
                           icon: Icon(Icons.file_present),
                         ),
                         validator: (val) {
@@ -273,8 +292,8 @@ class _AddEditBrokerScreenState extends State<AddEditBrokerScreen> {
                       autofocus: !isEditing,
                       style: textTheme.headline5,
                       textInputAction: TextInputAction.next,
-                      decoration: const InputDecoration(
-                        hintText: 'Private key password (optional)',
+                      decoration: InputDecoration(
+                        hintText: localizations.newBrokerPrivateKeyPassword,
                       ),
                       validator: (val) {
                         return null;
@@ -301,8 +320,8 @@ class _AddEditBrokerScreenState extends State<AddEditBrokerScreen> {
                         controller: _clientAuthorityController,
                         style: textTheme.headline5,
                         textInputAction: TextInputAction.next,
-                        decoration: const InputDecoration(
-                          hintText: 'Client authority file path',
+                        decoration: InputDecoration(
+                          hintText: localizations.newBrokerCertificateAuthority,
                           icon: Icon(Icons.file_present),
                         ),
                         validator: (val) {
@@ -325,7 +344,6 @@ class _AddEditBrokerScreenState extends State<AddEditBrokerScreen> {
                   onPressed: () {
                     if (_formKey.currentState.validate()) {
                       _formKey.currentState.save();
-                      // TODO add every mandatory parameters for MQTT Broker
                       widget.onSave(
                           _name,
                           _address,

@@ -6,6 +6,7 @@ import 'blocs/blocs.dart';
 import 'models/models.dart';
 import 'services/repositories.dart';
 import 'settings/localization.dart';
+import 'views/add_edit_broker_view.dart';
 import 'views/add_edit_widget_view.dart';
 import 'views/views.dart';
 

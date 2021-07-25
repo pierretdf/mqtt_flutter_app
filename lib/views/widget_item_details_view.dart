@@ -42,7 +42,9 @@ class WidgetItemDetailsScreen extends StatelessWidget {
                         mainButtonTitle: 'Delete',
                         onPressed: () {
                           context.read<WidgetBloc>().add(WidgetItemDeleted(widgetItem));
-                          Navigator.of(context).pop;
+                          Navigator.of(context).pop();
+                          // To quit the Widget Details Page
+                          Navigator.of(context).pop();
                         },
                       );
                     },
@@ -115,7 +117,6 @@ class WidgetItemDetailsScreen extends StatelessWidget {
                                     WidgetItemUpdated(
                                       widgetItem.copyWith(
                                           name: name, type: type, topic: topic),
-                                      // TODO add arguments for widget config
                                     ),
                                   );
                             },

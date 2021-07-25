@@ -36,21 +36,21 @@ class WidgetItemsView extends StatelessWidget {
                       final widgetItem = state.widgetItems[index];
                       return WidgetItemItem(
                         widgetItem: widgetItem,
-                        onDismissed: (direction) {
-                          context
-                              .read<WidgetBloc>()
-                              .add(WidgetItemDeleted(widgetItem));
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            DeleteWidgetSnackBar(
-                              key: AppKeys.snackbar,
-                              widgetItem: widgetItem,
-                              onUndo: () => context
-                                  .read<WidgetBloc>()
-                                  .add(WidgetItemAdded(widgetItem)),
-                              localizations: localizations,
-                            ),
-                          );
-                        },
+                        // onDismissed: (direction) {
+                        //   context
+                        //       .read<WidgetBloc>()
+                        //       .add(WidgetItemDeleted(widgetItem));
+                        //   ScaffoldMessenger.of(context).showSnackBar(
+                        //     DeleteWidgetSnackBar(
+                        //       key: AppKeys.snackbar,
+                        //       widgetItem: widgetItem,
+                        //       onUndo: () => context
+                        //           .read<WidgetBloc>()
+                        //           .add(WidgetItemAdded(widgetItem)),
+                        //       localizations: localizations,
+                        //     ),
+                        //   );
+                        // },
                         onTapDetails: () async {
                           await Navigator.of(context).push(
                             MaterialPageRoute(builder: (_) {

@@ -46,7 +46,7 @@ class AppKeys {
   static const detailsBrokerItemPassword = Key('DetailsBroker__Password');
   static const detailsBrokerItemPrivateKeyPassword =
       Key('DetailsBroker__PrivateKeyPassword');
-  // TODO Add all others broker field attriubtes for details screen
+  // TODO Add all others broker field attributes for details screen
 
   // Widget Details Screen
   static const editWidgetFab = Key('__editWidgetFab__');
@@ -63,6 +63,7 @@ class AppKeys {
   static const brokerAddressField = Key('__brokerAddressField__');
   static const brokerPortField = Key('__brokerPortField__');
   static const brokerIdentifierField = Key('__brokerIdentifierField__');
+  static const brokerAuthenticationField = Key('__brokerAuthenticationField__');
   static const brokerUsernameField = Key('__brokerUsernameField__');
   static const brokerPasswordField = Key('__brokerPasswordField__');
   static const brokerSecureField = Key('__brokerSecureField__');

@@ -5,7 +5,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../blocs/blocs.dart';
 import '../models/models.dart';
-import '../settings/localization.dart';
 
 class MessagesView extends StatefulWidget {
   const MessagesView({Key key}) : super(key: key);
@@ -19,16 +18,12 @@ class _MessagesViewState extends State<MessagesView> {
   final TextEditingController _topicController = TextEditingController();
   final TextEditingController _messageController = TextEditingController();
 
-  // Message _message;
   bool _retainValue = false;
   int _qosValue;
 
-  //final ValueChanged<bool> onCheckboxChanged;
-
   @override
   Widget build(BuildContext context) {
-    final localizations = FlutterBlocLocalizations.of(context);
-
+    final node = FocusScope.of(context);
     return DefaultTabController(
       length: 2,
       child: Column(
@@ -38,7 +33,7 @@ class _MessagesViewState extends State<MessagesView> {
             child: TabBarView(
               children: <Widget>[
                 _buildReceive(),
-                _buildSend(),
+                _buildSend(node),
               ],
             ),
           ),
@@ -86,11 +81,15 @@ class _MessagesViewState extends State<MessagesView> {
                                   children: <Widget>[
                                     Text(
                                       'QoS',
-                                      style: TextStyle(fontSize: 8.0, color: Theme.of(context).accentColor),
+                                      style: TextStyle(
+                                          fontSize: 8.0,
+                                          color: Theme.of(context).accentColor),
                                     ),
                                     Text(
                                       message.qos.toString(),
-                                      style: TextStyle(fontSize: 8.0, color: Theme.of(context).accentColor),
+                                      style: TextStyle(
+                                          fontSize: 8.0,
+                                          color: Theme.of(context).accentColor),
                                     ),
                                   ],
                                 ),
@@ -102,19 +101,17 @@ class _MessagesViewState extends State<MessagesView> {
                           );
                         },
                       )
-                    : _noMessagesReceivedMessage(),
+                    : _noMessagesReceived(),
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: ElevatedButton(
                   style: ButtonStyle(
-                    backgroundColor:
-                        MaterialStateProperty.all<Color>(Colors.black54),
+                    backgroundColor: MaterialStateProperty.all<Color>(
+                        Theme.of(context).primaryColorDark),
                   ),
                   onPressed: () {
-                    context
-                        .read<MessageBloc>()
-                        .add(BrokerMessagesCleared()); //state.messages
+                    context.read<MessageBloc>().add(BrokerMessagesCleared());
                   },
                   child: const Text('Clear'),
                 ),
@@ -130,7 +127,7 @@ class _MessagesViewState extends State<MessagesView> {
     );
   }
 
-  Widget _buildSend() {
+  Widget _buildSend(node) {
     return Form(
       key: _formKey,
       child: ListView(
@@ -142,15 +139,16 @@ class _MessagesViewState extends State<MessagesView> {
             child: TextFormField(
               controller: _messageController,
               maxLines: 2,
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
                 labelText: 'Message',
+                labelStyle: TextStyle(
+                    color:
+                        node.hasFocus ? Theme.of(context).primaryColor : null),
               ),
               validator: (val) {
-                if (val.trim().isEmpty) {
-                  return 'Message is empty';
-                }
-                return null;
+                return val.trim().isEmpty ? 'Message is empty' : null;
               },
+              onEditingComplete: () => node.nextFocus(),
             ),
           ),
           Container(
@@ -158,8 +156,11 @@ class _MessagesViewState extends State<MessagesView> {
             alignment: Alignment.bottomLeft,
             child: TextFormField(
               controller: _topicController,
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
                 labelText: 'Topic',
+                labelStyle: TextStyle(
+                    color:
+                        node.hasFocus ? Theme.of(context).primaryColor : null),
               ),
               validator: (val) {
                 if (val.trim().isEmpty) {
@@ -189,11 +190,6 @@ class _MessagesViewState extends State<MessagesView> {
             onPressed: () {
               if (_formKey.currentState.validate()) {
                 _formKey.currentState.save();
-                // _message.payload = _messageController.value.text;
-                // _message.topic = _topicController.value.text;
-                // _message.qos = _qosValue;
-                // _message.retainValue = _retainValue;
-                // context.read<MessageBloc>().add(BrokerMessageSended(_message));
                 context.read<MessageBloc>().add(
                       BrokerMessageSended(
                         Message(
@@ -203,8 +199,10 @@ class _MessagesViewState extends State<MessagesView> {
                             retainValue: _retainValue),
                       ),
                     );
-                // TODO clear selected qos in ChoiceChip
-                // _qosValue = 0;
+                setState(() {
+                  _qosValue = null;
+                  _retainValue = false;
+                });
                 _topicController.clear();
                 _messageController.clear();
               }
@@ -245,7 +243,7 @@ class _MessagesViewState extends State<MessagesView> {
     );
   }
 
-  Widget _noMessagesReceivedMessage() {
+  Widget _noMessagesReceived() {
     return const Center(
       child: Text(
         'No message received...',

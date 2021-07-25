@@ -99,7 +99,6 @@ class _AddEditWidgetScreenState extends State<AddEditWidgetScreen> {
               BlocBuilder<SubscriptionBloc, SubscriptionState>(
                 builder: (context, state) {
                   if (state is SubscribedTopicsLoadSuccess) {
-                    print(state.topicsTitle);
                     return DropdownButtonFormField<String>(
                       hint: const Text("Topic's name"),
                       items: state.topicsTitle

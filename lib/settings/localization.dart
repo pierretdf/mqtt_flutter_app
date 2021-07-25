@@ -22,7 +22,14 @@ class FlutterBlocLocalizations {
 
   String get newBrokerAddress => "What's the broker address ?";
   String get newBrokerName => "What's the broker name ?";
+  String get newBrokerPort => "What's the broker port ?";
   String get newBrokerIdentifier => "What's your identifier ?";
+  String get newBrokerUsername => "What's the broker username ?";
+  String get newBrokerPassword => "What's the broker password ?";
+  String get newBrokerClientCertificate => "What's the client certificate ?";
+  String get newBrokerPrivateKey => "What's the private key ?";
+  String get newBrokerPrivateKeyPassword => "What's the private key password ?";
+  String get newBrokerCertificateAuthority => "What's the certificate authority ?";
   String get emptyBrokerError => 'Please enter some text !';
   String get brokerDeleted => 'Broker deleted';
 

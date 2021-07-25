@@ -31,7 +31,7 @@ class BrokerItem extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.fromLTRB(0, 0, 0, 5),
                   child: Icon(_iconState(broker.state),
-                      color: Colors.black,
+                      color: Theme.of(context).primaryColorDark,//Theme.of(context).primaryColorDark
                       size: 30),
                 ),
                 Container(

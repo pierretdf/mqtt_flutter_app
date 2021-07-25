@@ -24,7 +24,6 @@ class MqttBloc extends Bloc<MqttEvent, MqttState> {
     try {
       final mqttClient = await mqttRepository.prepareMqttClient(event.broker);
       if (mqttClient.connectionStatus.state == MqttConnectionState.connected) {
-        // TODO every topics of broker which has been connected (brokerId depedent)
         final topics = await topicRepository.getTopics();
         topics.forEach((topic) {
           mqttRepository.subscribeToTopic(topic.title);

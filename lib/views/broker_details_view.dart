@@ -28,7 +28,7 @@ class BrokerDetailsScreen extends StatelessWidget {
             title: Center(child: Text(localizations.brokerDetails)),
             actions: [
               IconButton(
-                icon: const Icon(Icons.delete_forever, color: Colors.red, size: 32.0),
+                icon: const Icon(Icons.delete_forever, color: Colors.red),
                 key: AppKeys.deleteBrokerButton,
                 onPressed: () {
                   showModalBottomSheet(
@@ -42,7 +42,9 @@ class BrokerDetailsScreen extends StatelessWidget {
                         mainButtonTitle: 'Delete',
                         onPressed: () {
                           context.read<BrokerBloc>().add(BrokerDeleted(broker));
-                          Navigator.of(context).pop;
+                          Navigator.of(context).pop();
+                          // To quit the Broker Details Page
+                          Navigator.of(context).pop();
                         },
                       );
                     },
@@ -84,13 +86,14 @@ class BrokerDetailsScreen extends StatelessWidget {
                     ),
                     Row(
                       children: [
-                        const Chip(
+                        Chip(
                           label: Text(
                             'Broker address',
                             key: AppKeys.detailsBrokerItemAddress,
                           ),
-                          labelStyle: TextStyle(color: Colors.white),
-                          backgroundColor: Colors.blue,
+                          labelStyle:
+                              TextStyle(color: Theme.of(context).accentColor),
+                          backgroundColor: Theme.of(context).primaryColor,
                         ),
                         const SizedBox(width: 8),
                         Text(
@@ -102,13 +105,14 @@ class BrokerDetailsScreen extends StatelessWidget {
                     const SizedBox(height: 5.0),
                     Row(
                       children: [
-                        const Chip(
+                        Chip(
                           label: Text(
                             'Port',
                             key: AppKeys.detailsBrokerItemPort,
                           ),
-                          labelStyle: TextStyle(color: Colors.white),
-                          backgroundColor: Colors.blue,
+                          labelStyle:
+                              TextStyle(color: Theme.of(context).accentColor),
+                          backgroundColor: Theme.of(context).primaryColor,
                         ),
                         const SizedBox(width: 8),
                         Text(
@@ -117,65 +121,69 @@ class BrokerDetailsScreen extends StatelessWidget {
                       ],
                     ),
                     const SizedBox(height: 5.0),
-                    broker.identifier != null ?
-                      Row(
-                        children: [
-                          const Chip(
-                            label: Text(
-                              'Client ID',
-                              key: AppKeys.detailsBrokerItemIdentifier,
-                            ),
-                            labelStyle: TextStyle(color: Colors.white),
-                            backgroundColor: Colors.blue,
-                          ),
-                          const SizedBox(width: 8),
-                          Text(
-                            broker.identifier,
-                            style: Theme.of(context).textTheme.subtitle1,
-                          ),
-                        ],
-                      )
-                    : Container(),
+                    broker.identifier != null
+                        ? Row(
+                            children: [
+                              Chip(
+                                label: Text(
+                                  'Client ID',
+                                  key: AppKeys.detailsBrokerItemIdentifier,
+                                ),
+                                labelStyle: TextStyle(
+                                    color: Theme.of(context).accentColor),
+                                backgroundColor: Theme.of(context).primaryColor,
+                              ),
+                              const SizedBox(width: 8),
+                              Text(
+                                broker.identifier,
+                                style: Theme.of(context).textTheme.subtitle1,
+                              ),
+                            ],
+                          )
+                        : Container(),
                     const SizedBox(height: 5.0),
-                    broker.username != null ?
-                      Row(
-                        children: [
-                          const Chip(
-                            label: Text(
-                              'Username',
-                              key: AppKeys.detailsBrokerItemUsername,
-                            ),
-                            labelStyle: TextStyle(color: Colors.white),
-                            backgroundColor: Colors.blue,
-                          ),
-                          const SizedBox(width: 8),
-                          Text(
-                            broker.username,
-                            style: Theme.of(context).textTheme.subtitle1,
-                          ),
-                        ],
-                      )
-                    : Container(),
+                    broker.username != null
+                        ? Row(
+                            children: [
+                              Chip(
+                                label: Text(
+                                  'Username',
+                                  key: AppKeys.detailsBrokerItemUsername,
+                                ),
+                                labelStyle: TextStyle(
+                                    color: Theme.of(context).accentColor),
+                                backgroundColor: Theme.of(context).primaryColor,
+                              ),
+                              const SizedBox(width: 8),
+                              Text(
+                                broker.username,
+                                style: Theme.of(context).textTheme.subtitle1,
+                              ),
+                            ],
+                          )
+                        : Container(),
                     const SizedBox(height: 5.0),
-                    broker.privateKeyPassword != null ?
-                      Row(
-                        children: [
-                          const Chip(
-                            label: Text(
-                              'Private Key Password',
-                              key: AppKeys.detailsBrokerItemPrivateKeyPassword,
-                            ),
-                            labelStyle: TextStyle(color: Colors.white),
-                            backgroundColor: Colors.blue,
-                          ),
-                          const SizedBox(width: 8),
-                          Text(
-                            broker.privateKeyPassword,
-                            style: Theme.of(context).textTheme.subtitle1,
-                          ),
-                        ],
-                      )
-                    : Container(),
+                    broker.privateKeyPassword != null
+                        ? Row(
+                            children: [
+                              Chip(
+                                label: Text(
+                                  'Private Key Password',
+                                  key: AppKeys
+                                      .detailsBrokerItemPrivateKeyPassword,
+                                ),
+                                labelStyle: TextStyle(
+                                    color: Theme.of(context).accentColor),
+                                backgroundColor: Theme.of(context).primaryColor,
+                              ),
+                              const SizedBox(width: 8),
+                              Text(
+                                broker.privateKeyPassword,
+                                style: Theme.of(context).textTheme.subtitle1,
+                              ),
+                            ],
+                          )
+                        : Container(),
                     const SizedBox(height: 5.0),
                   ],
                 )
@@ -211,7 +219,6 @@ class BrokerDetailsScreen extends StatelessWidget {
                                           password: password,
                                           qos: qos,
                                           secure: secure),
-                                      // TODO add arguments for broker config
                                     ),
                                   );
                             },
