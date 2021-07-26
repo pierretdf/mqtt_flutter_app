@@ -52,7 +52,7 @@ class MqttProvider {
         .authenticateAs(
           _broker.username,
           _broker.password,
-        ) // additional code when connecting to a broker w/ creds
+        ) // additional parameters for authenticated broker
         .withWillQos(MqttQos.atMostOnce);
 
     _client = MqttServerClient(_broker.address, _broker.identifier);
@@ -74,8 +74,7 @@ class MqttProvider {
         ..useCertificateChain(_broker.certificatePath)
         ..usePrivateKey(_broker.privateKeyPath,
             password: _broker.privateKeyPassword)
-        ..setClientAuthorities(
-            _broker.clientAuthorityPath);
+        ..setClientAuthorities(_broker.clientAuthorityPath);
       _client.securityContext = context;
     }
 
@@ -86,13 +85,10 @@ class MqttProvider {
     if (_client != null &&
         _client.connectionStatus.state == MqttConnectionState.connected) {
       print('[MQTT Client] Client already logged in');
+      return true;
     } else {
-      _client = await _login();
-      if (_client == null) {
-        return false;
-      }
+      return await _login() == null ? false : true;
     }
-    return true;
   }
 
   Future<MqttServerClient> _login() async {

@@ -33,7 +33,7 @@ class FloatingBottomSheet extends StatelessWidget {
         children: [
           Text(
             title,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,
               //color: Colors.grey[900], //! Theme color

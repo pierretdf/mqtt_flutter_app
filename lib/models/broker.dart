@@ -117,10 +117,6 @@ class Broker extends Equatable {
     };
   }
 
-  @override
-  String toString() =>
-      'Broker(id: $id, name: $name, address: $address, port: $port,username: $username,password: $password,identifier: $identifier,secure: $secure,qos: $qos,certificatePath: $certificatePath,privateKeyPath: $privateKeyPath, privateKeyPassword: $privateKeyPassword, clientAuthorityPath: $clientAuthorityPath, state: $state)';
-
   Broker copyWith({
     int id,
     String name,

@@ -25,7 +25,9 @@ class WidgetItemDetailsScreen extends StatelessWidget {
 
         return Scaffold(
           appBar: AppBar(
-            title: Center(child: Text(localizations.widgetDetails)),
+            title: Text(localizations.widgetDetails,
+                style: TextStyle(color: Theme.of(context).primaryColorDark)),
+            centerTitle: true,
             actions: [
               IconButton(
                 icon: const Icon(Icons.delete_forever, color: Colors.red),
@@ -41,7 +43,9 @@ class WidgetItemDetailsScreen extends StatelessWidget {
                             'Are you sur to delete the ${widgetItem.name} widget ?',
                         mainButtonTitle: 'Delete',
                         onPressed: () {
-                          context.read<WidgetBloc>().add(WidgetItemDeleted(widgetItem));
+                          context
+                              .read<WidgetBloc>()
+                              .add(WidgetItemDeleted(widgetItem));
                           Navigator.of(context).pop();
                           // To quit the Widget Details Page
                           Navigator.of(context).pop();
@@ -103,11 +107,12 @@ class WidgetItemDetailsScreen extends StatelessWidget {
                       ),
                     ],
                   ),
-                ) : Container(),
+                )
+              : Container(),
           floatingActionButton: FloatingActionButton(
             key: AppKeys.editWidgetFab,
-            onPressed: widgetItem != null ?
-                () {
+            onPressed: widgetItem != null
+                ? () {
                     Navigator.of(context).push(
                       MaterialPageRoute(
                         builder: (context) {
@@ -126,7 +131,8 @@ class WidgetItemDetailsScreen extends StatelessWidget {
                         },
                       ),
                     );
-                  } : null,
+                  }
+                : null,
             child: Icon(Icons.edit, color: Theme.of(context).primaryColor),
           ),
         );

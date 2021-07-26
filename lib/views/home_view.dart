@@ -9,25 +9,37 @@ import '../widgets/widgets.dart';
 class HomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<TabBloc, AppTab>(
-      builder: (context, activeTab) {
-        return Scaffold(
-          appBar: AppBar(
-            title: Center(
-                child: Text(FlutterBlocLocalizations.of(context).appTitle)),
-          ),
-          body: activeTab == AppTab.brokers
-              ? const BrokersView()
-              : activeTab == AppTab.subscriptions
-                  ? const SubscriptionsView()
-                  : activeTab == AppTab.messages
-                      ? const MessagesView()
-                      : const WidgetItemsView(),
-          bottomNavigationBar: TabSelector(
-            activeTab: activeTab,
-            onTabSelected: (tab) =>
-                context.read<TabBloc>().add(TabUpdated(tab)),
-          ),
+    return BlocBuilder<MqttBloc, MqttState>(
+      builder: (context, mqttState) {
+        return BlocBuilder<TabBloc, AppTab>(
+          builder: (context, activeTab) {
+            return Scaffold(
+              appBar: AppBar(
+                title: mqttState is MqttDisconnectionSuccess ||
+                        mqttState is MqttIdle
+                    ? Text('Disconnected',
+                        style: TextStyle(
+                            color: Theme.of(context).primaryColorDark))
+                    : Text('Connected',
+                        style: TextStyle(
+                            color: Theme.of(context)
+                                .primaryColorDark)), //FlutterBlocLocalizations.of(context).appTitle
+                centerTitle: true,
+              ),
+              body: activeTab == AppTab.brokers
+                  ? const BrokersView()
+                  : activeTab == AppTab.subscriptions
+                      ? const SubscriptionsView()
+                      : activeTab == AppTab.messages
+                          ? const MessagesView()
+                          : const WidgetItemsView(),
+              bottomNavigationBar: TabSelector(
+                activeTab: activeTab,
+                onTabSelected: (tab) =>
+                    context.read<TabBloc>().add(TabUpdated(tab)),
+              ),
+            );
+          },
         );
       },
     );

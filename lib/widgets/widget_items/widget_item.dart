@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../../models/models.dart';
-import '../../settings/keys.dart';
 
 class WidgetItemItem extends StatelessWidget {
   final GestureTapCallback onTapDetails;

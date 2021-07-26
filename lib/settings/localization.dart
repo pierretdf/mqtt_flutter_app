@@ -29,7 +29,8 @@ class FlutterBlocLocalizations {
   String get newBrokerClientCertificate => "What's the client certificate ?";
   String get newBrokerPrivateKey => "What's the private key ?";
   String get newBrokerPrivateKeyPassword => "What's the private key password ?";
-  String get newBrokerCertificateAuthority => "What's the certificate authority ?";
+  String get newBrokerCertificateAuthority =>
+      "What's the certificate authority ?";
   String get emptyBrokerError => 'Please enter some text !';
   String get brokerDeleted => 'Broker deleted';
 
@@ -55,7 +56,7 @@ class FlutterBlocLocalizations {
   String get appTitle => 'MQTT Manager';
 
   // Tabs
-
+  String get brokerTab => 'Broker';
   // Details Screen
 
   // Add Screen

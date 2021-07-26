@@ -43,17 +43,15 @@ class _MessagesViewState extends State<MessagesView> {
   }
 
   Widget _buildTabBar() {
-    return TabBar(
+    return const TabBar(
       tabs: <Widget>[
-        const Tab(
-          text: 'Reçu',
+        Tab(
+          text: 'Received',
         ),
-        const Tab(
-          text: 'Envoyer',
+        Tab(
+          text: 'Send',
         ),
       ],
-      labelColor: Theme.of(context).tabBarTheme.labelColor,
-      indicatorColor: Theme.of(context).primaryColor,
     );
   }
 
@@ -139,11 +137,8 @@ class _MessagesViewState extends State<MessagesView> {
             child: TextFormField(
               controller: _messageController,
               maxLines: 2,
-              decoration: InputDecoration(
-                labelText: 'Message',
-                labelStyle: TextStyle(
-                    color:
-                        node.hasFocus ? Theme.of(context).primaryColor : null),
+              decoration: const InputDecoration(
+                hintText: 'Message',
               ),
               validator: (val) {
                 return val.trim().isEmpty ? 'Message is empty' : null;
@@ -156,16 +151,14 @@ class _MessagesViewState extends State<MessagesView> {
             alignment: Alignment.bottomLeft,
             child: TextFormField(
               controller: _topicController,
-              decoration: InputDecoration(
-                labelText: 'Topic',
-                labelStyle: TextStyle(
-                    color:
-                        node.hasFocus ? Theme.of(context).primaryColor : null),
+              decoration: const InputDecoration(
+                hintText: 'Topic',
               ),
               validator: (val) {
                 if (val.trim().isEmpty) {
                   return 'Topic is empty';
-                } else if (context.read<MqttBloc>().state is MqttDisconnected ||
+                } else if (context.read<MqttBloc>().state
+                        is MqttDisconnectionSuccess ||
                     context.read<MqttBloc>().state is MqttIdle) {
                   return 'First, establish a broker connection !';
                 }

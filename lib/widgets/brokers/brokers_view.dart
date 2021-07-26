@@ -11,7 +11,6 @@ class BrokersView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       floatingActionButton: FloatingActionButton.extended(
         key: AppKeys.addBrokerFab,
@@ -35,7 +34,7 @@ class BrokersView extends StatelessWidget {
                       return BrokerItem(
                           broker: broker,
                           onTapDetails: () async {
-                                await Navigator.of(context).push(
+                            await Navigator.of(context).push(
                               MaterialPageRoute(builder: (context) {
                                 return BrokerDetailsScreen(id: broker.id);
                               }),

@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mqtt_flutter_bloc/settings/keys.dart';
 
 import '../../blocs/blocs.dart';
-import '../../settings/localization.dart';
 import '../../views/widget_item_details_view.dart';
 import '../widgets.dart';
 
@@ -12,7 +11,6 @@ class WidgetItemsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final localizations = FlutterBlocLocalizations.of(context);
 
     return Scaffold(
       floatingActionButton: FloatingActionButton.extended(

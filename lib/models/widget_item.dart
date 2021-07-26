@@ -1,18 +1,21 @@
-class WidgetItem {
-  int id;
-  String name;
-  String topic;
-  String type;
-  String pubTopic; // Optionnal
-  String payload;
-  String jsonPath;
+import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
+
+class WidgetItem extends Equatable {
+  final int id;
+  final String name;
+  final String topic;
+  final String type;
+  final String pubTopic; // Optionnal
+  final String payload;
+  final String jsonPath;
 
   // Constructor
-  WidgetItem(
+  const WidgetItem(
       {this.id,
-      this.name,
-      this.topic,
-      this.type,
+      @required this.name,
+      @required this.topic,
+      @required this.type,
       this.pubTopic,
       this.payload,
       this.jsonPath});
@@ -64,27 +67,7 @@ class WidgetItem {
   }
 
   @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) return true;
-
-    return other is WidgetItem &&
-        other.id == id &&
-        other.name == name &&
-        other.topic == topic &&
-        other.type == type &&
-        other.pubTopic == pubTopic &&
-        other.payload == payload &&
-        other.jsonPath == jsonPath;
-  }
-
-  @override
-  int get hashCode {
-    return id.hashCode ^
-        name.hashCode ^
-        topic.hashCode ^
-        type.hashCode ^
-        pubTopic.hashCode ^
-        payload.hashCode ^
-        jsonPath.hashCode;
-  }
+  // TODO: implement props
+  List<Object> get props =>
+      [id, name, topic, type, pubTopic, payload, jsonPath];
 }

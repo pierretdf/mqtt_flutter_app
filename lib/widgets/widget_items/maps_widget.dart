@@ -64,7 +64,7 @@ class _MapsWidgetState extends State<MapsWidget> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    final initialLocation =
+    const initialLocation =
         CameraPosition(zoom: 18, target: LatLng(37.807438, -122.419924));
     return GoogleMap(
       myLocationEnabled: true,

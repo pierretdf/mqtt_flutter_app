@@ -1,11 +1,19 @@
-class Message {
-  int id;
-  String topic;
-  String payload;
-  int qos;
-  bool retainValue;
-  
-  Message({this.id, this.topic, this.payload, this.qos, this.retainValue});
+import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
+
+class Message extends Equatable {
+  final int id;
+  final String topic;
+  final String payload;
+  final int qos;
+  final bool retainValue;
+
+  const Message(
+      {this.id,
+      @required this.topic,
+      @required this.payload,
+      this.qos = 1,
+      this.retainValue = false});
 
   factory Message.fromJson(Map<String, dynamic> json) {
     return Message(
@@ -42,4 +50,13 @@ class Message {
       retainValue: retainValue ?? this.retainValue,
     );
   }
+
+  @override
+  List<Object> get props => [
+        id,
+        topic,
+        payload,
+        qos,
+        retainValue,
+      ];
 }

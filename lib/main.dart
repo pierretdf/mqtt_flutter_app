@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:mqtt_flutter_bloc/settings/app_theme.dart';
 
 import 'blocs/blocs.dart';
@@ -96,7 +97,8 @@ class MqttApp extends StatelessWidget {
                 clientAuthorityPath) {
               context.read<BrokerBloc>().add(
                     BrokerAdded(
-                      Broker(id: 1,
+                      Broker(
+                        id: 1,
                         name: name,
                         address: address,
                         identifier: identifier,
@@ -132,3 +134,12 @@ class MqttApp extends StatelessWidget {
     );
   }
 }
+
+/*
+await SentryFlutter.init(
+    (options) {
+      options.dsn =
+          'https://c472307d9c024c8b9ac5d15b4adb8f5f@o930897.ingest.sentry.io/5879596';
+    },
+    // Init your App.
+    appRunner: () => */

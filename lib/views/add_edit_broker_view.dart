@@ -73,11 +73,11 @@ class _AddEditBrokerScreenState extends State<AddEditBrokerScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Center(
-          child: Text(
-            isEditing ? localizations.editBroker : localizations.addBroker,
-          ),
+        title: Text(
+          isEditing ? localizations.editBroker : localizations.addBroker,
+          style: TextStyle(color: Theme.of(context).primaryColorDark),
         ),
+        centerTitle: true,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -242,7 +242,7 @@ class _AddEditBrokerScreenState extends State<AddEditBrokerScreen> {
                         textInputAction: TextInputAction.next,
                         decoration: InputDecoration(
                           hintText: localizations.newBrokerClientCertificate,
-                          icon: Icon(Icons.file_present),
+                          icon: const Icon(Icons.file_present),
                         ),
                         validator: (val) {
                           return val.trim().isEmpty
@@ -274,7 +274,7 @@ class _AddEditBrokerScreenState extends State<AddEditBrokerScreen> {
                         textInputAction: TextInputAction.next,
                         decoration: InputDecoration(
                           hintText: localizations.newBrokerPrivateKey,
-                          icon: Icon(Icons.file_present),
+                          icon: const Icon(Icons.file_present),
                         ),
                         validator: (val) {
                           return val.trim().isEmpty
@@ -322,7 +322,7 @@ class _AddEditBrokerScreenState extends State<AddEditBrokerScreen> {
                         textInputAction: TextInputAction.next,
                         decoration: InputDecoration(
                           hintText: localizations.newBrokerCertificateAuthority,
-                          icon: Icon(Icons.file_present),
+                          icon: const Icon(Icons.file_present),
                         ),
                         validator: (val) {
                           return val.trim().isEmpty

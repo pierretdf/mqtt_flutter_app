@@ -2,17 +2,27 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 
 class AppTheme {
+  //generateMaterialColor(const Color.fromARGB(0, 28, 99, 159));
   static ThemeData get lightTheme => ThemeData(
         brightness: Brightness.light,
-        primarySwatch: generateMaterialColor(Color.fromARGB(0, 28, 99, 159)),
+        primarySwatch:
+            generateMaterialColor(const Color.fromARGB(0, 21, 101, 192)),
         primaryColor: Colors.blue[800],
         accentColor: Colors.white,
         primaryColorDark: Colors.black,
-        iconTheme: IconThemeData(color: Colors.white, opacity: 0.8),
+        appBarTheme: const AppBarTheme(
+            backgroundColor: Colors.white,
+            elevation: 0,
+            iconTheme: IconThemeData(color: Colors.black)),
+        iconTheme: const IconThemeData(color: Colors.white, opacity: 0.8),
         floatingActionButtonTheme:
-            FloatingActionButtonThemeData(backgroundColor: Colors.white),
-        cardTheme: CardTheme(color: Colors.white),
-        tabBarTheme: const TabBarTheme(labelColor: Colors.black),
+            const FloatingActionButtonThemeData(backgroundColor: Colors.white),
+        cardTheme: const CardTheme(color: Colors.white),
+        tabBarTheme: const TabBarTheme(
+            labelColor: Colors.black,
+            indicator: BoxDecoration(
+              border: Border(bottom: BorderSide(color: Colors.black)),
+            )),
         elevatedButtonTheme: ElevatedButtonThemeData(
             style: ButtonStyle(
           backgroundColor: MaterialStateProperty.all<Color>(Colors.blue[800]),
@@ -25,13 +35,23 @@ class AppTheme {
               borderSide: BorderSide(color: Colors.blue[800]),
             ),
             focusColor: Colors.blue[800]),
-        //labelStyle: TextStyle(color: Colors.blue[800])),
-
-        // textTheme: const TextTheme(
-        //   bodyText1: TextStyle(
-        //     color: Colors.black,
-        //   ),
-        // ),
+        chipTheme: ChipThemeData(
+          backgroundColor: Colors.black12,
+          padding: const EdgeInsets.all(2),
+          selectedColor: Colors.blue[300],
+          disabledColor: Colors.transparent,
+          brightness: Brightness.light,
+          secondarySelectedColor: Colors.blue[300],
+          labelStyle: const TextStyle(color: Colors.black),
+          secondaryLabelStyle: const TextStyle(),
+        ),
+        textTheme: const TextTheme(
+            bodyText1: TextStyle(
+              color: Colors.black,
+            ),
+            caption: TextStyle(
+              color: Colors.black,
+            )),
       );
 
   static ThemeData get darkTheme => ThemeData(
@@ -39,10 +59,10 @@ class AppTheme {
         primaryColor: Colors.black,
         primaryColorDark: Colors.white,
         accentColor: Colors.white,
-        iconTheme: IconThemeData(color: Colors.white, opacity: 0.8),
-        cardTheme: CardTheme(color: Colors.black),
+        iconTheme: const IconThemeData(color: Colors.white, opacity: 0.8),
+        cardTheme: const CardTheme(color: Colors.black),
         floatingActionButtonTheme:
-            FloatingActionButtonThemeData(backgroundColor: Colors.white),
+            const FloatingActionButtonThemeData(backgroundColor: Colors.white),
         elevatedButtonTheme: ElevatedButtonThemeData(
             style: ButtonStyle(
           backgroundColor: MaterialStateProperty.all<Color>(Colors.grey[900]),
@@ -55,7 +75,7 @@ class AppTheme {
             color: Colors.white,
           ),
         ),
-        inputDecorationTheme: InputDecorationTheme(
+        inputDecorationTheme: const InputDecorationTheme(
           enabledBorder: UnderlineInputBorder(
             borderSide: BorderSide(color: Colors.white),
           ),

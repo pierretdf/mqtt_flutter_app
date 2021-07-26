@@ -1,9 +1,12 @@
-class Topic {
-  int id;
-  int brokerId;
-  String title;
+import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 
-  Topic({this.id, this.brokerId, this.title});
+class Topic extends Equatable {
+  final int id;
+  final int brokerId;
+  final String title;
+
+  const Topic({this.id, @required this.brokerId, @required this.title});
 
   factory Topic.fromJson(Map<String, dynamic> json) {
     // This will be used to convert JSON objects that are coming from
@@ -33,22 +36,6 @@ class Topic {
     };
   }
 
-  @override
-  String toString() => 'Topic(id: $id, brokerId: $brokerId, title: $title)';
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) return true;
-
-    return other is Topic &&
-        other.id == id &&
-        other.brokerId == brokerId &&
-        other.title == title;
-  }
-
-  @override
-  int get hashCode => id.hashCode ^ brokerId.hashCode ^ title.hashCode;
-
   Topic copyWith({
     int id,
     int brokerId,
@@ -60,4 +47,7 @@ class Topic {
       title: title ?? this.title,
     );
   }
+
+  @override
+  List<Object> get props => [id, brokerId, title];
 }
