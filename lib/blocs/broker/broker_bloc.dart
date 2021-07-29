@@ -15,7 +15,11 @@ class BrokerBloc extends Bloc<BrokerEvent, BrokerState> {
   BrokerBloc(this.brokerRepository, this.mqttBloc)
       : super(BrokerLoadInProgress()) {
     _mqttConnection = mqttBloc.stream.listen((state) {
-      if (state is MqttConnectionSuccess) {
+      if (state is MqttConnectionInProgress) {
+        add(BrokerUpdated((mqttBloc.state as MqttConnectionInProgress)
+            .broker
+            .copyWith(state: 'connecting')));
+      } else if (state is MqttConnectionSuccess) {
         add(BrokerUpdated((mqttBloc.state as MqttConnectionSuccess)
             .broker
             .copyWith(state: 'connected')));
@@ -26,7 +30,7 @@ class BrokerBloc extends Bloc<BrokerEvent, BrokerState> {
       } else if (state is MqttConnectionFailure) {
         add(BrokerUpdated((mqttBloc.state as MqttConnectionFailure)
             .broker
-            .copyWith(state: 'connection failed')));
+            .copyWith(state: 'failed')));
       }
     });
   }
@@ -50,7 +54,7 @@ class BrokerBloc extends Bloc<BrokerEvent, BrokerState> {
       final brokers = await brokerRepository.getBrokers();
       yield BrokerLoadSuccess(brokers);
     } catch (e) {
-      yield BrokerLoadFailure(error: e);
+      yield BrokerLoadFailure(e);
     }
   }
 

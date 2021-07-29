@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:flutter/material.dart';
 import 'package:mqtt_client/mqtt_client.dart';
 import 'package:mqtt_client/mqtt_server_client.dart';
 
@@ -17,9 +18,8 @@ class MqttRepository {
   void unSubscribeFromTopic(String topic) =>
       _mqttProvider.unSubscribeFromTopic(topic);
   void updateBrokerConfig(Broker config) =>
-      _mqttProvider.updateBrokerConfig(config);
-  void setupMqttClient() => _mqttProvider.setupMqttClient();
-  Future connectClient() => _mqttProvider.connectClient();
+      _mqttProvider._updateBrokerConfig(config);
+  void setupMqttClient() => _mqttProvider._setupMqttClient();
   void disconnectClient() => _mqttProvider.disconnectClient();
   int getConnectedBrokerId() => _mqttProvider.getConnectedBrokerId();
   StreamController<Message> streamMessages() => _mqttProvider.streamMessages();
@@ -34,26 +34,26 @@ class MqttProvider {
       StreamController<Message>.broadcast();
 
   Future<MqttServerClient> prepareMqttClient(Broker config) async {
-    updateBrokerConfig(config);
-    setupMqttClient();
-    return connectClient();
+    _updateBrokerConfig(config);
+    _setupMqttClient();
+    return _connectToClient();
   }
 
   // Call updateConfig if broker is changed
-  void updateBrokerConfig(Broker config) {
+  void _updateBrokerConfig(Broker config) {
     _broker = config;
   }
 
-  void setupMqttClient() {
+  void _setupMqttClient() {
     final connectMessage = MqttConnectMessage()
-        .withClientIdentifier(_broker.identifier)
-        .keepAliveFor(60) // Must agree with the keep alive set above or not set
-        .startClean() // Non persistent session for testing
-        .authenticateAs(
-          _broker.username,
-          _broker.password,
-        ) // additional parameters for authenticated broker
-        .withWillQos(MqttQos.atMostOnce);
+      ..withClientIdentifier(_broker.identifier)
+      ..keepAliveFor(60) // Must agree with the keep alive set above or not set
+      ..startClean() // Non persistent session for testing
+      ..authenticateAs(
+        _broker.username,
+        _broker.password,
+      ) // additional parameters for authenticated broker
+      ..withWillQos(MqttQos.atMostOnce);
 
     _client = MqttServerClient(_broker.address, _broker.identifier);
     _client.port = _broker.port;
@@ -65,7 +65,6 @@ class MqttProvider {
     _client.onSubscribed = _onSubscribed;
     _client.onUnsubscribed = _onUnsubscribed;
     _client.onSubscribeFail = _onSubscribeFail;
-    //_client.pongCallback = _pong;
 
     // Security Context
     _client.secure = _broker.secure;
@@ -81,53 +80,12 @@ class MqttProvider {
     _client.connectionMessage = connectMessage;
   }
 
-  Future<bool> _connectToClient() async {
-    if (_client != null &&
-        _client.connectionStatus.state == MqttConnectionState.connected) {
-      print('[MQTT Client] Client already logged in');
-      return true;
-    } else {
-      return await _login() == null ? false : true;
-    }
-  }
-
-  Future<MqttServerClient> _login() async {
-    try {
-      await _client.connect();
-    } catch (e) {
-      print('[MQTT Client] Exception - $e');
-      disconnectClient();
-      _client = null;
-      return _client;
-    }
-    // Check if broker is connected
-    if (_client.connectionStatus.state == MqttConnectionState.connected) {
-      print('[MQTT Client] Client connected');
-    } else {
-      print(
-          '[MQTT CLIENT] client connection failed - disconnecting, status is ${_client.connectionStatus}');
-      disconnectClient();
-      _client = null;
-    }
-    return _client;
-  }
-
-  Future<MqttServerClient> connectClient() async {
+  Future<MqttServerClient> _connectToClient() async {
     assert(_client != null);
     try {
-      print('[MQTT Client] Client connecting....');
       await _client.connect();
     } catch (e) {
-      print('[MQTT Client] Exception - $e');
-      disconnectClient();
-    }
-
-    if (_client.connectionStatus.state == MqttConnectionState.connected) {
-      print('[MQTT Client] Client connected');
-    } else {
-      print(
-          '[MQTT Client] Client connection failed - disconnecting, status is ${_client.connectionStatus.state}');
-      disconnectClient();
+      debugPrint('[MQTT Client] Exception - $e');
     }
     _subscription = _client.updates.listen(_onMessage);
     return _client;
@@ -144,10 +102,10 @@ class MqttProvider {
   }
 
   Future<bool> publishMessage(Message message) async {
-    if (await _connectToClient() == true) {
+    if (_client.connectionStatus.state == MqttConnectionState.connected) {
       final builder = MqttClientPayloadBuilder();
       builder.addString(message.payload);
-      print(
+      debugPrint(
           '[MQTT Client] Publish message ${message.payload} to topic ${message.topic}');
       final identifier = _client.publishMessage(
           message.topic, MqttQos.atLeastOnce, builder.payload);
@@ -160,23 +118,13 @@ class MqttProvider {
 
   bool subscribeToTopic(String topic) {
     if (_client.connectionStatus.state == MqttConnectionState.connected) {
-      print('[MQTT Client] Subscribing to $topic');
-      _client.subscribe(topic, MqttQos.atLeastOnce); //_broker.qos
-      // ****Optionnal*****
-      // _client.updates.listen((List<MqttReceivedMessage<MqttMessage>> event) {
-      //   final MqttPublishMessage receivedMsg = event[0].payload;
-      //   final String data = MqttPublishPayload.bytesToStringAsString(
-      //       receivedMsg.payload.message);
-      //   print('[MQTT Client] Got a message $data');
-      // });
-      // *************
+      _client.subscribe(topic, MqttQos.atLeastOnce);
       return true;
     }
     return false;
   }
 
   void unSubscribeFromTopic(String topic) {
-    print('[MQTT Client] Unsubscribing from $topic');
     _client.unsubscribe(topic);
   }
 
@@ -187,21 +135,17 @@ class MqttProvider {
   }
 
   void _onSubscribed(String topic) =>
-      print('[MQTT Client] Subscription confirmed for topic $topic');
+      debugPrint('[MQTT Client] Subscription confirmed for topic $topic');
 
   void _onUnsubscribed(String topic) =>
-      print('[MQTT Client] Unsubscription confirmed from topic $topic');
+      debugPrint('[MQTT Client] Unsubscription confirmed from topic $topic');
 
-  void _onDisconnected() => print(
-      '[MQTT Client] OnDisconnected client callback - Client disconnection');
+  void _onDisconnected() => debugPrint('[MQTT Client] Client disconnection');
 
-  void _onConnected() {
-    print('[MQTT Client] OnConnected client callback - Client connected!');
-  }
+  void _onConnected() => debugPrint('[MQTT Client] Client connected!');
 
   void _onSubscribeFail(String topic) =>
-      print('[MQTT Client] Failed to subscribe topic: $topic');
-  //void _pong() => print('Ping response client callback invoked');
+      debugPrint('[MQTT Client] Failed to subscribe topic: $topic');
 
   StreamController<Message> streamMessages() => _messagesStreamController;
 

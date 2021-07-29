@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mqtt_flutter_bloc/settings/keys.dart';
+import 'package:mqtt_flutter_bloc/widgets/utils/wait_message.dart';
 
 import '../../blocs/blocs.dart';
 import '../../views/widget_item_details_view.dart';
@@ -11,7 +12,6 @@ class WidgetItemsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       floatingActionButton: FloatingActionButton.extended(
         key: AppKeys.addWidgetFab,
@@ -59,7 +59,7 @@ class WidgetItemsView extends StatelessWidget {
                       );
                     },
                   )
-                : _noWidgetItemsMessage();
+                : const WaitMessage(message: 'Start adding a broker...');
           } else if (state is WidgetItemLoadFailure) {
             return Center(
               child: Text('Error occured: ${state.error}'),
@@ -70,15 +70,6 @@ class WidgetItemsView extends StatelessWidget {
             );
           }
         },
-      ),
-    );
-  }
-
-  Widget _noWidgetItemsMessage() {
-    return const Center(
-      child: Text(
-        'Start adding a widget...',
-        style: TextStyle(fontSize: 20),
       ),
     );
   }

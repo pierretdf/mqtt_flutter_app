@@ -6,7 +6,8 @@ class Topic extends Equatable {
   final int brokerId;
   final String title;
 
-  const Topic({this.id, @required this.brokerId, @required this.title});
+  const Topic(
+      {@required this.id, @required this.brokerId, @required this.title});
 
   factory Topic.fromJson(Map<String, dynamic> json) {
     // This will be used to convert JSON objects that are coming from

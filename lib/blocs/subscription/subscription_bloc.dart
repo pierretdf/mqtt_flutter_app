@@ -10,7 +10,7 @@ import '../blocs.dart';
 class SubscriptionBloc extends Bloc<SubscriptionEvent, SubscriptionState> {
   final TopicRepository topicRepository;
   final MqttRepository mqttRepository;
-  StreamSubscription _mqttState;
+   StreamSubscription _mqttState;
 
   SubscriptionBloc(this.topicRepository, this.mqttRepository)
       : super(SubscribedTopicsInProgress());
@@ -33,7 +33,7 @@ class SubscriptionBloc extends Bloc<SubscriptionEvent, SubscriptionState> {
       final topicsTitle = await topicRepository.getTopicsTitle();
       yield SubscribedTopicsLoadSuccess(topics, topicsTitle);
     } catch (e) {
-      yield SubscribedTopicsFailure(error: e);
+      yield SubscribedTopicsFailure(e);
     }
   }
 

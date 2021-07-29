@@ -82,19 +82,12 @@ class BrokerItem extends StatelessWidget {
     switch (brokerState) {
       case 'connected':
         return Icons.cloud_done_sharp;
-        break;
       case 'connecting':
         return Icons.cloud_download_sharp;
-        break;
-      case 'connectedSubscribed':
-        return Icons.cloud_done_sharp;
-        break;
-      case 'connectedUnsubscribed':
-        return Icons.cloud_done_sharp;
-        break;
       case 'disconnected':
         return Icons.cloud_off_sharp;
-        break;
+      case 'failed':
+        return Icons.cloud_off_sharp;
       default:
         return Icons.cloud_off_sharp;
     }
@@ -104,19 +97,14 @@ class BrokerItem extends StatelessWidget {
     switch (brokerState) {
       case 'connected':
         return Colors.green;
-        break;
       case 'connecting':
         return Colors.orange;
-        break;
       case 'connectedSubscribed':
         return Colors.green;
-        break;
       case 'connectedUnsubscribed':
         return Colors.green;
-        break;
       case 'disconnected':
         return Colors.red;
-        break;
       default:
         return Colors.red;
     }

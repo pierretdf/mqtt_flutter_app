@@ -11,7 +11,7 @@ import 'add_edit_widget_view.dart';
 class WidgetItemDetailsScreen extends StatelessWidget {
   final int id;
 
-  const WidgetItemDetailsScreen({Key key, @required this.id}) : super(key: key);
+  const WidgetItemDetailsScreen({Key key,  @required this.id}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -43,19 +43,49 @@ class LocalBrokerProvider {
 
   Future<void> deleteBroker(int id) async {
     final _db = await dbProvider.database;
-    await _db.rawDelete("DELETE FROM brokers WHERE id = '$id'");
-    await _db.rawDelete("DELETE FROM topics WHERE brokerId = '$id'");
+    await _db.delete('brokers', where: 'id = ?', whereArgs: [id]);
+    await _db.delete('topics', where: 'id = ?', whereArgs: [id]);
+    // await _db.rawDelete("DELETE FROM brokers WHERE id = '$id'");
+    // await _db.rawDelete("DELETE FROM topics WHERE brokerId = '$id'");
   }
+
+  // Future<int> addBroker(Broker broker) async {
+  //   final _db = await dbProvider.database;
+  //   final brokerId = await _db.insert('brokers', broker.toMap());
+  //   return brokerId;
+  // }
 
   Future<int> addBroker(Broker broker) async {
     final _db = await dbProvider.database;
-    final brokerId = _db.insert('brokers', broker.toMap());
+    //get the biggest id in the table
+    var table = await _db.rawQuery("SELECT MAX(id)+1 as id FROM brokers");
+    int id = table.first["id"];
+    //insert to the table using the new id
+    var brokerId = await _db.rawInsert(
+        "INSERT Into brokers (id, name, address, port, username, password, identifier, secure, qos, certificatePath, privateKeyPath, privateKeyPassword, clientAuthorityPath, state)"
+        " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+        [
+          id,
+          broker.name,
+          broker.address,
+          broker.port,
+          broker.username,
+          broker.password,
+          broker.identifier,
+          broker.secure,
+          broker.qos,
+          broker.certificatePath,
+          broker.privateKeyPath,
+          broker.privateKeyPassword,
+          broker.clientAuthorityPath,
+          broker.state
+        ]);
     return brokerId;
   }
 
   Future<int> updateBroker(Broker broker) async {
     final _db = await dbProvider.database;
-    final result = await _db.update('brokers', broker.toJson(),
+    final result = await _db.update('brokers', broker.toMap(),
         where: 'id = ?', whereArgs: [broker.id]);
     return result;
   }

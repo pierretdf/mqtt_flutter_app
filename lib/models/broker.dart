@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+import 'dart:convert';
 
 class Broker extends Equatable {
   final int id;
@@ -35,46 +36,31 @@ class Broker extends Equatable {
   });
 
   @override
-  List<Object> get props {
-    return [
-      id,
-      name,
-      address,
-      port,
-      username,
-      password,
-      identifier,
-      secure,
-      qos,
-      certificatePath,
-      privateKeyPath,
-      privateKeyPassword,
-      clientAuthorityPath,
-      state,
-    ];
+  List<Object> get props => [
+        id,
+        name,
+        address,
+        port,
+        username,
+        password,
+        identifier,
+        secure,
+        qos,
+        certificatePath,
+        privateKeyPath,
+        privateKeyPassword,
+        clientAuthorityPath,
+        state,
+      ];
+
+  Broker brokerFromJson(String str) {
+    final jsonData = json.decode(str);
+    return Broker.fromMap(jsonData);
   }
 
-  factory Broker.fromJson(Map<String, dynamic> json) {
-    //This will be used to convert JSON objects that
-    //are coming from querying the database and converting
-    //it into a Broker object
-    if (json == null) return null;
-    return Broker(
-      id: json['id'],
-      name: json['name'],
-      address: json['address'],
-      port: json['port'],
-      username: json['username'],
-      password: json['password'],
-      identifier: json['identifier'],
-      secure: json['secure'],
-      qos: json['qos'],
-      certificatePath: json['certificatePath'],
-      privateKeyPath: json['privateKeyPath'],
-      privateKeyPassword: json['privateKeyPassword'],
-      clientAuthorityPath: json['clientAuthorityPath'],
-      state: json['state'],
-    );
+  String brokerToJson(Broker data) {
+    final dyn = data.toMap();
+    return json.encode(dyn);
   }
 
   Map<String, dynamic> toJson() {
@@ -117,6 +103,23 @@ class Broker extends Equatable {
     };
   }
 
+  factory Broker.fromMap(Map<String, dynamic> json) => Broker(
+        id: json['id'],
+        name: json['name'],
+        address: json['address'],
+        port: json['port'],
+        username: json['username'],
+        password: json['password'],
+        identifier: json['identifier'],
+        secure: json['secure'],
+        qos: json['qos'],
+        certificatePath: json['certificatePath'],
+        privateKeyPath: json['privateKeyPath'],
+        privateKeyPassword: json['privateKeyPassword'],
+        clientAuthorityPath: json['clientAuthorityPath'],
+        state: json['state'],
+      );
+
   Broker copyWith({
     int id,
     String name,
@@ -150,4 +153,7 @@ class Broker extends Equatable {
       state: state ?? this.state,
     );
   }
+
+  static Broker empty() =>
+      const Broker(address: '', port: null, name: '', secure: null);
 }

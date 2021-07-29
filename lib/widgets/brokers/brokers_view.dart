@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mqtt_flutter_bloc/widgets/utils/wait_message.dart';
 
 import '../../blocs/blocs.dart';
 import '../../settings/keys.dart';
@@ -41,21 +42,9 @@ class BrokersView extends StatelessWidget {
                             );
                           },
                           onTapMqtt: () async {
-                            if (context.read<MqttBloc>().state is MqttIdle) {
-                              context
-                                  .read<MqttBloc>()
-                                  .add(MqttConnected(broker: broker));
-                            } else if (context.read<MqttBloc>().state
-                                is MqttDisconnectionSuccess) {
-                              context
-                                  .read<MqttBloc>()
-                                  .add(MqttConnected(broker: broker));
-                            } else if (context.read<MqttBloc>().state
-                                is MqttConnectionSuccess) {
-                              context
-                                  .read<MqttBloc>()
-                                  .add(MqttDisconnected(broker: broker));
-                            }
+                            context
+                                .read<MqttBloc>()
+                                .add(MqttStateToggling(broker: broker));
                           },
                           onPressedDelete: () {
                             context
@@ -65,7 +54,7 @@ class BrokersView extends StatelessWidget {
                           });
                     },
                   )
-                : _noBrokerMessage();
+                : const WaitMessage(message: 'Start adding a broker...');
           } else if (brokerState is BrokerLoadFailure) {
             return Center(
               child: Text('Error occured: ${brokerState.error}'),
@@ -76,15 +65,6 @@ class BrokersView extends StatelessWidget {
             );
           }
         },
-      ),
-    );
-  }
-
-  Widget _noBrokerMessage() {
-    return const Center(
-      child: Text(
-        'Start adding a broker...',
-        style: TextStyle(fontSize: 20),
       ),
     );
   }
