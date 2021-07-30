@@ -30,7 +30,7 @@ class AddEditBrokerScreen extends StatefulWidget {
     Key key,
     @required this.onSave,
     @required this.isEditing,
-    @required this.broker,
+    this.broker,
   }) : super(key: key); // ?? ArchSampleKeys.addTodoScreen
 
   @override
@@ -81,53 +81,53 @@ class _AddEditBrokerScreenState extends State<AddEditBrokerScreen> {
           child: ListView(
             children: [
               // Broker Name
-              CustomTextField(
-                  value: widget.broker.name,
-                  fieldKey: AppKeys.brokerNameField,
-                  edit: widget.isEditing,
-                  controller: _name,
-                  hint: localizations.newBrokerName,
-                  node: node),
-              // TextFormField(
-              //   initialValue: widget.isEditing ? widget.broker.name : '',
-              //   key: AppKeys.brokerNameField,
-              //   autofocus: !widget.isEditing,
-              //   style: textTheme.headline5,
-              //   decoration: InputDecoration(
-              //     hintText: localizations.newBrokerName,
-              //   ),
-              //   validator: (val) {
-              //     return val.trim().isEmpty
-              //         ? localizations.emptyBrokerError
-              //         : null;
-              //   },
-              //   onSaved: (value) => _name = value,
-              //   onEditingComplete: () => node.nextFocus(),
-              // ),
+              // CustomTextField(
+              //     value: widget.broker.name,
+              //     fieldKey: AppKeys.brokerNameField,
+              //     edit: widget.isEditing,
+              //     controller: _name,
+              //     hint: localizations.newBrokerName,
+              //     node: node),
+              TextFormField(
+                initialValue: widget.isEditing ? widget.broker.name : '',
+                key: AppKeys.brokerNameField,
+                autofocus: !widget.isEditing,
+                style: textTheme.headline5,
+                decoration: InputDecoration(
+                  hintText: localizations.newBrokerName,
+                ),
+                validator: (val) {
+                  return val.trim().isEmpty
+                      ? localizations.emptyBrokerError
+                      : null;
+                },
+                onSaved: (value) => _name = value,
+                onEditingComplete: () => node.nextFocus(),
+              ),
               // Broker Address
-              CustomTextField(
-                  value: widget.broker.address,
-                  fieldKey: AppKeys.brokerAddressField,
-                  edit: widget.isEditing,
-                  controller: _address,
-                  hint: localizations.newBrokerName,
-                  node: node),
-              // TextFormField(
-              //   initialValue: widget.isEditing ? widget.broker.address : '',
-              //   key: AppKeys.brokerAddressField,
-              //   autofocus: !widget.isEditing,
-              //   style: textTheme.headline5,
-              //   decoration: InputDecoration(
-              //     hintText: localizations.newBrokerAddress,
-              //   ),
-              //   validator: (val) {
-              //     return val.trim().isEmpty
-              //         ? localizations.emptyBrokerError
-              //         : null;
-              //   },
-              //   onSaved: (value) => _address = value,
-              //   onEditingComplete: () => node.nextFocus(),
-              // ),
+              // CustomTextField(
+              //     value: widget.broker.address,
+              //     fieldKey: AppKeys.brokerAddressField,
+              //     edit: widget.isEditing,
+              //     controller: _address,
+              //     hint: localizations.newBrokerName,
+              //     node: node),
+              TextFormField(
+                initialValue: widget.isEditing ? widget.broker.address : '',
+                key: AppKeys.brokerAddressField,
+                autofocus: !widget.isEditing,
+                style: textTheme.headline5,
+                decoration: InputDecoration(
+                  hintText: localizations.newBrokerAddress,
+                ),
+                validator: (val) {
+                  return val.trim().isEmpty
+                      ? localizations.emptyBrokerError
+                      : null;
+                },
+                onSaved: (value) => _address = value,
+                onEditingComplete: () => node.nextFocus(),
+              ),
               // Broker Port
               TextFormField(
                 initialValue: widget.isEditing ? '${widget.broker.port}' : '',
@@ -397,7 +397,7 @@ class CustomTextField extends StatelessWidget {
   String controller;
 
   CustomTextField({
-    this.fieldKey,
+    @required this.fieldKey,
     @required this.edit,
     @required this.controller,
     @required this.value,

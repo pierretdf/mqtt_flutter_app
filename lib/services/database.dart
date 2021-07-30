@@ -1,11 +1,15 @@
-import 'package:mqtt_flutter_bloc/models/models.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
 class DatabaseProvider {
+  static const _dbName = 'database.db';
+
+  // Use this class as a singleton
+  //DatabaseProvider._privateConstructor();
+
   static final DatabaseProvider dbProvider = DatabaseProvider();
 
-  //static = only a single copy of _db is shared among all the instances of this class (Database)
+  //static = only a single copy of _database is shared among all the instances of this class (Database)
   static Database _database;
 
   //Future<Database> get database async => _database ??= await createDatabase();
@@ -16,10 +20,10 @@ class DatabaseProvider {
   }
 
   Future<Database> createDatabase() async {
-    final path = join(await getDatabasesPath(), 'mqtt.db');
-    final database = await openDatabase(path,
+    //Directory documentsDirectory = await getApplicationDocumentsDirectory();
+    final path = join(await getDatabasesPath(), _dbName);
+    return await openDatabase(path,
         version: 1, onCreate: initDB, onUpgrade: onUpgrade);
-    return database;
   }
 
   //This is optional, and only used for changing DB schema migrations
@@ -27,11 +31,11 @@ class DatabaseProvider {
     if (newVersion > oldVersion) {}
   }
 
-  void initDB(Database db, int version) async {
+  Future initDB(Database db, int version) async {
     await db.execute('''
         CREATE TABLE widgets(
           id INTEGER PRIMARY KEY, 
-          name TEXT, 
+          name TEXT NOT NULL, 
           topic TEXT, 
           pubTopic TEXT, 
           type TEXT, 
@@ -41,7 +45,7 @@ class DatabaseProvider {
     await db.execute('''
         CREATE TABLE brokers(
           id INTEGER PRIMARY KEY, 
-          name TEXT, 
+          name TEXT NOT NULL, 
           address TEXT, 
           port INTEGER, 
           username TEXT, 
@@ -58,14 +62,14 @@ class DatabaseProvider {
     await db.execute('''
           CREATE TABLE topics(
             id INTEGER PRIMARY KEY,
-            brokerId INTEGER, 
+            brokerId INTEGER NOT NULL, 
             title TEXT)
             ''');
   }
 
   Future<void> cleanDatabase() async {
     try {
-      final db = await dbProvider.database;
+      final db = _database ?? await createDatabase();
       db.delete('brokers');
       db.delete('topics');
       db.delete('widgets');
@@ -74,30 +78,9 @@ class DatabaseProvider {
     }
   }
 
-  // Future<void> cleanDatabase() async {
-  //   try {
-  //     final db = await dbProvider.database;
-  //     await db.transaction((txn) async {
-  //       var batch = txn.batch();
-  //       batch.delete('brokers');
-  //       batch.delete('topics');
-  //       batch.delete('widgets');
-  //       await batch.commit();
-  //     });
-  //   } catch (error) {
-  //     throw Exception('CleanDatabase: ${error.toString()}');
-  //   }
-  // }
-
   Future<int> getCount() async {
     Database db = await dbProvider.database;
     return Sqflite.firstIntValue(
         await db.rawQuery('SELECT COUNT(*) FROM brokers'));
-  }
-
-  Future<List<Broker>> getBrokers() async {
-    Database db = await dbProvider.database;
-    List<Map> list = await db.rawQuery('SELECT * FROM brokers');
-    return list.map((brokers) => Broker.fromMap(brokers)).toList();
   }
 }

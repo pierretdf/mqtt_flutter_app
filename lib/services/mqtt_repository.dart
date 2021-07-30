@@ -149,12 +149,7 @@ class MqttProvider {
 
   StreamController<Message> streamMessages() => _messagesStreamController;
 
-  int getConnectedBrokerId() {
-    if (_client?.connectionStatus?.state == MqttConnectionState.connected) {
-      return _broker.id;
-    }
-    return null;
-  }
+  int getConnectedBrokerId() => _broker.id;
 
   void dispose() {
     _subscription.cancel();

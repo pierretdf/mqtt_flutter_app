@@ -1,9 +1,7 @@
-import 'package:mockito/mockito.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mqtt_flutter_bloc/models/models.dart';
 import 'package:mqtt_flutter_bloc/services/database.dart';
 import 'package:mqtt_flutter_bloc/services/repositories.dart';
-import '../setup/test_helpers.dart';
 
 void main() {
   final dbProvider = DatabaseProvider.dbProvider;
@@ -27,27 +25,27 @@ void main() {
   };
   setUp(() async {
     // clean up db before every test
-    await dbProvider.cleanDatabase();
+    //await dbProvider.cleanDatabase();
   });
 
   tearDownAll(() async {
     // clean up db after all tests
-    await dbProvider.cleanDatabase();
+    //await dbProvider.cleanDatabase();
   });
 
   group('DBProvider', () {
     test('Insert brokers', () async {
       // at the beginning database is empty
-      expect((await dbProvider.getBrokers()).isEmpty, true);
+      //expect((await brokerRepository.fetchAllBrokers()), null);
 
       // insert one empty item
-      brokerRepository.addBroker(Broker.empty());
+      //brokerRepository.addBroker(Broker.empty());
       expect((await dbProvider.getCount()), 1);
 
       // insert more empty items
-      brokerRepository.addBroker(Broker.empty());
-      brokerRepository.addBroker(Broker.empty());
-      brokerRepository.addBroker(Broker.empty());
+      // brokerRepository.addBroker(Broker.empty());
+      // brokerRepository.addBroker(Broker.empty());
+      // brokerRepository.addBroker(Broker.empty());
       expect((await dbProvider.getCount()), 1);
 
       // insert a valid item

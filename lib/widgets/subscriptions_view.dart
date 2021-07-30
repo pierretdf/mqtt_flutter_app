@@ -47,7 +47,9 @@ class _SubscriptionsViewState extends State<SubscriptionsView> {
                           if (val.trim().isEmpty) {
                             return localizations.emptyTopicTitleError;
                           } else if (context.read<MqttBloc>().state
-                                  is MqttDisconnected ||
+                                  is MqttConnectionFailure ||
+                              context.read<MqttBloc>().state
+                                  is MqttDisconnectionSuccess ||
                               context.read<MqttBloc>().state is MqttIdle) {
                             return 'First, establish a broker connection !';
                           } else if (state.topicsTitle.contains(val.trim())) {

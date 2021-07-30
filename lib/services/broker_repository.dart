@@ -5,6 +5,7 @@ class BrokerRepository {
   final LocalBrokerProvider _brokerProvider = LocalBrokerProvider();
 
   Future<List<Broker>> getBrokers() => _brokerProvider.getBrokers();
+  Future<List<Broker>> fetchAllBrokers() => _brokerProvider.fetchAllBrokers();
   Future<int> addBroker(Broker data) => _brokerProvider.addBroker(data);
   Future<int> updateBroker(Broker data) => _brokerProvider.updateBroker(data);
   Future<void> updateBrokerState(int id, String state) =>
@@ -17,6 +18,15 @@ class BrokerRepository {
 
 class LocalBrokerProvider {
   final dbProvider = DatabaseProvider.dbProvider;
+
+  Future<List<Broker>> fetchAllBrokers() async {
+    final _db = await dbProvider.database;
+    final List<Map<String, dynamic>> brokerMap = await _db.query('brokers');
+    if (brokerMap.isNotEmpty) {
+      return brokerMap.map((map) => Broker.fromMap(map)).toList();
+    }
+    return null;
+  }
 
   Future<List<Broker>> getBrokers() async {
     final _db = await dbProvider.database;
@@ -49,39 +59,39 @@ class LocalBrokerProvider {
     // await _db.rawDelete("DELETE FROM topics WHERE brokerId = '$id'");
   }
 
-  // Future<int> addBroker(Broker broker) async {
-  //   final _db = await dbProvider.database;
-  //   final brokerId = await _db.insert('brokers', broker.toMap());
-  //   return brokerId;
-  // }
-
   Future<int> addBroker(Broker broker) async {
     final _db = await dbProvider.database;
-    //get the biggest id in the table
-    var table = await _db.rawQuery("SELECT MAX(id)+1 as id FROM brokers");
-    int id = table.first["id"];
-    //insert to the table using the new id
-    var brokerId = await _db.rawInsert(
-        "INSERT Into brokers (id, name, address, port, username, password, identifier, secure, qos, certificatePath, privateKeyPath, privateKeyPassword, clientAuthorityPath, state)"
-        " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
-        [
-          id,
-          broker.name,
-          broker.address,
-          broker.port,
-          broker.username,
-          broker.password,
-          broker.identifier,
-          broker.secure,
-          broker.qos,
-          broker.certificatePath,
-          broker.privateKeyPath,
-          broker.privateKeyPassword,
-          broker.clientAuthorityPath,
-          broker.state
-        ]);
+    final brokerId = await _db.insert('brokers', broker.toMap());
     return brokerId;
   }
+
+  // Future<int> addBroker(Broker broker) async {
+  //   final _db = await dbProvider.database;
+  //   //get the biggest id in the table
+  //   var table = await _db.rawQuery("SELECT MAX(id)+2 as id FROM brokers");
+  //   int id = table.first["id"];
+  //   //insert to the table using the new id
+  //   var brokerId = await _db.rawInsert(
+  //       "INSERT Into brokers (id, name, address, port, username, password, identifier, secure, qos, certificatePath, privateKeyPath, privateKeyPassword, clientAuthorityPath, state)"
+  //       " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+  //       [
+  //         id,
+  //         broker.name,
+  //         broker.address,
+  //         broker.port,
+  //         broker.username,
+  //         broker.password,
+  //         broker.identifier,
+  //         broker.secure,
+  //         broker.qos,
+  //         broker.certificatePath,
+  //         broker.privateKeyPath,
+  //         broker.privateKeyPassword,
+  //         broker.clientAuthorityPath,
+  //         broker.state
+  //       ]);
+  //   return brokerId;
+  // }
 
   Future<int> updateBroker(Broker broker) async {
     final _db = await dbProvider.database;

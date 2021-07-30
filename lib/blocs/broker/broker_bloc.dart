@@ -60,12 +60,11 @@ class BrokerBloc extends Bloc<BrokerEvent, BrokerState> {
 
   Stream<BrokerState> _mapBrokerAddedToState(BrokerAdded event) async* {
     if (state is BrokerLoadSuccess) {
-      // Add Broker to 'broker_view' (UI)
-      final updatedBrokers =
-          List<Broker>.from((state as BrokerLoadSuccess).brokers)
-            ..add(event.broker);
-      yield BrokerLoadSuccess(updatedBrokers);
       await brokerRepository.addBroker(event.broker);
+      // final updatedBrokers =
+      //     List<Broker>.from((state as BrokerLoadSuccess).brokers)
+      //       ..add(event.broker);
+      yield BrokerLoadSuccess(await brokerRepository.getBrokers());
     }
   }
 
@@ -89,10 +88,6 @@ class BrokerBloc extends Bloc<BrokerEvent, BrokerState> {
       if (event.broker.state == 'connected') {
         mqttBloc.mqttRepository.disconnectClient();
       }
-      // Check if the deleted broker is the connected broker
-      // if (mqttBloc.mqttRepository.getConnectedBrokerId() == event.broker.id) {
-      //   mqttBloc.mqttRepository.disconnectClient();
-      // }
       yield BrokerLoadSuccess(updatedBrokers);
       await brokerRepository.deleteBroker(event.broker.id);
     }

@@ -53,36 +53,15 @@ class Broker extends Equatable {
         state,
       ];
 
-  Broker brokerFromJson(String str) {
-    final jsonData = json.decode(str);
-    return Broker.fromMap(jsonData);
-  }
+  // Broker brokerFromJson(String str) {
+  //   final jsonData = json.decode(str);
+  //   return Broker.fromMap(jsonData);
+  // }
 
-  String brokerToJson(Broker data) {
-    final dyn = data.toMap();
-    return json.encode(dyn);
-  }
-
-  Map<String, dynamic> toJson() {
-    //This will be used to convert Broker objects that
-    //are to be stored into the datbase in a form of JSON
-    final data = <String, dynamic>{};
-    data['id'] = id;
-    data['name'] = name;
-    data['address'] = address;
-    data['port'] = port;
-    data['username'] = username;
-    data['password'] = password;
-    data['identifier'] = identifier;
-    data['secure'] = secure ? 1 : 0;
-    data['qos'] = qos;
-    data['certificatePath'] = certificatePath;
-    data['privateKeyPath'] = privateKeyPath;
-    data['privateKeyPassword'] = privateKeyPassword;
-    data['clientAuthorityPath'] = clientAuthorityPath;
-    data['state'] = state;
-    return data;
-  }
+  // String brokerToJson(Broker data) {
+  //   final dyn = data.toMap();
+  //   return json.encode(dyn);
+  // }
 
   Map<String, dynamic> toMap() {
     return {
@@ -153,7 +132,4 @@ class Broker extends Equatable {
       state: state ?? this.state,
     );
   }
-
-  static Broker empty() =>
-      const Broker(address: '', port: null, name: '', secure: null);
 }

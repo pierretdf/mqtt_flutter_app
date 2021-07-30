@@ -31,7 +31,7 @@ class MessageBloc extends Bloc<MessageEvent, MessageState> {
     } else if (event is BrokerMessagesCleared) {
       yield* _mapMessagesClearedToState();
     } else if (event is BrokerDisconnected) {
-      yield BrokerConnectionFailed();
+      yield* _mapBrokerDisconnectedToState();
     }
   }
 
@@ -59,6 +59,11 @@ class MessageBloc extends Bloc<MessageEvent, MessageState> {
 
   Stream<MessageState> _mapMessagesClearedToState() async* {
     yield const MessagesReceptionSuccess([]);
+  }
+
+  Stream<MessageState> _mapBrokerDisconnectedToState() async* {
+    _messageReceived.cancel();
+    yield BrokerConnectionFailed();
   }
 
   @override

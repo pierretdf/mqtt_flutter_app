@@ -9,7 +9,7 @@ class Message extends Equatable {
   final bool retainValue;
 
   const Message(
-      {@required this.id,
+      {this.id,
       @required this.topic,
       @required this.payload,
       this.qos = 1,

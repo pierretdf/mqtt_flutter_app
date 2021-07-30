@@ -12,7 +12,7 @@ class WidgetItem extends Equatable {
 
   // Constructor
   const WidgetItem(
-      {@required this.id,
+      {this.id,
       @required this.name,
       @required this.topic,
       @required this.type,
