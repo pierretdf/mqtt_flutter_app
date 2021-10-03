@@ -157,7 +157,7 @@ class _AddEditBrokerScreenState extends State<AddEditBrokerScreen> {
                 onEditingComplete: () => node.nextFocus(),
               ),
               SwitchListTile(
-                title: const Text('Authentication broker ?'),
+                title: const Text('Broker with authentication ?'),
                 key: AppKeys.brokerAuthenticationField,
                 value: _authentication,
                 activeColor: Theme.of(context).primaryColor,
