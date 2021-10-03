@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+import 'dart:convert';
 
 class Broker extends Equatable {
   final int id;
@@ -35,68 +36,32 @@ class Broker extends Equatable {
   });
 
   @override
-  List<Object> get props {
-    return [
-      id,
-      name,
-      address,
-      port,
-      username,
-      password,
-      identifier,
-      secure,
-      qos,
-      certificatePath,
-      privateKeyPath,
-      privateKeyPassword,
-      clientAuthorityPath,
-      state,
-    ];
-  }
+  List<Object> get props => [
+        id,
+        name,
+        address,
+        port,
+        username,
+        password,
+        identifier,
+        secure,
+        qos,
+        certificatePath,
+        privateKeyPath,
+        privateKeyPassword,
+        clientAuthorityPath,
+        state,
+      ];
 
-  factory Broker.fromJson(Map<String, dynamic> json) {
-    //This will be used to convert JSON objects that
-    //are coming from querying the database and converting
-    //it into a Broker object
-    if (json == null) return null;
-    return Broker(
-      id: json['id'],
-      name: json['name'],
-      address: json['address'],
-      port: json['port'],
-      username: json['username'],
-      password: json['password'],
-      identifier: json['identifier'],
-      secure: json['secure'],
-      qos: json['qos'],
-      certificatePath: json['certificatePath'],
-      privateKeyPath: json['privateKeyPath'],
-      privateKeyPassword: json['privateKeyPassword'],
-      clientAuthorityPath: json['clientAuthorityPath'],
-      state: json['state'],
-    );
-  }
+  // Broker brokerFromJson(String str) {
+  //   final jsonData = json.decode(str);
+  //   return Broker.fromMap(jsonData);
+  // }
 
-  Map<String, dynamic> toJson() {
-    //This will be used to convert Broker objects that
-    //are to be stored into the datbase in a form of JSON
-    final data = <String, dynamic>{};
-    data['id'] = id;
-    data['name'] = name;
-    data['address'] = address;
-    data['port'] = port;
-    data['username'] = username;
-    data['password'] = password;
-    data['identifier'] = identifier;
-    data['secure'] = secure ? 1 : 0;
-    data['qos'] = qos;
-    data['certificatePath'] = certificatePath;
-    data['privateKeyPath'] = privateKeyPath;
-    data['privateKeyPassword'] = privateKeyPassword;
-    data['clientAuthorityPath'] = clientAuthorityPath;
-    data['state'] = state;
-    return data;
-  }
+  // String brokerToJson(Broker data) {
+  //   final dyn = data.toMap();
+  //   return json.encode(dyn);
+  // }
 
   Map<String, dynamic> toMap() {
     return {
@@ -117,9 +82,22 @@ class Broker extends Equatable {
     };
   }
 
-  @override
-  String toString() =>
-      'Broker(id: $id, name: $name, address: $address, port: $port,username: $username,password: $password,identifier: $identifier,secure: $secure,qos: $qos,certificatePath: $certificatePath,privateKeyPath: $privateKeyPath, privateKeyPassword: $privateKeyPassword, clientAuthorityPath: $clientAuthorityPath, state: $state)';
+  factory Broker.fromMap(Map<String, dynamic> json) => Broker(
+        id: json['id'],
+        name: json['name'],
+        address: json['address'],
+        port: json['port'],
+        username: json['username'],
+        password: json['password'],
+        identifier: json['identifier'],
+        secure: json['secure'],
+        qos: json['qos'],
+        certificatePath: json['certificatePath'],
+        privateKeyPath: json['privateKeyPath'],
+        privateKeyPassword: json['privateKeyPassword'],
+        clientAuthorityPath: json['clientAuthorityPath'],
+        state: json['state'],
+      );
 
   Broker copyWith({
     int id,

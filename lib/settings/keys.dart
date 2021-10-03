@@ -3,7 +3,7 @@ import 'package:flutter/widgets.dart';
 class AppKeys {
   // Home Screens
   static const homeScreen = Key('__homeScreen__');
-  static const addBrokerFab = Key('__addBrokerFab__');
+  static const addBrokerFab = Key('addBrokerFab');
   static const addWidgetFab = Key('__addWidgetFab__');
   static const bottomsheet = Key('__bottomsheet__');
   static const snackbar = Key('__snackbar__');
@@ -21,7 +21,6 @@ class AppKeys {
   static const widgetList = Key('__widgetList__');
   static const widgetsLoading = Key('__widgetsLoading__');
   static final widgetItem = (int id) => Key('WidgetItem__$id');
-  static final widgetItemTask = (int id) => Key('WidgetItem__${id}__Task'); //!
   static final widgetItemNote = (int id) => Key('WidgetItem__${id}__Note'); //!
 
   // Tabs
@@ -33,7 +32,7 @@ class AppKeys {
 
   // Subscriptions
   static const subscriptionButton = Key('__subscriptionButton__');
-  
+
   // Broker Details Screen
   static const editBrokerFab = Key('__editBrokerFab__');
   static const deleteBrokerButton = Key('__deleteBrokerButton__');

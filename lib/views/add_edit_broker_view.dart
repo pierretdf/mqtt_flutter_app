@@ -1,6 +1,7 @@
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+
 import 'package:mqtt_flutter_bloc/settings/keys.dart';
 
 import '../models/models.dart';
@@ -60,12 +61,6 @@ class _AddEditBrokerScreenState extends State<AddEditBrokerScreen> {
   bool get isEditing => widget.isEditing;
 
   @override
-  void initState() {
-    //_secure = false;
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     final localizations = FlutterBlocLocalizations.of(context);
     final textTheme = Theme.of(context).textTheme;
@@ -73,11 +68,11 @@ class _AddEditBrokerScreenState extends State<AddEditBrokerScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Center(
-          child: Text(
-            isEditing ? localizations.editBroker : localizations.addBroker,
-          ),
+        title: Text(
+          widget.isEditing ? localizations.editBroker : localizations.addBroker,
+          style: TextStyle(color: Theme.of(context).primaryColorDark),
         ),
+        centerTitle: true,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -86,10 +81,17 @@ class _AddEditBrokerScreenState extends State<AddEditBrokerScreen> {
           child: ListView(
             children: [
               // Broker Name
+              // CustomTextField(
+              //     value: widget.broker.name,
+              //     fieldKey: AppKeys.brokerNameField,
+              //     edit: widget.isEditing,
+              //     controller: _name,
+              //     hint: localizations.newBrokerName,
+              //     node: node),
               TextFormField(
-                initialValue: isEditing ? widget.broker.name : '',
+                initialValue: widget.isEditing ? widget.broker.name : '',
                 key: AppKeys.brokerNameField,
-                autofocus: !isEditing,
+                autofocus: !widget.isEditing,
                 style: textTheme.headline5,
                 decoration: InputDecoration(
                   hintText: localizations.newBrokerName,
@@ -103,10 +105,17 @@ class _AddEditBrokerScreenState extends State<AddEditBrokerScreen> {
                 onEditingComplete: () => node.nextFocus(),
               ),
               // Broker Address
+              // CustomTextField(
+              //     value: widget.broker.address,
+              //     fieldKey: AppKeys.brokerAddressField,
+              //     edit: widget.isEditing,
+              //     controller: _address,
+              //     hint: localizations.newBrokerName,
+              //     node: node),
               TextFormField(
-                initialValue: isEditing ? widget.broker.address : '',
+                initialValue: widget.isEditing ? widget.broker.address : '',
                 key: AppKeys.brokerAddressField,
-                autofocus: !isEditing,
+                autofocus: !widget.isEditing,
                 style: textTheme.headline5,
                 decoration: InputDecoration(
                   hintText: localizations.newBrokerAddress,
@@ -121,9 +130,9 @@ class _AddEditBrokerScreenState extends State<AddEditBrokerScreen> {
               ),
               // Broker Port
               TextFormField(
-                initialValue: isEditing ? '${widget.broker.port}' : '',
+                initialValue: widget.isEditing ? '${widget.broker.port}' : '',
                 key: AppKeys.brokerPortField,
-                autofocus: !isEditing,
+                autofocus: !widget.isEditing,
                 style: textTheme.headline5,
                 keyboardType: TextInputType.number,
                 textInputAction: TextInputAction.next,
@@ -140,9 +149,9 @@ class _AddEditBrokerScreenState extends State<AddEditBrokerScreen> {
               ),
               // Broker Identifier
               TextFormField(
-                initialValue: isEditing ? widget.broker.identifier : '',
+                initialValue: widget.isEditing ? widget.broker.identifier : '',
                 key: AppKeys.brokerIdentifierField,
-                autofocus: !isEditing,
+                autofocus: !widget.isEditing,
                 style: textTheme.headline5,
                 textInputAction: TextInputAction.next,
                 decoration: InputDecoration(
@@ -173,9 +182,10 @@ class _AddEditBrokerScreenState extends State<AddEditBrokerScreen> {
                 child: Column(
                   children: [
                     TextFormField(
-                      initialValue: isEditing ? widget.broker.username : '',
+                      initialValue:
+                          widget.isEditing ? widget.broker.username : '',
                       key: AppKeys.brokerUsernameField,
-                      autofocus: !isEditing,
+                      autofocus: !widget.isEditing,
                       style: textTheme.headline5,
                       textInputAction: TextInputAction.next,
                       decoration: InputDecoration(
@@ -189,9 +199,10 @@ class _AddEditBrokerScreenState extends State<AddEditBrokerScreen> {
                     ),
                     // Broker Password
                     TextFormField(
-                      initialValue: isEditing ? widget.broker.password : '',
+                      initialValue:
+                          widget.isEditing ? widget.broker.password : '',
                       key: AppKeys.brokerPasswordField,
-                      autofocus: !isEditing,
+                      autofocus: !widget.isEditing,
                       style: textTheme.headline5,
                       textInputAction: TextInputAction.next,
                       decoration: InputDecoration(
@@ -229,20 +240,21 @@ class _AddEditBrokerScreenState extends State<AddEditBrokerScreen> {
                         if (path != null) {
                           _certificateController.text = path;
                         } else {
-                          print('User has cancelled the selection');
+                          debugPrint('User has cancelled the selection');
                         }
                       },
                       child: TextFormField(
                         enabled: false,
-                        initialValue:
-                            isEditing ? widget.broker.certificatePath : '',
-                        autofocus: !isEditing,
+                        initialValue: widget.isEditing
+                            ? widget.broker.certificatePath
+                            : '',
+                        autofocus: !widget.isEditing,
                         controller: _certificateController,
                         style: textTheme.headline5,
                         textInputAction: TextInputAction.next,
                         decoration: InputDecoration(
                           hintText: localizations.newBrokerClientCertificate,
-                          icon: Icon(Icons.file_present),
+                          icon: const Icon(Icons.file_present),
                         ),
                         validator: (val) {
                           return val.trim().isEmpty
@@ -261,20 +273,21 @@ class _AddEditBrokerScreenState extends State<AddEditBrokerScreen> {
                         if (path != null) {
                           _privateKeyController.text = path;
                         } else {
-                          print('User has cancelled the selection');
+                          debugPrint('User has cancelled the selection');
                         }
                       },
                       child: TextFormField(
                         enabled: false,
-                        initialValue:
-                            isEditing ? widget.broker.privateKeyPath : '',
-                        autofocus: !isEditing,
+                        initialValue: widget.isEditing
+                            ? widget.broker.privateKeyPath
+                            : '',
+                        autofocus: !widget.isEditing,
                         controller: _privateKeyController,
                         style: textTheme.headline5,
                         textInputAction: TextInputAction.next,
                         decoration: InputDecoration(
                           hintText: localizations.newBrokerPrivateKey,
-                          icon: Icon(Icons.file_present),
+                          icon: const Icon(Icons.file_present),
                         ),
                         validator: (val) {
                           return val.trim().isEmpty
@@ -287,9 +300,10 @@ class _AddEditBrokerScreenState extends State<AddEditBrokerScreen> {
                     ),
                     // Broker private key password
                     TextFormField(
-                      initialValue:
-                          isEditing ? widget.broker.privateKeyPassword : '',
-                      autofocus: !isEditing,
+                      initialValue: widget.isEditing
+                          ? widget.broker.privateKeyPassword
+                          : '',
+                      autofocus: !widget.isEditing,
                       style: textTheme.headline5,
                       textInputAction: TextInputAction.next,
                       decoration: InputDecoration(
@@ -309,20 +323,21 @@ class _AddEditBrokerScreenState extends State<AddEditBrokerScreen> {
                         if (path != null) {
                           _clientAuthorityController.text = path;
                         } else {
-                          print('User has cancelled the selection');
+                          debugPrint('User has cancelled the selection');
                         }
                       },
                       child: TextFormField(
                         enabled: false,
-                        initialValue:
-                            isEditing ? widget.broker.clientAuthorityPath : '',
-                        autofocus: !isEditing,
+                        initialValue: widget.isEditing
+                            ? widget.broker.clientAuthorityPath
+                            : '',
+                        autofocus: !widget.isEditing,
                         controller: _clientAuthorityController,
                         style: textTheme.headline5,
                         textInputAction: TextInputAction.next,
                         decoration: InputDecoration(
                           hintText: localizations.newBrokerCertificateAuthority,
-                          icon: Icon(Icons.file_present),
+                          icon: const Icon(Icons.file_present),
                         ),
                         validator: (val) {
                           return val.trim().isEmpty
@@ -339,8 +354,9 @@ class _AddEditBrokerScreenState extends State<AddEditBrokerScreen> {
               Padding(
                 padding: const EdgeInsets.all(25.0),
                 child: ElevatedButton(
-                  key:
-                      isEditing ? AppKeys.saveBrokerFab : AppKeys.saveNewBroker,
+                  key: widget.isEditing
+                      ? AppKeys.saveBrokerFab
+                      : AppKeys.saveNewBroker,
                   onPressed: () {
                     if (_formKey.currentState.validate()) {
                       _formKey.currentState.save();
@@ -360,13 +376,52 @@ class _AddEditBrokerScreenState extends State<AddEditBrokerScreen> {
                       Navigator.pop(context);
                     }
                   },
-                  child: Text(isEditing ? 'Valid Broker' : 'Add Broker'),
+                  child: Text(widget.isEditing ? 'Valid Broker' : 'Add Broker'),
                 ),
               ),
             ],
           ),
         ),
       ),
+    );
+  }
+}
+
+class CustomTextField extends StatelessWidget {
+  final Key fieldKey;
+  final bool edit;
+  final String value;
+  final String hint;
+  final FocusScopeNode node;
+
+  String controller;
+
+  CustomTextField({
+    @required this.fieldKey,
+    @required this.edit,
+    @required this.controller,
+    @required this.value,
+    @required this.hint,
+    @required this.node,
+  }) : super(key: fieldKey);
+
+  @override
+  Widget build(BuildContext context) {
+    final localizations = FlutterBlocLocalizations.of(context);
+    final textTheme = Theme.of(context).textTheme;
+    return TextFormField(
+      initialValue: edit ? value : '',
+      key: fieldKey,
+      autofocus: !edit,
+      style: textTheme.headline5,
+      decoration: InputDecoration(
+        hintText: hint,
+      ),
+      validator: (val) {
+        return val.trim().isEmpty ? localizations.emptyBrokerError : null;
+      },
+      onSaved: (value) => controller = value,
+      onEditingComplete: () => node.nextFocus(),
     );
   }
 }

@@ -10,12 +10,16 @@ import '../blocs.dart';
 class BrokerBloc extends Bloc<BrokerEvent, BrokerState> {
   final BrokerRepository brokerRepository;
   final MqttBloc mqttBloc;
-  StreamSubscription _mqttSubscription;
+  StreamSubscription _mqttConnection;
 
   BrokerBloc(this.brokerRepository, this.mqttBloc)
       : super(BrokerLoadInProgress()) {
-    _mqttSubscription = mqttBloc.stream.listen((state) {
-      if (state is MqttConnectionSuccess) {
+    _mqttConnection = mqttBloc.stream.listen((state) {
+      if (state is MqttConnectionInProgress) {
+        add(BrokerUpdated((mqttBloc.state as MqttConnectionInProgress)
+            .broker
+            .copyWith(state: 'connecting')));
+      } else if (state is MqttConnectionSuccess) {
         add(BrokerUpdated((mqttBloc.state as MqttConnectionSuccess)
             .broker
             .copyWith(state: 'connected')));
@@ -26,7 +30,7 @@ class BrokerBloc extends Bloc<BrokerEvent, BrokerState> {
       } else if (state is MqttConnectionFailure) {
         add(BrokerUpdated((mqttBloc.state as MqttConnectionFailure)
             .broker
-            .copyWith(state: 'connection failure')));
+            .copyWith(state: 'failed')));
       }
     });
   }
@@ -50,18 +54,17 @@ class BrokerBloc extends Bloc<BrokerEvent, BrokerState> {
       final brokers = await brokerRepository.getBrokers();
       yield BrokerLoadSuccess(brokers);
     } catch (e) {
-      yield BrokerLoadFailure(error: e);
+      yield BrokerLoadFailure(e);
     }
   }
 
   Stream<BrokerState> _mapBrokerAddedToState(BrokerAdded event) async* {
     if (state is BrokerLoadSuccess) {
-      // Add Broker to 'broker_view' (UI)
-      final updatedBrokers =
-          List<Broker>.from((state as BrokerLoadSuccess).brokers)
-            ..add(event.broker);
-      yield BrokerLoadSuccess(updatedBrokers);
       await brokerRepository.addBroker(event.broker);
+      // final updatedBrokers =
+      //     List<Broker>.from((state as BrokerLoadSuccess).brokers)
+      //       ..add(event.broker);
+      yield BrokerLoadSuccess(await brokerRepository.getBrokers());
     }
   }
 
@@ -82,11 +85,9 @@ class BrokerBloc extends Bloc<BrokerEvent, BrokerState> {
           .where((broker) => broker.id != event.broker.id)
           .toList();
       // Disconnect MQTT broker if connected
-      if (event.broker.state == 'connected') mqttBloc.mqttRepository.disconnectClient();
-      // Check if the deleted broker is the connected broker
-      // if (mqttBloc.mqttRepository.getConnectedBrokerId() == event.broker.id) {
-      //   mqttBloc.mqttRepository.disconnectClient();
-      // }
+      if (event.broker.state == 'connected') {
+        mqttBloc.mqttRepository.disconnectClient();
+      }
       yield BrokerLoadSuccess(updatedBrokers);
       await brokerRepository.deleteBroker(event.broker.id);
     }
@@ -94,7 +95,7 @@ class BrokerBloc extends Bloc<BrokerEvent, BrokerState> {
 
   @override
   Future<void> close() {
-    _mqttSubscription.cancel();
+    _mqttConnection.cancel();
     return super.close();
   }
 }

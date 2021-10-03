@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../../models/models.dart';
-import '../../settings/keys.dart';
 
 class WidgetItemItem extends StatelessWidget {
   final GestureTapCallback onTapDetails;
@@ -23,7 +22,7 @@ class WidgetItemItem extends StatelessWidget {
       ),
       child: Column(
         children: <Widget>[
-          Text('Hello World !'),
+          const Text('Hello World !'),
           // TODO choose widget depends of widgetItem.type
           // widgetItem.type == 'Maps'
           //     ? MapsWidget(payload: widgetItem.payload)

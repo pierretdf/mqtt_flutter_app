@@ -96,7 +96,7 @@ class MqttApp extends StatelessWidget {
                 clientAuthorityPath) {
               context.read<BrokerBloc>().add(
                     BrokerAdded(
-                      Broker(id: 1,
+                      Broker(
                         name: name,
                         address: address,
                         identifier: identifier,
@@ -132,3 +132,12 @@ class MqttApp extends StatelessWidget {
     );
   }
 }
+
+/*
+await SentryFlutter.init(
+    (options) {
+      options.dsn =
+          'https://c472307d9c024c8b9ac5d15b4adb8f5f@o930897.ingest.sentry.io/5879596';
+    },
+    // Init your App.
+    appRunner: () => */

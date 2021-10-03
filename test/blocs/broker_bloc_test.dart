@@ -26,7 +26,7 @@ void main() {
         build: () {
           when(mockBrokerRepository.getBrokers()).thenAnswer(
             (_) => Future.value([
-              const Broker(address: '', name: '', port: null, secure: null)
+              Broker(address: '', name: '', port: null, secure: null)
             ]),
           );
           return brokerBloc;

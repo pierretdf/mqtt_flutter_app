@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../models/models.dart';
 import '../../services/mqtt_repository.dart';
 import '../../services/topic_repository.dart';
 import '../blocs.dart';
@@ -30,19 +29,23 @@ class SubscriptionBloc extends Bloc<SubscriptionEvent, SubscriptionState> {
   Stream<SubscriptionState> _mapTopicSubscribedLoadedToState() async* {
     try {
       final topics = await topicRepository.getTopics();
-      final topicsTitle = await topicRepository.getTopicsTitle();
+      //final topics = await topicRepository.getTopicsById(brokerId);
+      final List<String> topicsTitle =
+          topics.map((topic) => topic.title).toList();
+      //final topicsTitle = await topicRepository.getTopicsTitle();
       yield SubscribedTopicsLoadSuccess(topics, topicsTitle);
     } catch (e) {
-      yield SubscribedTopicsFailure(error: e);
+      yield SubscribedTopicsFailure(e);
     }
   }
 
   Stream<SubscriptionState> _mapTopicAddedToState(TopicAdded event) async* {
     if (state is SubscribedTopicsLoadSuccess) {
-      final updatedTopics =
-          List<Topic>.from((state as SubscribedTopicsLoadSuccess).topics)
-            ..add(event.topic);
       await topicRepository.addTopic(event.topic);
+      // final updatedTopics =
+      //     List<Topic>.from((state as SubscribedTopicsLoadSuccess).topics)
+      //       ..add(event.topic);
+      final updatedTopics = await topicRepository.getTopics();
       final updatedTopicTitles = await topicRepository.getTopicsTitle();
       yield SubscribedTopicsLoadSuccess(updatedTopics, updatedTopicTitles);
       mqttRepository.subscribeToTopic(event.topic.title);
@@ -51,7 +54,6 @@ class SubscriptionBloc extends Bloc<SubscriptionEvent, SubscriptionState> {
 
   Stream<SubscriptionState> _mapTopicDeletedToState(TopicDeleted event) async* {
     if (state is SubscribedTopicsLoadSuccess) {
-      // Delete Topic from 'subscriptions_view' (UI)
       final updatedTopics = (state as SubscribedTopicsLoadSuccess)
           .topics
           .where((topic) => topic.id != event.topic.id)

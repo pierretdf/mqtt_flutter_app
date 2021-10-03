@@ -21,11 +21,21 @@ class MqttDisconnectionSuccess extends MqttState {
   List<Object> get props => [broker];
 }
 
-class MqttConnectionSuccess extends MqttState {
-  final MqttServerClient mqttClient;
+class MqttConnectionInProgress extends MqttState {
+  //final MqttServerClient mqttClient;
   final Broker broker;
 
-  const MqttConnectionSuccess(this.broker, this.mqttClient);
+  const MqttConnectionInProgress(this.broker);
+
+  @override
+  List<Object> get props => [broker];
+}
+
+class MqttConnectionSuccess extends MqttState {
+  //final MqttServerClient mqttClient;
+  final Broker broker;
+
+  const MqttConnectionSuccess(this.broker);
 
   @override
   List<Object> get props => [broker];
@@ -33,9 +43,10 @@ class MqttConnectionSuccess extends MqttState {
 
 class MqttConnectionFailure extends MqttState {
   final Broker broker;
-  final Error error;
+  //final Error error;
+
+  const MqttConnectionFailure(this.broker);
 
   @override
-  List<Object> get props => [];
-  const MqttConnectionFailure(this.error, this.broker);
+  List<Object> get props => [broker];
 }

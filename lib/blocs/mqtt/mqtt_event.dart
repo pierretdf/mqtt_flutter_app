@@ -21,7 +21,16 @@ class MqttConnected extends MqttEvent {
 class MqttDisconnected extends MqttEvent {
   final Broker broker;
 
-  const MqttDisconnected({this.broker});
+  const MqttDisconnected({ this.broker});
+
+  @override
+  List<Object> get props => [broker];
+}
+
+class MqttStateToggling extends MqttEvent {
+  final Broker broker;
+
+  const MqttStateToggling({ this.broker});
 
   @override
   List<Object> get props => [broker];

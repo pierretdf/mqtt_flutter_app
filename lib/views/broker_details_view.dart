@@ -11,8 +11,7 @@ import 'add_edit_broker_view.dart';
 class BrokerDetailsScreen extends StatelessWidget {
   final int id;
 
-  const BrokerDetailsScreen({Key key, @required this.id})
-      : super(key: key); //ArchSampleKeys.todoDetailsScreen
+  const BrokerDetailsScreen({Key key, @required this.id}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +24,9 @@ class BrokerDetailsScreen extends StatelessWidget {
             .firstWhere((broker) => broker.id == id, orElse: () => null);
         return Scaffold(
           appBar: AppBar(
-            title: Center(child: Text(localizations.brokerDetails)),
+            title: Text(localizations.brokerDetails,
+                style: TextStyle(color: Theme.of(context).primaryColorDark)),
+            centerTitle: true,
             actions: [
               IconButton(
                 icon: const Icon(Icons.delete_forever, color: Colors.red),
@@ -87,7 +88,7 @@ class BrokerDetailsScreen extends StatelessWidget {
                     Row(
                       children: [
                         Chip(
-                          label: Text(
+                          label: const Text(
                             'Broker address',
                             key: AppKeys.detailsBrokerItemAddress,
                           ),
@@ -106,7 +107,7 @@ class BrokerDetailsScreen extends StatelessWidget {
                     Row(
                       children: [
                         Chip(
-                          label: Text(
+                          label: const Text(
                             'Port',
                             key: AppKeys.detailsBrokerItemPort,
                           ),
@@ -125,7 +126,7 @@ class BrokerDetailsScreen extends StatelessWidget {
                         ? Row(
                             children: [
                               Chip(
-                                label: Text(
+                                label: const Text(
                                   'Client ID',
                                   key: AppKeys.detailsBrokerItemIdentifier,
                                 ),
@@ -146,7 +147,7 @@ class BrokerDetailsScreen extends StatelessWidget {
                         ? Row(
                             children: [
                               Chip(
-                                label: Text(
+                                label: const Text(
                                   'Username',
                                   key: AppKeys.detailsBrokerItemUsername,
                                 ),
@@ -167,7 +168,7 @@ class BrokerDetailsScreen extends StatelessWidget {
                         ? Row(
                             children: [
                               Chip(
-                                label: Text(
+                                label: const Text(
                                   'Private Key Password',
                                   key: AppKeys
                                       .detailsBrokerItemPrivateKeyPassword,

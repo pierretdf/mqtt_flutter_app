@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../blocs/blocs.dart';
 import '../models/models.dart';
 import '../settings/localization.dart';
+import 'utils/wait_message.dart';
 import 'widgets.dart';
 
 class SubscriptionsView extends StatefulWidget {
@@ -46,7 +47,9 @@ class _SubscriptionsViewState extends State<SubscriptionsView> {
                           if (val.trim().isEmpty) {
                             return localizations.emptyTopicTitleError;
                           } else if (context.read<MqttBloc>().state
-                                  is MqttDisconnected ||
+                                  is MqttConnectionFailure ||
+                              context.read<MqttBloc>().state
+                                  is MqttDisconnectionSuccess ||
                               context.read<MqttBloc>().state is MqttIdle) {
                             return 'First, establish a broker connection !';
                           } else if (state.topicsTitle.contains(val.trim())) {
@@ -83,9 +86,9 @@ class _SubscriptionsViewState extends State<SubscriptionsView> {
                         runSpacing: 4.0,
                         children: _buildTopicList(state.topics),
                       )
-                    : _noTopicMessage()
+                    : const WaitMessage(message: 'Start adding topic...')
               else
-                _noBrokerConnectedMessage(),
+                const WaitMessage(message: 'No broker connected...'),
             ],
           );
         } else if (state is SubscribedTopicsFailure) {
@@ -110,19 +113,5 @@ class _SubscriptionsViewState extends State<SubscriptionsView> {
           ),
         )
         .toList();
-  }
-
-  Widget _noBrokerConnectedMessage() {
-    return const Text(
-      'No broker connected...',
-      style: TextStyle(fontSize: 20),
-    );
-  }
-
-  Widget _noTopicMessage() {
-    return const Text(
-      'Start adding Topic...',
-      style: TextStyle(fontSize: 20),
-    );
   }
 }

@@ -48,12 +48,10 @@ class _AddEditWidgetScreenState extends State<AddEditWidgetScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Center(
-          child: Text(
-            isEditing ? localizations.editWidget : localizations.addWidget,
-          ),
-        ),
-      ),
+          title: Text(
+              isEditing ? localizations.editWidget : localizations.addWidget,
+              style: TextStyle(color: Theme.of(context).primaryColorDark)),
+          centerTitle: true),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(
@@ -103,7 +101,8 @@ class _AddEditWidgetScreenState extends State<AddEditWidgetScreen> {
                       hint: const Text("Topic's name"),
                       items: state.topicsTitle
                           ?.map<DropdownMenuItem<String>>(
-                              (String subscribedTopic) => DropdownMenuItem<String>(
+                              (String subscribedTopic) =>
+                                  DropdownMenuItem<String>(
                                     value: subscribedTopic,
                                     child: Text(subscribedTopic),
                                   ))
